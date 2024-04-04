@@ -213,11 +213,7 @@ The solid angle of the beamformed pixel using the intra-station data is given by
 
 The computational cost budget consists of the following components. Beamforming $N_\textrm{a/s}$ element polarised voltages (with $n_\textrm{p}$ polarisations) towards $n_\textrm{bs}$ beams on sky as per Equation~(\ref{eqn:pol-hol-img-expl}) requires $n_\textrm{p} n_\textrm{bs} N_\textrm{a/s}$ CMACs to get one polarised voltage on sky per station per channel. To get $n_\textrm{p}$ polarised voltages from beamforming, it requires $n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}$ CMACs amounting to $8 n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}/\delta t$ FLOPS per station per channel. 
 
-Converting polarised beamformed voltages on the sky to Stokes intensities and temporally averaging them as per Equation~(\ref{eqn:opt-pol-corr-img-outprod}) requires $n_\textrm{p}^2$ complex "squaring" (complex products) and subsequent complex additions for each of the complex polarised intensity beams, and therefore $n_\textrm{p}^2 n_\textrm{bs}$ CMACs per station per channel, amounting to $8 n_\textrm{p}^2 n_\textrm{bs}$ FLOPS per station per channel. Hence, the net rate corresponding to beamforming, squaring, and averaging is
-\begin{align}
-    C_\textrm{VBF} &= 8 n_\textrm{p}^2 \, \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 \, (N_\textrm{a/s}+1) \, \frac{1}{\delta t} \, . \label{eqn:cost-VBF}
-\end{align}
-
+Converting polarised beamformed voltages on the sky to Stokes intensities and temporally averaging them as per Equation~(\ref{eqn:opt-pol-corr-img-outprod}) requires $n_\textrm{p}^2$ complex "squaring" (complex products) and subsequent complex additions for each of the complex polarised voltage beams, and therefore $n_\textrm{p}^2 n_\textrm{bs}$ CMACs per station channel, amounting to $8 n_\textrm{p}^2 n_\textrm{bs}$ FLOPS per station per channel. Hence, the net rate corresponding to beamforming, squaring, and averaging is $8 n_\textrm{p}^2 (D_\textrm{s}/D_\textrm{a})^2 (N_\textrm{a/s}+1)/\delta t$ FLOPS per station per channel. 
 
 % \begin{figure*}
 % \centering
@@ -242,35 +238,24 @@ Converting polarised beamformed voltages on the sky to Stokes intensities and te
 
 \subsubsection{E-field Parallel Imaging Correlator (EPIC)}
 
-A simultaneous beamforming filling the entire field of view can also be achieved by a two-dimensional spatial Fast Fourier Transform (FFT) of the pre-correlation voltage measurements on the aperture plane. This can be enabled even for an irregular layout of station elements by gridding the calibrated electric fields measured by the station elements. The formalism in \citet{Morales2011} is the basis of the architecture called E-field Parallel Imaging Correlator \citep[EPIC;][]{Thyagarajan+2017,Beardsley+2017}, which has been implemented on the LWA station in Sevilleta (NM, USA) using GPU \citep{Kent+2019,Kent+2020,Krishnan+2023}. 
-
-The polarised electric fields on the sky can be reconstructed from the calibrated electric fields measured by the antennas as 
+A simultaneous beamforming filling the entire field of view can also be achieved by a two-dimensional spatial Fast Fourier Transform (FFT) of the measurements on the aperture plane. This can be enabled even for an irregular layout of station elements by gridding the calibrated electric fields measured by the station elements. The formalism in \cite{Morales2011} is the basis of the architecture called E-field Parallel Imaging Correlator \cite[EPIC;][]{Thyagarajan+2017},
 \begin{align}
-    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widetilde{E}_{a_m}^p \right) \, , \label{eqn:pol-hol-img}
+    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widetilde{E}_{a_m}^p \right) \, ,
 \end{align}
 whose equivalent linear algebraic representation is 
 \begin{align}
-    \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]} \, . \label{eqn:pol-hol-img-LA}
+    \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]} \, . \label{eqn:copolar-hol-img-LA}
 \end{align}
-The basic operations include (a) gridding convolution of the measured and calibrated electric fields, $\widetilde{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]} \equiv \widetilde{E}_{a_m}^p$ from the station elements, $a_m$, by the gridding kernel, $\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}$ to obtain gridded electric fields from discrete element measurements, and (b) spatial Fourier transform, $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}$ of the gridded electric fields from the aperture plane coordinate, $\boldsymbol{r}$, to the image plane coordinate, $\hat{\boldsymbol{s}}$. 
 
-The convolution with $\widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r})$ has two purposes. Firstly, it can be chosen to optimise specific properties in the synthesised image. For example, choosing $\widetilde{W}_{a_m}^{p\alpha}(\boldsymbol{r})=W_{a_m}^{p\alpha*}(\boldsymbol{r})$ will optimise the signal-to-noise ratio in the image. Secondly, it also acts as gridding convolution transforming data from discrete and arbitrary locations onto a regular grid, thereby facilitating the application of a two-dimensional spatial FFT. Application of the FFT has the effect of simultaneously beamforming over the entire field of view, $\Omega_\textrm{a}$. 
+Application of the FFT will have the effect of simultaneously beamforming over the entire field of view, $\Omega_\textrm{a}$. The convolution with $\widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r})$ has two purposes. Firstly, it can be chosen to optimise specific properties in the synthesised image. For example, choosing $\widetilde{W}_{a_m}^{p\alpha}(\boldsymbol{r})=W_{a_m}^{p\alpha*}(\boldsymbol{r})$ will optimise the signal-to-noise ratio in the image. Secondly, it also acts as gridding convolution transforming data from discrete and arbitrary locations onto a regular grid, thereby facilitating the application of a two-dimensional spatial FFT. 
 
 The polarised intensity on $\mathbb{S}$ is again given by Equation~(\ref{eqn:opt-pol-img-outprod}), which is expressed linear algebraically as
 \begin{align}
     \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\beta,\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:opt-polarimetric-direct-img-LA}    
 \end{align}
-where, the outer product, representing a pixelwise ``squaring'' operation, is performed over polarisation indices, $\alpha$ and $\beta$. The polarised intensities are accummulated and averaged over the interval, $\Delta t$.
+where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$. 
 
-Gridding a single polarised voltage requires $N_p^2 N_k$ complex multiplications, where, $N_k$ is the number of pixels in the gridding kernel. Let $N_g$ be the number of grid cells in the unpadded grid. The cost of gridding is $6 N_p^2 N_k N_a$ floating point operations. 
-
-If there is overlap between the gridded voltages (due to mutual coupling, etc.), then there will be complex summations at those overlapping grid locations. Let $\epsilon$ be the antenna overlap factor. Then, the number of overlapping grid cells is $N_\epsilon = \epsilon N_g$. The cost of summing overlapping grid cells is $2 \epsilon N_g$ floating point operations.
-
-Let $\gamma$ be the padding factor (by default, $\gamma=2$). Then, $\gamma^2 N_g$ pixels will undergo the spatial FFT. The cost of FFT is $N_p \frac{r}{\log_2 r} (\gamma^2 N_g)\log_2(\gamma^2 N_g)$ CMACs amounting to $N_p \frac{8r}{\log_2 r} (\gamma^2 N_g)\log_2(\gamma^2 N_g)$ floating point operations.
-
-Obtaining Stokes intensities from the EPIC beamformed voltages involves pixelwise complex "squaring" requiring $N_p^2 (\gamma^2 N_g)$ complex multiplications followed by complex additions to carry out the accumulations, equivalent to $N_p^2 (\gamma^2 N_g)$ CMACs, or $8 N_p^2 (\gamma^2 N_g)$ floating point operations for squaing and accumulating. 
-
-The total is $6 N_p^2 N_k N_a + 2 \epsilon N_g + N_p \frac{8r}{\log_2 r} (\gamma^2 N_g)\log_2(\gamma^2 N_g) + 8 N_p^2 (\gamma^2 N_g)$ floating point operations. 
+\cite{Morales2011,Thyagarajan+2017,Beardsley+2017,Kent+2019,Kent+2020,Krishnan+2023}
 
 \begin{figure*}
 \centering
@@ -288,19 +273,7 @@ The total is $6 N_p^2 N_k N_a + 2 \epsilon N_g + N_p \frac{8r}{\log_2 r} (\gamma
 
 \subsubsection{Correlator Beamforming (XBF)}
 
-Calibrated visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in a station, $m$, can be beamformed through a discrete Fourier transform (DFT) to obtain intensities in any desired direction, $\boldsymbol{s}_k$, as
-\begin{align}
-    \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k) 
-    &= \sum_{a_m,b_m} \sum_{p,q} \widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widetilde{V}_{a_m b_m}^{pq} \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, , \label{eqn:pol-xbf-img-expl} 
-\end{align}
-where, $a_m$ and $b_m$ are elements $a$ and $b$ in station $m$. $\widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k)$ denotes a complex-valued directional weighting applied to the calibrated visibility and can be chosen to produce images with desired characteristics \citep{Masui+2019}. 
-% This correlation beamforming step can be executed at a cadence of $\Delta t$. However, the correlations that produce visibilities must still be executed on timescales of $\delta t$. Like voltage beamforming, the number of independent beams filling the field of view is $n_\textrm{bs} \simeq (D_\textrm{s}/D_\textrm{a})^2$. 
-
-The computational cost budget consists of the following components. The formation of polarimetric visibilities and their accumulations requires $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ complex multiplications and complex additions, respectively, per station per channel at a cadence of $\delta t$. These accumulated visibilities will be further averaged across stations but on a slower cadence of $\Delta t$. However, in order to obtain stationwise image intensities, we will not consider averaging across stations. Thus, the computational cost of forming polarimetric visibilities and their accumulations per station per channel is $4 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/(\delta t)$ FLOPS. The accumulated visibilities from a station can be beamformed towards $n_\textrm{bs}\simeq (D_\textrm{s}/D_\textrm{a})^2$ sky locations using a DFT to obtain Stokes intensities. This DFT beamforming performs $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1) (D_\textrm{s}/D_\textrm{a})^2 /2$ CMACs at a slower cadence of $\Delta t$. Hence, the net computational cost for DFT beamforming of visibilities across the field of view per station per channel is 
-\begin{align}
-    C_\textrm{XBF} &= 4 n_\textrm{p}^2 \, N_\textrm{a/s} (N_\textrm{a/s}-1) \left[\frac{1}{\delta t} + \frac{\left(D_\textrm{s}/D_\textrm{a}\right)^2}{\Delta t} \right] \, . \label{eqn:cost-XBF}
-\end{align}
-
+\cite{Masui+2019}
 
 \begin{figure*}
 \centering
@@ -317,19 +290,6 @@ The computational cost budget consists of the following components. The formatio
 \end{figure}
 
 \subsubsection{Correlation and FFT (XFFT)}
-
-Here, the calibrated visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in a station, $m$, are gridded and Fourier transformed rather Discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $\Delta t$ or the calibration timescale, whichever is shorter. 
-
-The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
-\begin{align}
-    \widetilde{\mathbf{I}}_{[m,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-    &\qquad \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:opt-copolar-corr-image}
-    % &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-    % &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:opt-copolar-corr-image}
-\end{align}
-The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. 
-
-The use of $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ implies the following. First, if $\widetilde{\mathbf{B}}^\textrm{H}=\mathbf{B}^\textrm{H}$ (assumed hereafter, unless specified), then the inversion is lossless and optimal, minimizing noise and the reconstruction error \citep{Tegmark1997a}. This form is very similar to a matched filter. Second, it transforms the inverse noise covariance weighted visibilities at arbitrary locations, $\Delta\boldsymbol{r}_{a_m b_m}$, to finely sampled locations, $\Delta\boldsymbol{r}$, on a grid. If the grid is uniformly sampled, it facilitates efficient inverse Fourier transform using Fast Fourier Transform (FFT) algorithms. Noting that the optimal inversion is weighted by $\widetilde{\mathbf{B}}^\textrm{H}$, which is the conjugate of that in the RIME in Equation~(\ref{eqn:RIME-LA}), the phase introduced by the instrument is cancelled out precisely during the inversion. However, the amplitude is not. Hence, the inverted image, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, is attenuated relative to the true image, $\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, by a factor that is square of the interferometer's angular power pattern \citep{Bhatnagar+2008,Morales+2009}, once due to $\mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}]}$ in Equation~(\ref{eqn:RIME-LA}) (inherent in the measurement) and once more due to $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ in Equation~(\ref{eqn:opt-copolar-corr-image}). 
 
 \begin{figure*}
 \centering
