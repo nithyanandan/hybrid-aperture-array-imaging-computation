@@ -17,7 +17,7 @@
 \DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
 \DeclareMathOperator{\vect}{vec}
 
-\title{Comparison of Fast Imaging Architectures for Large, Multi-scale, Hierarchical Aperture Arrays}
+\title{Comparison of Fast Imaging Architectures for Multi-scale, Hierarchical Aperture Arrays}
 
 \author{Nithyanandan Thyagarajan}
 \affiliation{CSIRO, Space \& Astronomy, P. O. Box 1130, Bentley, WA 6102, Australia}
@@ -182,7 +182,7 @@ We have considered aperture arrays consisting of three spatial scales, but the a
 
 We consider two broad classes of two-stage fast imaging architectures. In either case, the first stage is intra-station interferometry of the element electric fields using the options of voltage beamforming (BF), E-field Parallel Imaging Correlator (EPIC), beamforming of correlations (XBF), or correlation followed by FFT (XFFT). The second stage inter-station combination of the data products from the first stage. The main difference between the two classes is in whether the second stage uses the first stage products coherently or incoherently. A schematic of these hybrid architectures and their computational cost components are illustrated in Figure~\ref{fig:hybrid-architectures-cost-schematic}. Below, we provide details on the computational cost budget for these hybrid architectures along with the merits and demerits of either classes. 
 
-Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $\Delta t$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ and $\Delta t$ are 25~$\mu$s and 1~ms, respectively.  
+Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $\Delta t$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ is 25~$\mu$s, and we explore the possibilities for $\Delta t$ ranging from 0.1~ms to 10~s.  
 
 \begin{figure*}
 \includegraphics[width=\linewidth]{figures/flops_calc.pdf}
@@ -191,15 +191,15 @@ Fast imaging involves processing data on multiple time scales. The channelisatio
 \label{fig:hybrid-architectures-cost-schematic}}
 \end{figure*}
 
-\subsection{Stage I: Intra-station Architectures} \label{sec:intra-station-arch}
+\section{Intra-station Imaging Architectures} \label{sec:intra-station-arch}
 
 We first describe the first stage, namely, intra-station architectures that form the basis for both approaches. This first stage essentially synthesises station-scale apertures with simultaneous, multiple virtual pointings. These station-scale apertures from the first stage will act as fundamental elements for the second stage of inter-station processing. We will use $a_m$ to denote element, $a$, in station, $m$.
 
-\subsubsection{Voltage Beamforming (BF)}
+\subsection{Voltage Beamforming (BF)}
 
 The calibrated electric fields recorded by individual elements within a station can be phase-coherently superposed towards any desired direction as
 \begin{align}
-    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, \widetilde{E}_{a_m}^p \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:pol-hol-img-expl}
+    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, \widetilde{E}_{a_m}^p \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:intra-station-pol-hol-img-expl}
 \end{align}
 where, $\hat{\boldsymbol{s}}_k$ denotes the direction of beam, $k$, towards which the measurements are phase-coherently superposed, $\widetilde{E}_{a_m}^{p}$ represents the calibrated and potentially noise-weighted electric field measured by the station element $a_m$, and $\widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k)$ denotes a complex-valued directional weighting\footnote{One can choose $\widetilde{\mathcal{W}}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}}_k)=\mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}}_k)$, the directional electric field sensitivity, if the signal-to-noise ratio is to be optimised. But it can also be generically chosen depending on the property desired of the estimator \cite[][]{Morales2011}.} applied to the station element. This beamforming step has to be executed at a cadence of $\delta t$. 
 
@@ -211,7 +211,7 @@ where, the angular brackets denote a temporal averaging across an interval of $\
 
 The solid angle of the beamformed pixel using the intra-station data is given by $\Omega_s \simeq (\lambda/D_\textrm{s})^2$. Beamforming can be applied to all independent beams ($n_\textrm{bs}$) filling the field of view, whose solid angle is $\Omega_a \simeq (\lambda/D_\textrm{a})^2$. Thus, $n_\textrm{bs} \simeq \Omega_\textrm{a}/\Omega_\textrm{s}=(D_\textrm{s}/D_\textrm{a})^2$. 
 
-The computational cost budget consists of the following components. Beamforming $N_\textrm{a/s}$ element polarised voltages (with $n_\textrm{p}$ polarisations) towards $n_\textrm{bs}$ beams on sky as per Equation~(\ref{eqn:pol-hol-img-expl}) requires $n_\textrm{p} n_\textrm{bs} N_\textrm{a/s}$ CMACs to get one polarised voltage on sky per station per channel. To get $n_\textrm{p}$ polarised voltages from beamforming, it requires $n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}$ CMACs amounting to $8 n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}/\delta t$ FLOPS per station per channel. 
+The computational cost budget consists of the following components. Beamforming $N_\textrm{a/s}$ element polarised voltages (with $n_\textrm{p}$ polarisations) towards $n_\textrm{bs}$ beams on sky as per Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) requires $n_\textrm{p} n_\textrm{bs} N_\textrm{a/s}$ CMACs to get one polarised voltage on sky per station per channel. To get $n_\textrm{p}$ polarised voltages from beamforming, it requires $n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}$ CMACs amounting to $8 n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}/\delta t$ FLOPS per station per channel. 
 
 Converting polarised beamformed voltages on the sky to Stokes intensities and temporally averaging them as per Equation~(\ref{eqn:opt-pol-corr-img-outprod}) requires $n_\textrm{p}^2$ complex "squaring" (complex products) and subsequent complex additions for each of the complex polarised voltage beams, and therefore $n_\textrm{p}^2 n_\textrm{bs}$ CMACs per station channel, amounting to $8 n_\textrm{p}^2 n_\textrm{bs}$ FLOPS per station per channel. Hence, the net rate corresponding to beamforming, squaring, and averaging is $8 n_\textrm{p}^2 (D_\textrm{s}/D_\textrm{a})^2 (N_\textrm{a/s}+1)/\delta t$ FLOPS per station per channel. 
 
@@ -236,15 +236,15 @@ Converting polarised beamformed voltages on the sky to Stokes intensities and te
 \label{fig:1D-incoherent-compcost-BF-SKA-low}}
 \end{figure}
 
-\subsubsection{E-field Parallel Imaging Correlator (EPIC)}
+\subsection{E-field Parallel Imaging Correlator (EPIC)}
 
-A simultaneous beamforming filling the entire field of view can also be achieved by a two-dimensional spatial Fast Fourier Transform (FFT) of the measurements on the aperture plane. This can be enabled even for an irregular layout of station elements by gridding the calibrated electric fields measured by the station elements. The formalism in \cite{Morales2011} is the basis of the architecture called E-field Parallel Imaging Correlator \cite[EPIC;][]{Thyagarajan+2017},
+A simultaneous beamforming filling the entire field of view can also be achieved by a two-dimensional spatial Fast Fourier Transform (FFT) of the measurements on the aperture plane. This can be enabled even for an irregular layout of station elements by gridding the calibrated electric fields measured by the station elements. The Optimal Map Making formalism \citep[OMM;][]{Tegmark+1997a} formalism adopted by \citet{Morales2011} is the basis of the architecture called E-field Parallel Imaging Correlator \cite[EPIC;][]{Thyagarajan+2017},
 \begin{align}
-    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widetilde{E}_{a_m}^p \right) \, ,
+    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widetilde{E}_{a_m}^p \right) \, , \label{eqn:intra-station-pol-hol-img-epic}
 \end{align}
 whose equivalent linear algebraic representation is 
 \begin{align}
-    \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]} \, . \label{eqn:copolar-hol-img-LA}
+    \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]} \, . \label{eqn:intra-station-pol-hol-img-epic-LA}
 \end{align}
 
 Application of the FFT will have the effect of simultaneously beamforming over the entire field of view, $\Omega_\textrm{a}$. The convolution with $\widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r})$ has two purposes. Firstly, it can be chosen to optimise specific properties in the synthesised image. For example, choosing $\widetilde{W}_{a_m}^{p\alpha}(\boldsymbol{r})=W_{a_m}^{p\alpha*}(\boldsymbol{r})$ will optimise the signal-to-noise ratio in the image. Secondly, it also acts as gridding convolution transforming data from discrete and arbitrary locations onto a regular grid, thereby facilitating the application of a two-dimensional spatial FFT. 
@@ -255,7 +255,7 @@ The polarised intensity on $\mathbb{S}$ is again given by Equation~(\ref{eqn:opt
 \end{align}
 where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$. 
 
-\cite{Morales2011,Thyagarajan+2017,Beardsley+2017,Kent+2019,Kent+2020,Krishnan+2023}
+The EPIC architecture has been implemented on the Long Wavelength Array station in Sevilleta (NM, USA) \cite{Kent+2019,Kent+2020,Krishnan+2023} using a GPU framework and offered to the user community commensally.  
 
 \begin{figure*}
 \centering
@@ -271,9 +271,25 @@ where, the outer product is performed over polarisation indices, $\alpha$ and $\
 \label{fig:1D-incoherent-compcost-EPIC-SKA-low}}
 \end{figure}
 
-\subsubsection{Correlator Beamforming (XBF)}
+\subsection{Correlator Beamforming (XBF)}
 
-\cite{Masui+2019}
+Calibrated visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in a station, $m$, can be written as 
+\begin{align}
+    V_{a_m b_m}^{pq} &= \bigl\langle E_{a_m}^p \, E_{b_m}^{q*}\bigr\rangle \label{eqn:station-pol-visibilities}
+\end{align}
+which can be beamformed through a discrete Fourier transform (DFT) to obtain intensities in any desired direction, $\boldsymbol{s}_k$, as
+\begin{align}
+    \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k) 
+    &= \sum_{a_m,b_m} \sum_{p,q} \widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widetilde{V}_{a_m b_m}^{pq} \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, , \label{eqn:pol-xbf-img-expl} 
+\end{align}
+where, $a_m$ and $b_m$ are elements $a$ and $b$ in station $m$. $\widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k)$ denotes a complex-valued directional weighting applied to the calibrated visibility and can be chosen to produce images with desired characteristics \citep{Masui+2019}. 
+% This correlation beamforming step can be executed at a cadence of $\Delta t$. However, the correlations that produce visibilities must still be executed on timescales of $\delta t$. Like voltage beamforming, the number of independent beams filling the field of view is $n_\textrm{bs} \simeq (D_\textrm{s}/D_\textrm{a})^2$. 
+
+The computational cost budget consists of the following components. The formation of polarimetric visibilities and their accumulations requires $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ complex multiplications and complex additions, respectively, per station per channel at a cadence of $\delta t$. These accumulated visibilities will be further averaged across stations but on a slower cadence of $\Delta t$. However, in order to obtain stationwise image intensities, we will not consider averaging across stations. Thus, the computational cost of forming polarimetric visibilities and their accumulations per station per channel is $4 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/(\delta t)$ FLOPS. The accumulated visibilities from a station can be beamformed towards $n_\textrm{bs}\simeq (D_\textrm{s}/D_\textrm{a})^2$ sky locations using a DFT to obtain Stokes intensities. This DFT beamforming performs $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1) (D_\textrm{s}/D_\textrm{a})^2 /2$ CMACs at a slower cadence of $\Delta t$. Hence, the net computational cost for DFT beamforming of visibilities across the field of view per station per channel is 
+\begin{align}
+    C_\textrm{XBF} &= 4 n_\textrm{p}^2 \, N_\textrm{a/s} (N_\textrm{a/s}-1) \left[\frac{1}{\delta t} + \frac{\left(D_\textrm{s}/D_\textrm{a}\right)^2}{\Delta t} \right] \, . \label{eqn:cost-XBF}
+\end{align}
+
 
 \begin{figure*}
 \centering
@@ -289,7 +305,42 @@ where, the outer product is performed over polarisation indices, $\alpha$ and $\
 \label{fig:1D-incoherent-compcost-XBF-SKA-low}}
 \end{figure}
 
-\subsubsection{Correlation and FFT (XFFT)}
+\subsection{Correlation and FFT (XFFT)}
+
+Here, the calibrated station visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in Equation~(\ref{{eqn:station-pol-visibilities}}) are gridded and Fourier transformed using an FFT rather than the discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $\Delta t$ or the calibration timescale, whichever is shorter. needs to happen 
+
+The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
+\begin{align}
+    \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+    &\qquad \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:opt-pol-corr-image}
+    % &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+    % &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:opt-copolar-corr-image}
+\end{align}
+The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[q,\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the gridding operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$ corresponding to station, $m$. 
+
+The purpose of $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$ is similar \citep{Morales+2009,Cornwell+2008} to its counterpart gridding operator in the EPIC architecture \citep{Morales2011}. 
+% implies the following. First, if $\widetilde{\mathbf{B}}^\textrm{H}=\mathbf{B}^\textrm{H}$ (assumed hereafter, unless specified), then the inversion is lossless and optimal, minimizing noise and the reconstruction error \citep{Tegmark1997a}. This form is very similar to a matched filter. Second, it transforms the inverse noise covariance weighted visibilities at arbitrary locations, $\Delta\boldsymbol{r}_{a_m b_m}$, to finely sampled locations, $\Delta\boldsymbol{r}$, on a grid. If the grid is uniformly sampled, it facilitates efficient inverse Fourier transform using Fast Fourier Transform (FFT) algorithms. 
+Noting that the optimal inversion is weighted by $\widetilde{\mathbf{B}}^\textrm{H}$, which is the conjugate of that in the RIME in Equation~(\ref{eqn:RIME-LA}), the phase introduced by the instrument is cancelled out precisely during the inversion. However, the amplitude is not. Hence, the inverted image, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, is attenuated relative to the true image, $\mathbf{I}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, by a factor that is square of the interferometer's angular power pattern \citep{Cornwell+2008,Morales+2009}, once due to $\mathbf{B}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}\leftarrow \alpha\beta,\Delta\boldsymbol{r}]}$ in Equation~(\ref{eqn:RIME-LA}) (inherent in the measurement) and once more due to $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$ in Equation~(\ref{eqn:opt-pol-corr-image}). 
+
+% \subsubsection{Correlator Beamforming (XBF)}
+
+% \cite{Masui+2019}
+
+% \begin{figure*}
+% \centering
+% \subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-XBF-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_xcor_dft_cost_analysis_SKA1-low.pdf}}
+% \subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-XBF-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_xcor_dft_relative_cost_analysis_SKA1-low.pdf}}
+% \caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using a DFT of station-level cross-correlations for \texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{Aus-VLBA-low}, and \texttt{IC-VLBA-low}. Cyan contours  \label{fig:incoherent-compcost-XBF-SKA-low}}
+% \end{figure*}
+
+% \begin{figure}
+% \includegraphics[width=\linewidth]{figures/1D_xcor_dft_cost_analysis_SKA1-low.pdf}
+% % \includegraphics[width=\linewidth]{fig_01.pdf}
+% \caption{
+% \label{fig:1D-incoherent-compcost-XBF-SKA-low}}
+% \end{figure}
+
+% \subsubsection{Correlation and FFT (XFFT)}
 
 \begin{figure*}
 \centering
@@ -312,13 +363,30 @@ where, the outer product is performed over polarisation indices, $\alpha$ and $\
 \caption{(Left): One-dimensional slices of the computational cost for coherent-incoherent imaging using station-level voltage beamforming for \texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{Aus-VLBA-low}, and \texttt{IC-VLBA-low}. Cyan contours  \label{fig:1D-incoherent-compcost-SKA-low}}
 \end{figure}
 
-\subsection{Stage II: Inter-station Architectures} \label{sec:inter-station-arch}
+\section{Inter-station Imaging Architectures} \label{sec:inter-station-arch}
 
-\subsubsection{Incoherent Architectures} \label{sec:incoherent}
+The products from the intra-station architectures form the inputs for inter-station imaging. The intra-station coherent combinations producing $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ in Equations~(\ref{eqn:intra-station-pol-hol-img-expl}) and (\ref{eqn:intra-station-pol-hol-img-epic}) effectively act as virtual telescopes measuring the electric fields but simultaneously pointed towards multiple locations, $\hat{\boldsymbol{s}}_k$. Here, we assume that the processing occurs in real time. 
 
-\subsubsection{Coherent Architectures} \label{sec:coherent}
+\subsection{Incoherent Architectures} \label{sec:incoherent}
+
+Incoherent inter-station imaging simply involves accumulating the images from each station at a cadence of . The angular resolution remains the same as the intra-station images (assuming all stations have equal angular resolution). This can be achieved through the four methods described in section~\ref{sec:intra-station-arch} by accumulating the intensities, 
+\begin{align}
+    \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k) &= \frac{\sum_m w_m^{\alpha\beta} \, \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k)}{\sum_m w_m^{\alpha\beta}} \, , \label{eqn:inter-station-incoherent-pol-images}
+\end{align}
+where, $w_m^{\alpha\beta}$ represents station weights in the incoherent accumulation of intensities. The incoherent nature of this inter-station intensity accumulation implies that it does not depend on inter-station spacing in the array layout and the array diameter, $D_A$. 
+
+\subsection{Coherent Architectures} \label{sec:coherent}
+
+A coherent combination of data between stations requires electric field data products with phase information from the first stage of processing on individual stations. Thus, intra-station visibilities in which only phase differences remain and from which the original absolute phases have been removed, as well as the image intensity outputs of XBF and XFFT, are unusable for coherent processing at the inter-station level. Hence, we consider two possibilities, namely, the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, from VBF and EPIC from equations~\ref{eqn:intra-station-pol-hol-img-expl} and \ref{eqn:intra-station-pol-hol-img-epic-LA}, respectively. 
+
+The pointing direction of the virtual synthesised telescope from the elements of station, $m$ is denoted by $\hat{\boldsymbol{s}}_k$. The field of view and angular resolution of the intra-station $widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ are determined by the station element and the station dimensions, respectively. Using these electric fields as measurements from virtual synthesised telescopes, the inter-station imaging architecture can take any of the architectures that were already discussed under intra-station imaging by combining the electric fields from synthesised telescopes from different stations virtually pointed in the same direction. Since the computational costs depend on the station and array layouts, this necessitates hybrid architectures appropriate for multi-scale aperture arrays. 
 
 \subsubsection{Beamforming -- Beamforming (1BF+2BF)}
+
+The inter-station beamforming takes the same form as Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) except $\widetilde{E}_{a_m}^p$ is replaced with $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ with corresponding changes in other terms too. 
+\begin{align}
+    
+\end{align}
 
 \subsubsection{Beamforming -- EPIC (1BF+2EPIC)}
 
