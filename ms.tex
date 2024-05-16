@@ -147,8 +147,8 @@ We consider aperture arrays that operate interferometrically and hierarchically 
 The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), low frequency Australian Very Long Baseline Array (\texttt{Aus-VLBA-low}), and low frequency inter-continental VLBA (\texttt{IC-VLBA-low}). The last two are hypothetical interferometers. It is assumed that $N_{\textrm{a/s}_m}=N_\textrm{a/s}=256$ (same for each station), $D_\textrm{a}/\lambda=1$, and $D_\textrm{s}/\lambda=17.5$ for each of these arrays, where, the nominal wavelength chosen here is $\lambda=2$~m. The corresponding station filling factor, $f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$, is 0.836 for all the arrays. ~\texttt{SKA-low-core}, ~\texttt{SKA-low}, ~\texttt{Aus-VLBA-low}, and ~\texttt{IC-VLBA-low} are taken to consist of $N_\textrm{s}=256, 512, 512,$ and 512 stations in an array diameter of $D_\textrm{A}/\lambda=525, 3.25\times 10^4, 1.95\times 10^6$, and $3.9\times 10^6$, respectively. The corresponding array filling factors, defined as $f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$, are 0.284, $1.48\times 10^{-4}$, $4.12\times 10^{-8}$, and $1.03\times 10^{-8}$, respectively. These parameters for the chosen examples are summarised in Table~\ref{tab:array_params}. 
 
 % \begin{figure}
-% \includegraphics[width=\linewidth]{figures/multidim_parameter_space.pdf}
-% % \includegraphics[width=\linewidth]{fig_01.pdf}
+% \includegraphics[width=\linewidth]
+% {figures/multidim_parameter_space.pdf}
 % \caption{
 % \label{fig:multidim-parameter-space}}
 % \end{figure}
@@ -254,17 +254,21 @@ Converting polarised beamformed voltages on the sky to Stokes intensities and te
 % \end{figure*}
 
 \begin{figure}
-\includegraphics[width=\linewidth]{figures/multidim_beamformer_dft_cost_analysis_SKA1-low.pdf}
+\includegraphics[width=\linewidth]
+% {figures/1D_beamformer_dft_cost_analysis_SKA1-low.pdf}
+{figures/1D_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 % \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{
-\label{fig:multidim-incoherent-compcost-BF-SKA-low}}
+\caption{A breakdown of the computational cost density function over the instrument parameters for \texttt{LAMBDA-I} using the voltage beamforming architecture at the station level.
+\label{fig:1D-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=\linewidth]{figures/1D_beamformer_dft_cost_analysis_SKA1-low.pdf}
+\includegraphics[width=\linewidth]
+% {figures/multidim_beamformer_dft_cost_analysis_SKA1-low.pdf}
+{figures/multidim_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 % \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{
-\label{fig:1D-incoherent-compcost-BF-SKA-low}}
+\caption{A multi-dimensional view of the net computational cost density function over the instrumental parameters for \texttt{LAMBDA-I} using the voltage beamforming architecture at the station level.
+\label{fig:multidim-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
 
 \subsection{E-field Parallel Imaging Correlator (EPIC)}
@@ -288,19 +292,28 @@ where, the outer product is performed over polarisation indices, $\alpha$ and $\
 
 The EPIC architecture has been implemented on the Long Wavelength Array station in Sevilleta (NM, USA) \cite{Kent+2019,Kent+2020,Krishnan+2023} using a GPU framework and offered to the user community commensally.  
 
-\begin{figure*}
-\centering
-\subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-EPIC-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_epic_cost_analysis_SKA1-low.pdf}}
-\subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-EPIC-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_epic_relative_cost_analysis_SKA1-low.pdf}}
-\caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using station-level EPIC for \texttt{SKA-low}. Cyan contours  \label{fig:incoherent-compcost-EPIC-SKA-low}}
-\end{figure*}
-
 \begin{figure}
-\includegraphics[width=\linewidth]{figures/1D_epic_cost_analysis_SKA1-low.pdf}
+\includegraphics[width=\linewidth]
+% {figures/1D_epic_cost_analysis_SKA1-low.pdf}
+{figures/1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
 % \includegraphics[width=\linewidth]{fig_01.pdf}
 \caption{
-\label{fig:1D-incoherent-compcost-EPIC-SKA-low}}
+\label{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure}
+
+\begin{figure*}
+\centering
+\subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I}]{\includegraphics[width=0.48\textwidth]
+% {figures/multidim_epic_cost_analysis_SKA1-low.pdf}
+{figures/multidim_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
+}
+\subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-EPIC-LAMBDA-I}]{\includegraphics[width=0.48\textwidth]
+% {figures/multidim_epic_relative_cost_analysis_SKA1-low.pdf}
+{figures/multidim_epic_relative_cost_analysis_LAMBDA-I.pdf}
+} 
+\caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using station-level EPIC for \texttt{SKA-low}. Cyan contours  \label{fig:incoherent-compcost-EPIC-LAMBDA-I}}
+\end{figure*}
+
 
 \subsection{Correlator Beamforming (XBF)}
 
@@ -321,20 +334,29 @@ The computational cost budget consists of the following components. The formatio
     C_\textrm{XBF} &= 4 n_\textrm{p}^2 \, N_\textrm{a/s} (N_\textrm{a/s}-1) \left[\frac{1}{\delta t} + \frac{\left(D_\textrm{s}/D_\textrm{a}\right)^2}{\Delta t} \right] \, . \label{eqn:cost-XBF}
 \end{align}
 
+\begin{figure}
+\includegraphics[width=\linewidth]
+% {figures/1D_xcor_dft_cost_analysis_SKA1-low.pdf}
+{figures/1D_xcor_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
+% \includegraphics[width=\linewidth]{fig_01.pdf}
+\caption{
+\label{fig:1D-incoherent-compcost-XBF-LAMBDA-I}}
+\end{figure}
 
 \begin{figure*}
 \centering
-\subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-XBF-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_xcor_dft_cost_analysis_SKA1-low.pdf}}
-\subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-XBF-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_xcor_dft_relative_cost_analysis_SKA1-low.pdf}}
-\caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using a DFT of station-level cross-correlations for \texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{Aus-VLBA-low}, and \texttt{IC-VLBA-low}. Cyan contours  \label{fig:incoherent-compcost-XBF-SKA-low}}
+\subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-XBF-LAMBDA-I}]
+{\includegraphics[width=0.48\textwidth]
+% {figures/multidim_xcor_dft_cost_analysis_SKA1-low.pdf}
+{figures/multidim_xcor_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
+}
+\subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-XBF-LAMBDA-I}]
+{\includegraphics[width=0.48\textwidth]
+% {figures/multidim_xcor_dft_relative_cost_analysis_SKA1-low.pdf}
+{figures/multidim_xcor_dft_relative_cost_analysis_LAMBDA-I.pdf}
+}
+\caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using a DFT of station-level cross-correlations for \texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{Aus-VLBA-low}, and \texttt{IC-VLBA-low}. Cyan contours  \label{fig:incoherent-compcost-XBF-LAMBDA-I}}
 \end{figure*}
-
-\begin{figure}
-\includegraphics[width=\linewidth]{figures/1D_xcor_dft_cost_analysis_SKA1-low.pdf}
-% \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{
-\label{fig:1D-incoherent-compcost-XBF-SKA-low}}
-\end{figure}
 
 \subsection{Correlation and FFT (XFFT)}
 
@@ -416,25 +438,47 @@ The computational cost consists of forming the visibilities and accumulating the
 
 % \subsubsection{Correlation and FFT (XFFT)}
 
+\begin{figure}
+\includegraphics[width=\linewidth]
+% {figures/1D_xcor_fft_cost_analysis_SKA1-low.pdf}
+{figures/1D_xcor_fft_per_pixel_cost_analysis_LAMBDA-I.pdf}
+\caption{
+\label{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}}
+\end{figure}
+
 \begin{figure*}
 \centering
-\subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-XFFT-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_xcor_fft_cost_analysis_SKA1-low.pdf}}
-\subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-XFFT-SKA-low}]{\includegraphics[width=0.48\textwidth]{figures/multidim_xcor_fft_relative_cost_analysis_SKA1-low.pdf}}
-\caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using an FFT of station-level cross-correlations for \texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{Aus-VLBA-low}, and \texttt{IC-VLBA-low}. Cyan contours  \label{fig:incoherent-compcost-XFFT-SKA-low}}
+\subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-XFFT-LAMBDA-I}]
+{\includegraphics[width=0.48\textwidth]
+% {figures/multidim_xcor_fft_cost_analysis_SKA1-low.pdf}
+{figures/multidim_xcor_fft_per_pixel_cost_analysis_LAMBDA-I.pdf}
+}
+\subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I}]
+{\includegraphics[width=0.48\textwidth]
+% {figures/multidim_xcor_fft_relative_cost_analysis_SKA1-low.pdf}
+{figures/multidim_xcor_fft_relative_cost_analysis_LAMBDA-I.pdf}
+}
+\caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using an FFT of station-level cross-correlations for . Cyan contours  \label{fig:incoherent-compcost-XFFT-LAMBDA-I}}
 \end{figure*}
 
 \begin{figure}
-\includegraphics[width=\linewidth]{figures/1D_xcor_fft_cost_analysis_SKA1-low.pdf}
-% \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{
-\label{fig:1D-incoherent-compcost-XFFT-SKA-low}}
-\end{figure}
-
-\begin{figure}
 \centering
-\subfloat[][One-dimensional slices \label{fig:1D-incoherent-compcost-SKA-low}]{\includegraphics[width=\textwidth]{figures/1D_compcost_analysis_SKA1-low.pdf}} \\
-\subfloat[][One-dimensional slices (relative)\label{fig:1D-incoherent-compcost-XFFT-IC-VLBA-low}]{\includegraphics[width=\textwidth]{figures/1D_relative_compcost_analysis_SKA1-low.pdf}}
-\caption{(Left): One-dimensional slices of the computational cost for coherent-incoherent imaging using station-level voltage beamforming for \texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{Aus-VLBA-low}, and \texttt{IC-VLBA-low}. Cyan contours  \label{fig:1D-incoherent-compcost-SKA-low}}
+\subfloat[][One-dimensional slices \label{fig:1D-incoherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_LAMBDA-I.pdf}
+} \\
+\subfloat[][One-dimensional slices (relative)\label{fig:1D-incoherent-compcost-CASPA}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_CASPA.pdf}
+} \\
+\subfloat[][One-dimensional slices (relative)\label{fig:1D-incoherent-compcost-FarView}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_FarView.pdf}
+}
+\caption{(Top): One-dimensional slices of the computational cost for coherent-incoherent imaging using station-level voltage beamforming for \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}. (Middle): Same for \texttt{CASPA}. (Bottom): Same for \texttt{FarView}. \label{fig:1D-incoherent-compcost}}
 \end{figure}
 
 \section{Inter-station Imaging Architectures} \label{sec:inter-station-arch}
@@ -516,6 +560,35 @@ The visibilities are obtained as in Equation~(\ref{eqn:inter-station-pol-visibil
     \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]} \mathbf{N}^{-1}_{[mn\leftarrow mn]}\,\widehat{\mathbf{V}}_{[mn,pq,\hat{\boldsymbol{s}}]} \, , \label{eqn:inter-station-opt-pol-corr-image}
 \end{align}
 where, $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]}$ is the gridding operator that places discrete inverse noise covariance weighted intra-station visibilities onto a array-scale grid and accumulates any visibilities overlapping on the grid points. 
+
+\begin{figure*}
+\centering
+\subfloat[][\texttt{LAMBDA-I} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_LAMBDA-I.pdf}
+} \\
+\subfloat[][\texttt{SKA1-Low-core} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low-core.pdf}
+} \\
+\subfloat[][\texttt{SKA1-Low} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
+} 
+\caption{(Top): One-dimensional slices of the computational cost for coherent-incoherent imaging using station-level voltage beamforming for \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}. (Middle): Same for \texttt{CASPA}. (Bottom): Same for \texttt{FarView}. \label{fig:1D-incoherent-compcost-a}}
+\end{figure*}
+
+\begin{figure*}\ContinuedFloat
+\subfloat[][\texttt{CASPA} \label{fig:1D-coherent-compcost-CASPA}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_CASPA.pdf}
+} \\
+\subfloat[][\texttt{FarView} \label{fig:1D-coherent-compcost-FarView}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_FarView.pdf}
+}
+\caption{Contd. (Top): One-dimensional slices of the computational cost for coherent-incoherent imaging using station-level voltage beamforming for \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}. (Middle): Same for \texttt{CASPA}. (Bottom): Same for \texttt{FarView}. \label{fig:1D-incoherent-compcost}}
+\end{figure*}
 
 \begin{table*}[htb!]
 \normalsize
@@ -777,25 +850,25 @@ XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s
 
 % \subsubsection{Beamforming -- Correlation FFT (1BF+2XFFT)}
 
-\begin{figure*}
-\includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_SKA1-low-core.pdf} 
-\caption{Computational cost of coherent strategy for \texttt{SKA-low-core} relative to BF+XFFT strategy. \label{fig:1D-coherent-relative-compcost-SKA-low-core}}
-\end{figure*}
+% \begin{figure*}
+% \includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_SKA1-low-core.pdf} 
+% \caption{Computational cost of coherent strategy for \texttt{SKA-low-core} relative to BF+XFFT strategy. \label{fig:1D-coherent-relative-compcost-SKA-low-core}}
+% \end{figure*}
 
-\begin{figure*}
-\includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_SKA1-low.pdf}
-\caption{Computational cost of coherent strategy for \texttt{SKA-low} relative to BF+XFFT strategy.  \label{fig:1D-coherent-relative-compcost-SKA-low}}
-\end{figure*}
+% \begin{figure*}
+% \includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_SKA1-low.pdf}
+% \caption{Computational cost of coherent strategy for \texttt{SKA-low} relative to BF+XFFT strategy.  \label{fig:1D-coherent-relative-compcost-SKA-low}}
+% \end{figure*}
 
-\begin{figure*}
-\includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_AU-VLBA-low.pdf}
-\caption{Computational cost of coherent strategy for \texttt{Aus-VLBA-low} relative to BF+XFFT strategy. \label{fig:1D-coherent-relative-compcost-Aus-VLBA-low}}
-\end{figure*}
+% \begin{figure*}
+% \includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_AU-VLBA-low.pdf}
+% \caption{Computational cost of coherent strategy for \texttt{Aus-VLBA-low} relative to BF+XFFT strategy. \label{fig:1D-coherent-relative-compcost-Aus-VLBA-low}}
+% \end{figure*}
 
-\begin{figure*}
-\includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_IC-VLBA-low.pdf}
-\caption{Computational cost of coherent strategy for \texttt{IC-VLBA-low} relative to BF+XFFT strategy. \label{fig:1D-coherent-relative-compcost-IC-VLBA-low}}
-\end{figure*}
+% \begin{figure*}
+% \includegraphics[width=0.95\textwidth]{figures/1D_coherent_relative_compcost_analysis_IC-VLBA-low.pdf}
+% \caption{Computational cost of coherent strategy for \texttt{IC-VLBA-low} relative to BF+XFFT strategy. \label{fig:1D-coherent-relative-compcost-IC-VLBA-low}}
+% \end{figure*}
 
 \section{Results \& Discussion} \label{sec:results}
 
