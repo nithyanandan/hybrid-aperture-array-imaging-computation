@@ -135,7 +135,9 @@ Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial c
 
 \section{Cost Metric} \label{sec:computational-cost}
 
-The primary metric for computational cost used in this study is the number of real floating point operations (FLOP) and the rate of such operations measured in FLOPs per second (FLOPS). A complex addition consists of two FLOPs, and a complex multiplication consists of four real multiplications and two real additions and therefore six FLOPs. A complex multiply-accumulate (CMAC) operation includes one complex multiplication and addition, therefore requiring eight FLOPs.
+The primary metric for computational cost used in this study is the number of real floating point operations (FLOP) and the density of such operations in the discovery phase space volume whose dimensions span time, frequency, polarisation, and two-dimensional location on the sky. The computational cost will be estimated per independent interval of time (in FLOP per second or FLOPS) for all possible polarisation states per frequency channel ($\delta\nu$) per pixel ($\delta\Omega$). In this paper, discovery phase space volume element comprising of a single frequency channel at a single two-dimensional pixel will be referred to as a \textit{voxel} ($\delta\nu\,\delta\Omega$).
+
+The cost estimates rely on the following floating point operations. A complex addition consists of two FLOPs, and a complex multiplication consists of four real multiplications and two real additions and therefore six FLOPs. A complex multiply-accumulate (CMAC) operation includes one complex multiplication and addition, therefore requiring eight FLOPs.
 
 Although alternate computational metrics that include additional components, such as memory bandwidth, could be justified from a practical standpoint, these metrics will vary significantly with real-life implementations and hardware components available. Therefore, we take a theoretical approach with the justification that the budget of floating point operations will form a lower bound regardless of the details of any particular implementation. 
 
@@ -213,7 +215,7 @@ We have considered aperture arrays consisting of three spatial scales, but the a
 
 We consider two broad classes of two-stage fast imaging architectures. In either case, the first stage is intra-station interferometry of the element electric fields using the options of voltage beamforming (BF), E-field Parallel Imaging Correlator (EPIC), beamforming of correlations (XBF), or correlation followed by FFT (XFFT). The second stage inter-station combination of the data products from the first stage. The main difference between the two classes is in whether the second stage uses the first stage products coherently or incoherently. A schematic of these hybrid architectures and their computational cost components are illustrated in Figure~\ref{fig:hybrid-architectures-cost-schematic}. Below, we provide details on the computational cost budget for these hybrid architectures along with the merits and demerits of either classes. 
 
-Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $\Delta t$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ is 25~$\mu$s, and we explore the possibilities for $\Delta t$ ranging from 0.1~ms to 10~s.  
+Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $t_\textrm{acc}$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ is 25~$\mu$s, and we explore the possibilities for $t_\textrm{acc}$ ranging from 0.1~ms to 10~s.  
 
 \begin{figure*}
 \includegraphics[width=\linewidth]{figures/flops_calc.pdf}
@@ -238,7 +240,7 @@ The polarised intensity in a pixel is then obtained by
 \begin{align}
     \widetilde{\mathcal{I}}^{\alpha\beta}_m(\hat{\boldsymbol{s}}_k) &= \left\langle \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) \,  \widetilde{\mathcal{E}}_m^{\beta^*}(\hat{\boldsymbol{s}}_k) \right\rangle \, , \label{eqn:intra-station-opt-pol-img-outprod}
 \end{align}
-where, the angular brackets denote a temporal averaging across an interval of $\Delta t$. Even though it is an outer product over the polarisation axis, we will refer to it as a ``squaring'' operation hereafter for convenience because of what it reduces to if only a single polarisation was measured. 
+where, the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$. Even though it is an outer product over the polarisation axis, we will refer to it as a ``squaring'' operation hereafter for convenience because of what it reduces to if only a single polarisation was measured. 
 
 The solid angle of the beamformed pixel using the intra-station data is given by $\Omega_s \simeq (\lambda/D_\textrm{s})^2$. Beamforming can be applied to all independent beams ($n_\textrm{bs}$) filling the field of view, whose solid angle is $\Omega_a \simeq (\lambda/D_\textrm{a})^2$. Thus, $n_\textrm{bs} \simeq \Omega_\textrm{a}/\Omega_\textrm{s}=(D_\textrm{s}/D_\textrm{a})^2$. 
 
@@ -253,21 +255,25 @@ Converting polarised beamformed voltages on the sky to Stokes intensities and te
 % \caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using station-level voltage beamforming for \texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{Aus-VLBA-low}, and \texttt{IC-VLBA-low}. Cyan contours  \label{fig:incoherent-compcost-BF-SKA-low}}
 % \end{figure*}
 
+Figure~\ref{fig:1D-incoherent-compcost-BF-LAMBDA-I} shows the breakdown of various components of the computational cost per station per voxel for voltage beamforming as a function of the different station parameters. In each panel, all parameters except the one on the corresponding $x$-axis are kept fixed at the characteristic values of the \texttt{LAMBDA-I} station as highlighted in cyan. The total cost is dominated by the beamforming in Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) denoted by black dashed lines. Beamforming cost per pixel scales linearly with the number of elements per station. The costs of squaring and temporal averaging in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}) are subdominant. Because they are performed on a per-pixel basis and not dependent on $N_\textrm{a/s}$, they remain constant across $N_\textrm{a/s}$. And because the number of independent pixels covering the field of view scales as $n_\textrm{bs} \simeq (D_\textrm{s}/D_\textrm{a})^2$, the cost per pixel remains constant across $D_\textrm{s}$ and $D_\textrm{a}$. All these operations have to be performed at every time step, $\delta t$, and hence remain constant regardless of $t_\textrm{acc}$. Although spatial averaging across multiple stations (orange dot-dashed line) is not a station-level operation, it is shown only to emphasise that constitutes a negligible cost relative to the other components. Note that it needs to be only performed on a slower cadence of $t_\textrm{acc}$ on a per-pixel basis, and thus scales inversely with $t_\textrm{acc}$.
+
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/1D_beamformer_dft_cost_analysis_SKA1-low.pdf}
 {figures/1D_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 % \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{A breakdown of the computational cost density function over the instrument parameters for \texttt{LAMBDA-I} using the voltage beamforming architecture at the station level.
+\caption{A breakdown of the computational cost density function over the station parameters for the voltage beamforming architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I} station (cyan lines). The beamforming cost in Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}). 
 \label{fig:1D-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
+
+Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I} shows the covariance of the total computational cost density per station per voxel for the beamforming architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines. The variation in the cost per voxel is dominated by the beamforming cost and displays the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-BF-LAMBDA-I}, namely, linear in $N_\textrm{a/s}$ while remaining constant with $D_\textrm{a}$ and $D_\textrm{s}$. 
 
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/multidim_beamformer_dft_cost_analysis_SKA1-low.pdf}
 {figures/multidim_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 % \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{A multi-dimensional view of the net computational cost density function over the instrumental parameters for \texttt{LAMBDA-I} using the voltage beamforming architecture at the station level.
+\caption{A multi-dimensional covariant view of the net computational cost density function over the station parameters for the voltage beamforming architecture at the station level by varying two parameters at a time while fixing the rest at the nominal values of a \texttt{LAMBDA-I} station shown in grey dashed lines. The empty portions in the panels denote parts of parameter space physically impossible to sample given the constraints of the station parameters. Contours corresponding to the color scale are shown in cyan. 
 \label{fig:multidim-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
 
@@ -290,16 +296,17 @@ The polarised intensity on $\mathbb{S}$ is again given by Equation~(\ref{eqn:int
 \end{align}
 where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$. 
 
-The EPIC architecture has been implemented on the Long Wavelength Array station in Sevilleta (NM, USA) \cite{Kent+2019,Kent+2020,Krishnan+2023} using a GPU framework and offered to the user community commensally.  
+Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I} shows a breakdown of the costs per station per voxel of various components constituting the EPIC architecture, with nominal values of a \texttt{LAMBDA-I} station marked in cyan. The dominant cost is from the two-dimensional FFT (black dashed lines) in Equation~\ref{eqn:intra-station-pol-hol-img-epic} or equivalently, Equation~\ref{eqn:intra-station-pol-hol-img-epic-LA}. Because the spatial FFT cost depends only on the grid dimensions, it is independent of $N_\textrm{a/s}$ as the grid can hold any $N_\textrm{a/s}$ elements as physically possible. This spatial FFT scales roughly as $(\gamma_\textrm{s} \, D_\textrm{s}/D_\textrm{a})^2\log_2(\gamma_\textrm{s}\, D_\textrm{s}/D_\textrm{a})^2$, where, $\gamma_\textrm{s}$ is a constant padding factor. Notably, because the spatial FFT produces an image over the entire field of view at every independent pixel in one instant, it is not a pixelwise operation, and therefore, its cost per pixel is $\approx \log_2(D_\textrm{s}/D_\textrm{a})$, showing a weak dependence on $D_\textrm{s}$ and $D_\textrm{a}$. The pixelwise squaring (pink dot-dashed lines) and temporal averaging (blue dot-dashed lines) costs in Equation~\ref{eqn:intra-station-opt-polarimetric-direct-img-LA} are subdominant. Being per pixel operations, the cost per voxel remains constant with $N_\textrm{a/s}$, $D_\textrm{s}$ and $D_\textrm{a}$ similar to the voltage beamforming architecture. The gridding (black dotted lines) with weights in Equations~(\ref{eqn:intra-station-pol-hol-img-epic}) and (\ref{eqn:intra-station-pol-hol-img-epic-LA}) is a per-element operation and depends only on $N_\textrm{a/s}$, it scales linearly with $N_\textrm{a/s}$ and inverse squared with $D_\textrm{s}$ per voxel. Overall, the gridding cost is significantly subdominant. Again, the spatial averaging of pixels across multiple stations (orange dot-dashed line) is not a station-level operation, but is only shown to emphasise that it operates on a much slower cadence of $t_\textrm{acc}$, scaling inversely with $t_\textrm{acc}$, and adds only negligible cost to the overall cost budget. 
 
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/1D_epic_cost_analysis_SKA1-low.pdf}
 {figures/1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
-% \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{
+\caption{A breakdown of the computational cost density function over the station parameters for the EPIC architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I} station (cyan lines). The spatial FFT cost in Equation~(\ref{eqn:intra-station-pol-hol-img-epic-LA}) denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-polarimetric-direct-img-LA}). The gridding operation (black dotted lines) in Equation~(\ref{eqn:intra-station-pol-hol-img-epic-LA}) contributes even lesser to the cost budget. 
 \label{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure}
+
+Figure~\ref{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I} shows the covariance of the total computational cost density per station per voxel for the EPIC architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines. The variation in the cost per voxel is dominated by the spatial FFT cost which is relatively constant in all these parameters and displays the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}, namely, constant in $N_\textrm{a/s}$, $D_\textrm{a}$ and $D_\textrm{s}$. Figure~\ref{fig:multidim-incoherent-relative-compcost-EPIC-LAMBDA-I} shows the ratio of the computational cost of the EPIC architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the EPIC architecture is significantly less than that of voltage beamforming for $N_\textrm{a/s} \gtrsim 100$ and continues to decrease with increasing $N_\textrm{a/s}$, implying that for full field of view imaging, EPIC has a clear and significant computational advantage over voltage beamforming as $N_\textrm{a/s}$ and packing density of elements in a station increase.
 
 \begin{figure*}
 \centering
@@ -311,9 +318,10 @@ The EPIC architecture has been implemented on the Long Wavelength Array station 
 % {figures/multidim_epic_relative_cost_analysis_SKA1-low.pdf}
 {figures/multidim_epic_relative_cost_analysis_LAMBDA-I.pdf}
 } 
-\caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using station-level EPIC for \texttt{SKA-low}. Cyan contours  \label{fig:incoherent-compcost-EPIC-LAMBDA-I}}
+\caption{(Left): Two-dimensional slices of the computational cost per station per voxel for coherent-incoherent imaging using station-level EPIC. Because the spatial FFT dominates the overall cost budget, the computational cost density is relatively insensitive to $N_\textrm{a/s}$, $D_\textrm{s}$, and $D_\textrm{a}$. (Right): Ratio of computational cost of EPIC to voltage beamforming. For $N_\textrm{a/s}\gtrsim 100$, EPIC has a significant advantage over voltage beamforming Cyan contours indicate nominal values for a \texttt{LAMBDA-I} station. \label{fig:incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure*}
 
+The EPIC architecture has been implemented on the Long Wavelength Array station in Sevilleta (NM, USA) \cite{Kent+2019,Kent+2020,Krishnan+2023} using a GPU framework and operates on a commensal mode.  
 
 \subsection{Correlator Beamforming (XBF)}
 
@@ -327,11 +335,11 @@ which can be beamformed through a discrete Fourier transform (DFT) to obtain int
     &= \sum_{a_m,b_m} \sum_{p,q} \widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widetilde{V}_{a_m b_m}^{pq} \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, , \label{eqn:intra-station-pol-xbf-img-expl} 
 \end{align}
 where, $a_m$ and $b_m$ are elements $a$ and $b$ in station $m$. $\widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k)$ denotes a complex-valued directional weighting applied to the calibrated visibility and can be chosen to produce images with desired characteristics \citep{Masui+2019}. 
-% This correlation beamforming step can be executed at a cadence of $\Delta t$. However, the correlations that produce visibilities must still be executed on timescales of $\delta t$. Like voltage beamforming, the number of independent beams filling the field of view is $n_\textrm{bs} \simeq (D_\textrm{s}/D_\textrm{a})^2$. 
+% This correlation beamforming step can be executed at a cadence of $t_\textrm{acc}$. However, the correlations that produce visibilities must still be executed on timescales of $\delta t$. Like voltage beamforming, the number of independent beams filling the field of view is $n_\textrm{bs} \simeq (D_\textrm{s}/D_\textrm{a})^2$. 
 
-The computational cost budget consists of the following components. The formation of polarimetric visibilities and their accumulations requires $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ complex multiplications and complex additions, respectively, per station per channel at a cadence of $\delta t$. These accumulated visibilities will be further averaged across stations but on a slower cadence of $\Delta t$. However, in order to obtain stationwise image intensities, we will not consider averaging across stations. Thus, the computational cost of forming polarimetric visibilities and their accumulations per station per channel is $4 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/(\delta t)$ FLOPS. The accumulated visibilities from a station can be beamformed towards $n_\textrm{bs}\simeq (D_\textrm{s}/D_\textrm{a})^2$ sky locations using a DFT to obtain Stokes intensities. This DFT beamforming performs $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1) (D_\textrm{s}/D_\textrm{a})^2 /2$ CMACs at a slower cadence of $\Delta t$. Hence, the net computational cost for DFT beamforming of visibilities across the field of view per station per channel is 
+The computational cost budget consists of the following components. The formation of polarimetric visibilities and their accumulations requires $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ complex multiplications and complex additions, respectively, per station per channel at a cadence of $\delta t$. These accumulated visibilities will be further averaged across stations but on a slower cadence of $t_\textrm{acc}$. However, in order to obtain stationwise image intensities, we will not consider averaging across stations. Thus, the computational cost of forming polarimetric visibilities and their accumulations per station per channel is $4 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/(\delta t)$ FLOPS. The accumulated visibilities from a station can be beamformed towards $n_\textrm{bs}\simeq (D_\textrm{s}/D_\textrm{a})^2$ sky locations using a DFT to obtain Stokes intensities. This DFT beamforming performs $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1) (D_\textrm{s}/D_\textrm{a})^2 /2$ CMACs at a slower cadence of $t_\textrm{acc}$. Hence, the net computational cost for DFT beamforming of visibilities across the field of view per station per channel is 
 \begin{align}
-    C_\textrm{XBF} &= 4 n_\textrm{p}^2 \, N_\textrm{a/s} (N_\textrm{a/s}-1) \left[\frac{1}{\delta t} + \frac{\left(D_\textrm{s}/D_\textrm{a}\right)^2}{\Delta t} \right] \, . \label{eqn:cost-XBF}
+    C_\textrm{XBF} &= 4 n_\textrm{p}^2 \, N_\textrm{a/s} (N_\textrm{a/s}-1) \left[\frac{1}{\delta t} + \frac{\left(D_\textrm{s}/D_\textrm{a}\right)^2}{t_\textrm{acc}} \right] \, . \label{eqn:cost-XBF}
 \end{align}
 
 \begin{figure}
@@ -360,7 +368,7 @@ The computational cost budget consists of the following components. The formatio
 
 \subsection{Correlation and FFT (XFFT)}
 
-Here, the calibrated station visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in Equation~(\ref{eqn:intra-station-pol-visibilities}) are gridded and Fourier transformed using an FFT rather than the discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $\Delta t$ or the calibration timescale, whichever is shorter. needs to happen 
+Here, the calibrated station visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in Equation~(\ref{eqn:intra-station-pol-visibilities}) are gridded and Fourier transformed using an FFT rather than the discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $t_\textrm{acc}$ or the calibration timescale, whichever is shorter. 
 
 The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
 \begin{align}
@@ -399,12 +407,12 @@ The computational cost consists of forming the visibilities and accumulating the
 % \midrule
 % XBF & Correlator & \ref{eqn:intra-station-pol-visibilities} & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $\delta t$ \\
 % & Accumulation & \ref{eqn:intra-station-pol-visibilities} & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $\delta t$ \\
-% & DFT & \ref{eqn:intra-station-pol-xbf-img-expl} & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $\Delta t$ \\
+% & DFT & \ref{eqn:intra-station-pol-xbf-img-expl} & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $t_\textrm{acc}$ \\
 % \midrule
 % XFFT & Correlator & \ref{eqn:intra-station-pol-visibilities} & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $\delta t$ \\
 % & Accumulation & \ref{eqn:intra-station-pol-visibilities} & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $\delta t$ \\
-% & Gridding & \ref{eqn:intra-station-opt-pol-corr-image} & 8$n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $\Delta t$ \\
-% & FFT & \ref{eqn:intra-station-opt-pol-corr-image} & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\Delta t$ \\
+% & Gridding & \ref{eqn:intra-station-opt-pol-corr-image} & 8$n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $t_\textrm{acc}$ \\
+% & FFT & \ref{eqn:intra-station-opt-pol-corr-image} & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $t_\textrm{acc}$ \\
 % % \midrule
 % % Three & Four&three three\tnote{b} &four & & \\
 % \bottomrule
@@ -513,7 +521,7 @@ The corresponding polarised intensity at $\hat{\boldsymbol{\sigma}}_l$ within th
 \begin{align}
     \widetilde{\mathcal{I}}^{\alpha\beta}_{\hat{\boldsymbol{s}}_k}(\hat{\boldsymbol{\sigma}}_l) &= \left\langle \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) \,  \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^{\beta^*}(\hat{\boldsymbol{\sigma}}_l) \right\rangle \, , \label{eqn:inter-station-opt-pol-img-outprod}
 \end{align}
-where, the angular brackets denote a temporal averaging across an interval of $\Delta t$. The angular resolution of the inter-station beamforming will correspond to the dimensions of the layout of stations within the array.
+where, the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$. The angular resolution of the inter-station beamforming will correspond to the dimensions of the layout of stations within the array.
 
 % The computational budget, $C_\textrm{1VBF+2VBF}$, of coherent inter-station imaging on all independent pixels filling all station resolution elements preceded by intra-station beamforming which fill the entire station field of view can be expressed as
 % \begin{align}
@@ -537,7 +545,7 @@ for producing gridding and two-dimensional FFT electrical fields with an angular
 \begin{align}
     \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-LA}    
 \end{align}
-where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$, and the the angular brackets denote a temporal averaging across an interval of $\Delta t$.  
+where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$, and the the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$.  
 
 
 \subsubsection{Correlator Beamforming}
@@ -614,12 +622,12 @@ EPIC & Gridding ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}$ &
 \midrule
 XBF & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
 & Accumulation ($\delta t$) & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $2 n_\textrm{p}^2  N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
-& DFT ($\Delta t$) & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-xbf-img-expl}, \ref{eqn:inter-station-pol-xbf-img-expl}  \\
+& DFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-xbf-img-expl}, \ref{eqn:inter-station-pol-xbf-img-expl}  \\
 \midrule
 XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
 & Accumulation ($\delta t$) & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $2 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities} \\
-& Gridding ($\Delta t$) & 8$n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
-& FFT ($\Delta t$) & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+& Gridding ($t_\textrm{acc}$) & 8$n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+& FFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
 % \midrule
 % Three & Four&three three\tnote{b} &four & & \\
 \bottomrule
@@ -656,12 +664,12 @@ XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s
 % \midrule
 % XBF & Correlator & \ref{eqn:inter-station-pol-visibilities} & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & $\delta t$ \\
 % & Accumulation & \ref{eqn:inter-station-pol-visibilities} & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & $\delta t$ \\
-% & DFT & \ref{eqn:inter-station-pol-xbf-img-expl} & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & $\Delta t$ \\
+% & DFT & \ref{eqn:inter-station-pol-xbf-img-expl} & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & $t_\textrm{acc}$ \\
 % \midrule
 % XFFT & Correlator & \ref{eqn:inter-station-pol-visibilities} & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & $\delta t$ \\
 % & Accumulation & \ref{eqn:inter-station-pol-visibilities} & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & $\delta t$ \\
-% & Gridding & \ref{eqn:inter-station-opt-pol-corr-image} & $8 n_\textrm{p}^4 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2$ & $\Delta t$ \\
-% & FFT & \ref{eqn:inter-station-opt-pol-corr-image} & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 \left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $\Delta t$ \\
+% & Gridding & \ref{eqn:inter-station-opt-pol-corr-image} & $8 n_\textrm{p}^4 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2$ & $t_\textrm{acc}$ \\
+% & FFT & \ref{eqn:inter-station-opt-pol-corr-image} & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 \left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $t_\textrm{acc}$ \\
 % % \midrule
 % % Three & Four&three three\tnote{b} &four & & \\
 % \bottomrule
@@ -691,7 +699,7 @@ XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s
 % \begin{align}
 %     \widetilde{\mathcal{I}}^{\alpha\beta}_m(\hat{\boldsymbol{s}}_k) &= \left\langle \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) \,  \widetilde{\mathcal{E}}_m^{\beta^*}(\hat{\boldsymbol{s}}_k) \right\rangle \, , \label{eqn:opt-pol-img-outprod}
 % \end{align}
-% where, the angular brackets denote a temporal averaging across an interval of $\Delta t$. Even though it is an outer product over the polarisation axis, we will refer to it as a ``squaring'' operation hereafter for convenience because of what it reduces to if only a single polarisation was measured. 
+% where, the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$. Even though it is an outer product over the polarisation axis, we will refer to it as a ``squaring'' operation hereafter for convenience because of what it reduces to if only a single polarisation was measured. 
 
 % The solid angle of the beamformed pixel using the intra-station data is given by $\Omega_s \simeq (\lambda/D_\textrm{s})^2$. Beamforming can be applied to all independent beams ($n_\textrm{bs}$) filling the field of view, whose solid angle is $\Omega_a \simeq (\lambda/D_\textrm{a})^2$. Thus, $n_\textrm{bs} \simeq \Omega_\textrm{a}/\Omega_\textrm{s}=(D_\textrm{s}/D_\textrm{a})^2$. 
 
@@ -744,7 +752,7 @@ XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s
 % \begin{align}
 %     \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\beta,\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:opt-polarimetric-direct-img-LA}    
 % \end{align}
-% where, the outer product, representing a pixelwise ``squaring'' operation, is performed over polarisation indices, $\alpha$ and $\beta$. The polarised intensities are accummulated and averaged over the interval, $\Delta t$.
+% where, the outer product, representing a pixelwise ``squaring'' operation, is performed over polarisation indices, $\alpha$ and $\beta$. The polarised intensities are accummulated and averaged over the interval, $t_\textrm{acc}$.
 
 % Gridding a single polarised voltage requires $N_p^2 N_k$ complex multiplications, where, $N_k$ is the number of pixels in the gridding kernel. Let $N_g$ be the number of grid cells in the unpadded grid. The cost of gridding is $6 N_p^2 N_k N_a$ floating point operations. 
 
@@ -778,11 +786,11 @@ XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s
 %     &= \sum_{a_m,b_m} \sum_{p,q} \widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widetilde{V}_{a_m b_m}^{pq} \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, , \label{eqn:pol-xbf-img-expl} 
 % \end{align}
 % where, $a_m$ and $b_m$ are elements $a$ and $b$ in station $m$. $\widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k)$ denotes a complex-valued directional weighting applied to the calibrated visibility and can be chosen to produce images with desired characteristics \citep{Masui+2019}. 
-% % This correlation beamforming step can be executed at a cadence of $\Delta t$. However, the correlations that produce visibilities must still be executed on timescales of $\delta t$. Like voltage beamforming, the number of independent beams filling the field of view is $n_\textrm{bs} \simeq (D_\textrm{s}/D_\textrm{a})^2$. 
+% % This correlation beamforming step can be executed at a cadence of $t_\textrm{acc}$. However, the correlations that produce visibilities must still be executed on timescales of $\delta t$. Like voltage beamforming, the number of independent beams filling the field of view is $n_\textrm{bs} \simeq (D_\textrm{s}/D_\textrm{a})^2$. 
 
-% The computational cost budget consists of the following components. The formation of polarimetric visibilities and their accumulations requires $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ complex multiplications and complex additions, respectively, per station per channel at a cadence of $\delta t$. These accumulated visibilities will be further averaged across stations but on a slower cadence of $\Delta t$. However, in order to obtain stationwise image intensities, we will not consider averaging across stations. Thus, the computational cost of forming polarimetric visibilities and their accumulations per station per channel is $4 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/(\delta t)$ FLOPS. The accumulated visibilities from a station can be beamformed towards $n_\textrm{bs}\simeq (D_\textrm{s}/D_\textrm{a})^2$ sky locations using a DFT to obtain Stokes intensities. This DFT beamforming performs $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1) (D_\textrm{s}/D_\textrm{a})^2 /2$ CMACs at a slower cadence of $\Delta t$. Hence, the net computational cost for DFT beamforming of visibilities across the field of view per station per channel is 
+% The computational cost budget consists of the following components. The formation of polarimetric visibilities and their accumulations requires $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ complex multiplications and complex additions, respectively, per station per channel at a cadence of $\delta t$. These accumulated visibilities will be further averaged across stations but on a slower cadence of $t_\textrm{acc}$. However, in order to obtain stationwise image intensities, we will not consider averaging across stations. Thus, the computational cost of forming polarimetric visibilities and their accumulations per station per channel is $4 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/(\delta t)$ FLOPS. The accumulated visibilities from a station can be beamformed towards $n_\textrm{bs}\simeq (D_\textrm{s}/D_\textrm{a})^2$ sky locations using a DFT to obtain Stokes intensities. This DFT beamforming performs $n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1) (D_\textrm{s}/D_\textrm{a})^2 /2$ CMACs at a slower cadence of $t_\textrm{acc}$. Hence, the net computational cost for DFT beamforming of visibilities across the field of view per station per channel is 
 % \begin{align}
-%     C_\textrm{XBF} &= 4 n_\textrm{p}^2 \, N_\textrm{a/s} (N_\textrm{a/s}-1) \left[\frac{1}{\delta t} + \frac{\left(D_\textrm{s}/D_\textrm{a}\right)^2}{\Delta t} \right] \, . \label{eqn:cost-XBF}
+%     C_\textrm{XBF} &= 4 n_\textrm{p}^2 \, N_\textrm{a/s} (N_\textrm{a/s}-1) \left[\frac{1}{\delta t} + \frac{\left(D_\textrm{s}/D_\textrm{a}\right)^2}{t_\textrm{acc}} \right] \, . \label{eqn:cost-XBF}
 % \end{align}
 
 
@@ -802,7 +810,7 @@ XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s
 
 % \subsubsection{Correlation and FFT (XFFT)}
 
-% Here, the calibrated visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in a station, $m$, are gridded and Fourier transformed rather Discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $\Delta t$ or the calibration timescale, whichever is shorter. 
+% Here, the calibrated visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in a station, $m$, are gridded and Fourier transformed rather Discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $t_\textrm{acc}$ or the calibration timescale, whichever is shorter. 
 
 % The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
 % \begin{align}
