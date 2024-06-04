@@ -354,7 +354,7 @@ Figure~\ref{fig:1D-incoherent-compcost-XBF-LAMBDA-I} shows the computational cos
 \label{fig:1D-incoherent-compcost-XBF-LAMBDA-I}}
 \end{figure}
 
-Figure~\ref{fig:multidim-incoherent-compcost-XBF-LAMBDA-I} shows the covariance of the total computational cost density per station per voxel for the correlator beamformer architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines. The variation in the cost per voxel for $t_\textrm{acc}=1$~ms is dominated by the spatial DFT cost which is relatively constant in $D_\textrm{a}$ and $D_\textrm{a}$ and scales as $N_\textrm{a/s}^2$, displaying the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-XBF-LAMBDA-I}. Figure~\ref{fig:multidim-incoherent-relative-compcost-XBF-LAMBDA-I} shows the ratio of the computational cost of the XBF architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the XBF architecture is less expensive only for $N_\textrm{a/s}\lesssim 100$ and gets worse with increasing $N_\textrm{a/s}$.
+Figure~\ref{fig:multidim-incoherent-compcost-XBF-LAMBDA-I} shows the covariant view of the total computational cost density per station per voxel for the correlator beamformer architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines. The variation in the cost per voxel for $t_\textrm{acc}=1$~ms is dominated by the spatial DFT cost which is relatively constant in $D_\textrm{a}$ and $D_\textrm{a}$ and scales as $N_\textrm{a/s}^2$, displaying the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-XBF-LAMBDA-I}. Figure~\ref{fig:multidim-incoherent-relative-compcost-XBF-LAMBDA-I} shows the ratio of the computational cost of the XBF architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the XBF architecture is less expensive only for $N_\textrm{a/s}\lesssim 100$ and gets worse with increasing $N_\textrm{a/s}$.
 
 \begin{figure*}
 \centering
@@ -373,7 +373,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-XBF-LAMBDA-I} shows the covariance 
 
 \subsection{Correlation and FFT (XFFT)}
 
-Here, the calibrated station visibilities, $\widetilde{V}_{a_m b_m}^{pq}$, in Equation~(\ref{eqn:intra-station-pol-visibilities}) are gridded and Fourier transformed using an FFT rather than the discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $t_\textrm{acc}$ or the calibration timescale, whichever is shorter. 
+Here, $\widetilde{V}_{a_m b_m}^{pq}$, the calibrated station visibilities in station $m$ in Equation~(\ref{eqn:intra-station-pol-visibilities}) are gridded and Fourier transformed using an FFT rather than the discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $t_\textrm{acc}$ or the calibration timescale, whichever is shorter. 
 
 The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
 \begin{align}
@@ -382,13 +382,14 @@ The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless 
     % &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
     % &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:opt-copolar-corr-image}
 \end{align}
-The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[q,\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the gridding operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$ corresponding to station, $m$. 
+% The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. 
+The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[q,\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the gridding operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain for station, $m$, the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. 
 
-The purpose of $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$ is similar \citep{Morales+2009,Cornwell+2008} to its counterpart gridding operator in the EPIC architecture \citep{Morales2011}. 
-% implies the following. First, if $\widetilde{\mathbf{B}}^\textrm{H}=\mathbf{B}^\textrm{H}$ (assumed hereafter, unless specified), then the inversion is lossless and optimal, minimizing noise and the reconstruction error \citep{Tegmark1997a}. This form is very similar to a matched filter. Second, it transforms the inverse noise covariance weighted visibilities at arbitrary locations, $\Delta\boldsymbol{r}_{a_m b_m}$, to finely sampled locations, $\Delta\boldsymbol{r}$, on a grid. If the grid is uniformly sampled, it facilitates efficient inverse Fourier transform using Fast Fourier Transform (FFT) algorithms. 
-Noting that the optimal inversion is weighted by $\widetilde{\mathbf{B}}^\textrm{H}$, which is the conjugate of that in the RIME in Equation~(\ref{eqn:RIME-LA}), the phase introduced by the instrument is cancelled out precisely during the inversion. However, the amplitude is not. Hence, the inverted image, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, is attenuated relative to the true image, $\mathbf{I}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, by a factor that is square of the interferometer's angular power pattern \citep{Cornwell+2008,Morales+2009}, once due to $\mathbf{B}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}\leftarrow \alpha\beta,\Delta\boldsymbol{r}]}$ in Equation~(\ref{eqn:RIME-LA}) (inherent in the measurement) and once more due to $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$ in Equation~(\ref{eqn:intra-station-opt-pol-corr-image}). 
+% The purpose of $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$ is similar \citep{Morales+2009,Cornwell+2008} to its counterpart gridding operator in the EPIC architecture \citep{Morales2011}. 
+% % implies the following. First, if $\widetilde{\mathbf{B}}^\textrm{H}=\mathbf{B}^\textrm{H}$ (assumed hereafter, unless specified), then the inversion is lossless and optimal, minimizing noise and the reconstruction error \citep{Tegmark1997a}. This form is very similar to a matched filter. Second, it transforms the inverse noise covariance weighted visibilities at arbitrary locations, $\Delta\boldsymbol{r}_{a_m b_m}$, to finely sampled locations, $\Delta\boldsymbol{r}$, on a grid. If the grid is uniformly sampled, it facilitates efficient inverse Fourier transform using Fast Fourier Transform (FFT) algorithms. 
+% Noting that the optimal inversion is weighted by $\widetilde{\mathbf{B}}^\textrm{H}$, which is the conjugate of that in the RIME in Equation~(\ref{eqn:RIME-LA}), the phase introduced by the instrument is cancelled out precisely during the inversion. However, the amplitude is not. Hence, the inverted image, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, is attenuated relative to the true image, $\mathbf{I}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, by a factor that is square of the interferometer's angular power pattern \citep{Cornwell+2008,Morales+2009}, once due to $\mathbf{B}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}\leftarrow \alpha\beta,\Delta\boldsymbol{r}]}$ in Equation~(\ref{eqn:RIME-LA}) (inherent in the measurement) and once more due to $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$ in Equation~(\ref{eqn:intra-station-opt-pol-corr-image}). 
 
-The computational cost consists of forming the visibilities and accumulating them, gridding them using the gridding kernel and accumulating them on the grid in case of overlapping data, and spatial FFT to obtain the polarimetric images. 
+% The computational cost consists of forming the visibilities and accumulating them, gridding them using the gridding kernel and accumulating them on the grid in case of overlapping data, and spatial FFT to obtain the polarimetric images. 
 
 % \begin{table*}[htb!]
 % \normalsize
@@ -451,6 +452,8 @@ The computational cost consists of forming the visibilities and accumulating the
 
 % \subsubsection{Correlation and FFT (XFFT)}
 
+Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I} shows the computational cost density breakdown for correlator FFT at the station level. The correlation and temporal averaging in Equation~(\ref{eqn:intra-station-pol-visibilities}) are the same as the correlator beamformer, scaling as $N_\textrm{a/s}(N_\textrm{a/s}-1)/2$ and has no dependence on $D_\textrm{a}$ or $D_\textrm{s}$. Hence, their per voxel costs scale as $(D_\textrm{s}/D_\textrm{a})^{-2}$. The gridding in Equation~(\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}) also scales as $N_\textrm{a/s}(N_\textrm{a/s}-1)/2$, but being independent of grid dimensions, its cost per voxel scales as $(D_\textrm{s}/D_\textrm{a})^{-2}$. The two-dimensional FFT in Equation~(\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}) depends only on the grid size and is independent of $N_\textrm{a/s}$. The FFT scales as $(D_\textrm{s}/D_\textrm{a})^2\log_2(D_\textrm{s}/D_\textrm{a})^2$ and thus its cost per voxel scales only weakly as $\log_2(D_\textrm{s}/D_\textrm{a})$. The correlation and temporal averaging have to be performed at every interval of $\delta t$ and are therefore, independent of $t_\textrm{acc}$, whereas the gridding and FFT need to be performed at a cadence of $t_\textrm{acc}$ and thus scale as $t_\textrm{acc}^{-1}$. For the chosen parameters of \texttt{LAMBDA-I} and $t_\textrm{acc}=1$~ms, the computational cost density is dominated by the cost of the gridding, followed by the correlator, temporal averaging of correlations, and FFT. However, for imaging on a slower cadence, $t_\textrm{acc}\gtrsim 5-10$~ms, the cost of correlation begins to dominate. 
+
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/1D_xcor_fft_cost_analysis_SKA1-low.pdf}
@@ -459,40 +462,22 @@ The computational cost consists of forming the visibilities and accumulating the
 \label{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}}
 \end{figure}
 
+Figure~\ref{fig:multidim-incoherent-compcost-XFFT-LAMBDA-I} shows the covariant view of the total computational cost density per station per voxel for the correlator FFT architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines. The variation in the cost per voxel for $t_\textrm{acc}=1$~ms is dominated by the gridding cost, displaying the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}. Figure~\ref{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I} shows the ratio of the computational cost of the XFFT architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the XFFT architecture is less expensive than the VBF in most of the parameter space, particularly for larger $D_\textrm{s}/D_\textrm{a}$. For the chosen \texttt{LAMBDA-I} parameters (gray dashed lines), the XFFT cost is roughly equal to that of voltage beamforming. 
+
 \begin{figure*}
 \centering
-\subfloat[][Two-dimensional slices \label{fig:multidim-incoherent-compcost-XFFT-LAMBDA-I}]
+\subfloat[][Covariant cost density of XFFT architecture \label{fig:multidim-incoherent-compcost-XFFT-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_fft_cost_analysis_SKA1-low.pdf}
 {figures/multidim_xcor_fft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 }
-\subfloat[][Two-dimensional slices (relative)\label{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I}]
+\subfloat[][Covariant cost of XFFT architecture relative to VBF architecture \label{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_fft_relative_cost_analysis_SKA1-low.pdf}
 {figures/multidim_xcor_fft_relative_cost_analysis_LAMBDA-I.pdf}
 }
 \caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using an FFT of station-level cross-correlations for . Cyan contours  \label{fig:incoherent-compcost-XFFT-LAMBDA-I}}
 \end{figure*}
-
-\begin{figure}
-\centering
-\subfloat[][One-dimensional slices \label{fig:1D-incoherent-compcost-LAMBDA-I}]
-{\includegraphics[width=\textwidth]
-% {figures/1D_compcost_analysis_SKA1-low.pdf}
-{figures/1D_per_pixel_compcost_analysis_LAMBDA-I.pdf}
-} \\
-\subfloat[][One-dimensional slices (relative)\label{fig:1D-incoherent-compcost-CASPA}]
-{\includegraphics[width=\textwidth]
-% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
-{figures/1D_per_pixel_compcost_analysis_CASPA.pdf}
-} \\
-\subfloat[][One-dimensional slices (relative)\label{fig:1D-incoherent-compcost-FarView}]
-{\includegraphics[width=\textwidth]
-% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
-{figures/1D_per_pixel_compcost_analysis_FarView.pdf}
-}
-\caption{(Top): One-dimensional slices of the computational cost for coherent-incoherent imaging using station-level voltage beamforming for \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}. (Middle): Same for \texttt{CASPA}. (Bottom): Same for \texttt{FarView}. \label{fig:1D-incoherent-compcost}}
-\end{figure}
 
 \section{Inter-station Imaging Architectures} \label{sec:inter-station-arch}
 
@@ -505,6 +490,28 @@ Incoherent inter-station imaging simply involves accumulating the images from ea
     \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k) &= \frac{\sum_m w_{km}^{\alpha\beta} \, \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k)}{\sum_m w_{km}^{\alpha\beta}} \, , \label{eqn:inter-station-incoherent-pol-images}
 \end{align}
 where, $w_{km}^{\alpha\beta}$ represents station weights in the incoherent accumulation of intensities for the intra-station beam centred on $\hat{\boldsymbol{s}}_k$. The incoherent nature of this inter-station intensity accumulation implies that it does not depend on inter-station spacing in the array layout and the array diameter, $D_A$. 
+
+Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational cost densities of different imaging architectures discussed in section~\ref{sec:intra-station-arch} for varying parameters of the arrays in Table~\ref{tab:array_params}. The station layout parameters for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low} are identical, and thus so are their station level computing costs. For these station parameters, EPIC holds a clear computational advantage. For \texttt{CASPA}, EPIC and XFFT hold the advantage for imaging cadence faster and slower than $t_\textrm{acc}\simeq 5$~ms, respectively, while for \texttt{FarView}, a similar tipping point between EPIC and XFFT occurs at the cadence of $t_\textrm{acc}\simeq 1$~ms.
+
+\begin{figure}
+\centering
+\subfloat[][Station imaging compute cost densities for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low}. \label{fig:1D-incoherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_LAMBDA-I.pdf}
+} \\
+\subfloat[][Station imaging compute cost densities for \texttt{CASPA}.\label{fig:1D-incoherent-compcost-CASPA}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_CASPA.pdf}
+} \\
+\subfloat[][Station imaging compute cost densities for \texttt{FarView}. \label{fig:1D-incoherent-compcost-FarView}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_FarView.pdf}
+}
+\caption{Computational cost densities of different station level imaging architectures for (a) \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, (b) \texttt{CASPA}, and (c) \texttt{FarView}. In each subpanel, all parameters are fixed at the array's nominal value (cyan line) except the parameter shown on the $x$-axis. For \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, the EPIC architecture is found to be most efficient computationally. For \texttt{CASPA}, EPIC is more efficient than other architectures when imaging cadence is $t_\textrm{acc}\lesssim 1-5$~ms, while XFFT is more efficient for $t_\textrm{acc}\gtrsim 5-10$~ms. For \texttt{FarView}, EPIC and XFFT are equally efficient when the cadence is $t_\textrm{acc}\approx 1$~ms, while EPIC and XFFT are advantageous for cadences faster and slower, respectively, than 1~ms.  \label{fig:1D-incoherent-compcost}}
+\end{figure}
 
 \subsection{Coherent Architectures} \label{sec:coherent}
 
@@ -588,7 +595,7 @@ where, $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\lef
 {\includegraphics[width=\textwidth]
 {figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
 } 
-\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via VBF (gray) and EPIC (black) for intra-station processing, and VBF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data from either of the strategies for intra-station processing. \label{fig:1D-incoherent-compcost-a}}
+\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via VBF (gray) and EPIC (black) for intra-station processing, and VBF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data. \label{fig:1D-incoherent-compcost-a}}
 \end{figure*}
 
 \begin{figure*}\ContinuedFloat
@@ -613,38 +620,82 @@ where, $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\lef
 \toprule
 \headrow Architecture & Components & Intra-station & Inter-station & Equations \\
  & (Timescale) & FLOP count & FLOP count & \\ 
- & & (per station & (per station beam  & \\
- & & per channel) & per channel) & \\
+ & & (per station & (per voxel) & \\
+ & & per voxel) & & \\
 \midrule\midrule
-VBF & Beamforming ($\delta t$) & $8 n_\textrm{p}^2 N_\textrm{a/s} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 N_\textrm{s}\left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
-& Squaring ($\delta t$) & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-pol-img-outprod} , \ref{eqn:inter-station-opt-pol-img-outprod}  \\
-& Accumulation ($\delta t$ ) & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
+VBF & Beamforming ($\delta t$) & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
+& Squaring ($\delta t$) & $6 n_\textrm{p}^2$ & $6 n_\textrm{p}^2$ & \ref{eqn:intra-station-opt-pol-img-outprod} , \ref{eqn:inter-station-opt-pol-img-outprod}  \\
+& Accumulation ($\delta t$) & $2 n_\textrm{p}^2$ & $2 n_\textrm{p}^2$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
 \midrule
-EPIC & Gridding ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}$ & $6 n_\textrm{p}^2 N_\textrm{s} N_\textrm{ks}$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA}   \\
-& FFT ($\delta t$) & $8 n_\textrm{p} \frac{r}{\log_2 r} \left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p} \frac{r}{\log_2 r} \left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA} \\
-& Squaring ($\delta t$) & $6 n_\textrm{p}^2 \left(\gamma_\textrm{s} \frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $6 n_\textrm{p}^2 \left(\gamma_\textrm{A} \frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
-& Accumulation ($\delta t$) & $2 n_\textrm{p}^2 \left(\gamma_\textrm{s} \frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $2 n_\textrm{p}^2 \left(\gamma_\textrm{A} \frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
+EPIC & Gridding ($\delta t$) & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} N_\textrm{ks}}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA}   \\
+& FFT ($\delta t$) & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{s}^2 \log_2\left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{A}^2 \log_2\left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA} \\
+& Squaring ($\delta t$) & $6 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $6 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
+& Accumulation ($\delta t$) & $2 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $2 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
 \midrule
-XBF & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
-& Accumulation ($\delta t$) & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $2 n_\textrm{p}^2  N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
-& DFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-xbf-img-expl}, \ref{eqn:inter-station-pol-xbf-img-expl}  \\
+XBF & Correlator ($\delta t$) & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+& Accumulation ($\delta t$) & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2  N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+& DFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-xbf-img-expl}, \ref{eqn:inter-station-pol-xbf-img-expl}  \\
 \midrule
-XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
-& Accumulation ($\delta t$) & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $2 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities} \\
-& Gridding ($t_\textrm{acc}$) & 8$n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
-& FFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+XFFT & Correlator ($\delta t$) & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+& Accumulation ($\delta t$) & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities} \\
+& Gridding ($t_\textrm{acc}$) & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+& FFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
 % \midrule
 % Three & Four&three three\tnote{b} &four & & \\
 \bottomrule
 % \end{tabularx}
 \end{tabular}
-\begin{tablenotes}[hang]
-% \item[]Table note
-\item[a]Array filling factor, $\,f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$
-% \item[b]Station filling factor, $\,f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$
-\end{tablenotes}
+% \begin{tablenotes}[hang]
+% % \item[]Table note
+% \item[a]Array filling factor, $\,f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$
+% % \item[b]Station filling factor, $\,f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$
+% \end{tablenotes}
 \end{threeparttable}
 \end{table*}
+
+% \begin{table*}[htb!]
+% \normalsize
+% \begin{threeparttable}
+% \caption{Computational budget of intra- and inter-station coherent imaging architectures.}
+% \label{tab:intra-inter-station-coherent-imaging}
+% % \begin{tabularx}{\textwidth}{ccccc}
+% \begin{tabular}{ccccc}
+% \toprule
+% \headrow Architecture & Components & Intra-station & Inter-station & Equations \\
+%  & (Timescale) & FLOP count & FLOP count & \\ 
+%  & & (per station & (per station beam  & \\
+%  & & per channel) & per channel) & \\
+% \midrule\midrule
+% VBF & Beamforming ($\delta t$) & $8 n_\textrm{p}^2 N_\textrm{a/s} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 N_\textrm{s}\left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
+% & Squaring ($\delta t$) & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-pol-img-outprod} , \ref{eqn:inter-station-opt-pol-img-outprod}  \\
+% & Accumulation ($\delta t$ ) & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
+% \midrule
+% EPIC & Gridding ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}$ & $6 n_\textrm{p}^2 N_\textrm{s} N_\textrm{ks}$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA}   \\
+% & FFT ($\delta t$) & $8 n_\textrm{p} \frac{r}{\log_2 r} \left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p} \frac{r}{\log_2 r} \left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA} \\
+% & Squaring ($\delta t$) & $6 n_\textrm{p}^2 \left(\gamma_\textrm{s} \frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $6 n_\textrm{p}^2 \left(\gamma_\textrm{A} \frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
+% & Accumulation ($\delta t$) & $2 n_\textrm{p}^2 \left(\gamma_\textrm{s} \frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $2 n_\textrm{p}^2 \left(\gamma_\textrm{A} \frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
+% \midrule
+% XBF & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+% & Accumulation ($\delta t$) & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $2 n_\textrm{p}^2  N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+% & DFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-xbf-img-expl}, \ref{eqn:inter-station-pol-xbf-img-expl}  \\
+% \midrule
+% XFFT & Correlator ($\delta t$) & $6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+% & Accumulation ($\delta t$) & $2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $2 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities} \\
+% & Gridding ($t_\textrm{acc}$) & 8$n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+% & FFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2\log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2\log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+% % \midrule
+% % Three & Four&three three\tnote{b} &four & & \\
+% \bottomrule
+% % \end{tabularx}
+% \end{tabular}
+% \begin{tablenotes}[hang]
+% % \item[]Table note
+% \item[a]Array filling factor, $\,f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$
+% % \item[b]Station filling factor, $\,f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$
+% \end{tablenotes}
+% \end{threeparttable}
+% \end{table*}
+
 
 
 % \begin{table*}[htb!]
