@@ -279,7 +279,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I} shows the covariance o
 
 \subsection{E-field Parallel Imaging Correlator (EPIC)}
 
-A simultaneous beamforming filling the entire field of view can also be achieved by a two-dimensional spatial Fast Fourier Transform (FFT) of the measurements on the aperture plane. This can be enabled even for an irregular layout of station elements by gridding the calibrated electric fields measured by the station elements. The Optimal Map Making formalism \citep[OMM;][]{Tegmark+1997a} formalism adopted by \citet{Morales2011} is the basis of the architecture called E-field Parallel Imaging Correlator \cite[EPIC;][]{Thyagarajan+2017},
+A simultaneous beamforming filling the entire field of view can also be achieved by a two-dimensional spatial Fast Fourier Transform (FFT) of the measurements on the aperture plane. This can be enabled even for an irregular layout of station elements by gridding the calibrated electric fields measured by the station elements. The Optimal Map Making formalism \citep[OMM;][]{Tegmark1997a} formalism adopted by \citet{Morales2011} is the basis of the architecture called E-field Parallel Imaging Correlator \cite[EPIC;][]{Thyagarajan+2017},
 \begin{align}
     \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \sum_p \widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widetilde{E}_{a_m}^p \right) \, , \label{eqn:intra-station-pol-hol-img-epic}
 \end{align}
@@ -491,28 +491,6 @@ Incoherent inter-station imaging simply involves accumulating the images from ea
 \end{align}
 where, $w_{km}^{\alpha\beta}$ represents station weights in the incoherent accumulation of intensities for the intra-station beam centred on $\hat{\boldsymbol{s}}_k$. The incoherent nature of this inter-station intensity accumulation implies that it does not depend on inter-station spacing in the array layout and the array diameter, $D_A$. 
 
-Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational cost densities of different imaging architectures discussed in section~\ref{sec:intra-station-arch} for varying parameters of the arrays in Table~\ref{tab:array_params}. The station layout parameters for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low} are identical, and thus so are their station level computing costs. For these station parameters, EPIC holds a clear computational advantage. For \texttt{CASPA}, EPIC and XFFT hold the advantage for imaging cadence faster and slower than $t_\textrm{acc}\simeq 5$~ms, respectively, while for \texttt{FarView}, a similar tipping point between EPIC and XFFT occurs at the cadence of $t_\textrm{acc}\simeq 1$~ms.
-
-\begin{figure}
-\centering
-\subfloat[][Station imaging compute cost densities for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low}. \label{fig:1D-incoherent-compcost-LAMBDA-I}]
-{\includegraphics[width=\textwidth]
-% {figures/1D_compcost_analysis_SKA1-low.pdf}
-{figures/1D_per_pixel_compcost_analysis_LAMBDA-I.pdf}
-} \\
-\subfloat[][Station imaging compute cost densities for \texttt{CASPA}.\label{fig:1D-incoherent-compcost-CASPA}]
-{\includegraphics[width=\textwidth]
-% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
-{figures/1D_per_pixel_compcost_analysis_CASPA.pdf}
-} \\
-\subfloat[][Station imaging compute cost densities for \texttt{FarView}. \label{fig:1D-incoherent-compcost-FarView}]
-{\includegraphics[width=\textwidth]
-% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
-{figures/1D_per_pixel_compcost_analysis_FarView.pdf}
-}
-\caption{Computational cost densities of different station level imaging architectures for (a) \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, (b) \texttt{CASPA}, and (c) \texttt{FarView}. In each subpanel, all parameters are fixed at the array's nominal value (cyan line) except the parameter shown on the $x$-axis. For \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, the EPIC architecture is found to be most efficient computationally. For \texttt{CASPA}, EPIC is more efficient than other architectures when imaging cadence is $t_\textrm{acc}\lesssim 1-5$~ms, while XFFT is more efficient for $t_\textrm{acc}\gtrsim 5-10$~ms. For \texttt{FarView}, EPIC and XFFT are equally efficient when the cadence is $t_\textrm{acc}\approx 1$~ms, while EPIC and XFFT are advantageous for cadences faster and slower, respectively, than 1~ms.  \label{fig:1D-incoherent-compcost}}
-\end{figure}
-
 \subsection{Coherent Architectures} \label{sec:coherent}
 
 A coherent combination of data between stations requires electric field data products with phase information from the first stage of processing on individual stations. Thus, intra-station visibilities in which only phase differences remain and from which the original absolute phases have been removed, as well as the image intensity outputs of XBF and XFFT, are unusable for coherent processing at the inter-station level. Hence, we consider two possibilities, namely, the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, from VBF and EPIC from equations~\ref{eqn:intra-station-pol-hol-img-expl} and \ref{eqn:intra-station-pol-hol-img-epic-LA}, respectively. 
@@ -581,65 +559,36 @@ The visibilities are obtained as in Equation~(\ref{eqn:inter-station-pol-visibil
 \end{align}
 where, $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]}$ is the gridding operator that places discrete inverse noise covariance weighted intra-station visibilities onto a array-scale grid and accumulates any visibilities overlapping on the grid points. 
 
-\begin{figure*}
-\centering
-\subfloat[][\texttt{LAMBDA-I} \label{fig:1D-coherent-compcost-LAMBDA-I}]
-{\includegraphics[width=\textwidth]
-{figures/1D_coherent_per_pixel_compcost_analysis_LAMBDA-I.pdf}
-} \\
-\subfloat[][\texttt{SKA1-Low-core} \label{fig:1D-coherent-compcost-LAMBDA-I}]
-{\includegraphics[width=\textwidth]
-{figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low-core.pdf}
-} \\
-\subfloat[][\texttt{SKA1-Low} \label{fig:1D-coherent-compcost-LAMBDA-I}]
-{\includegraphics[width=\textwidth]
-{figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
-} 
-\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via VBF (gray) and EPIC (black) for intra-station processing, and VBF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data. \label{fig:1D-incoherent-compcost-a}}
-\end{figure*}
-
-\begin{figure*}\ContinuedFloat
-\subfloat[][\texttt{CASPA} \label{fig:1D-coherent-compcost-CASPA}]
-{\includegraphics[width=\textwidth]
-{figures/1D_coherent_per_pixel_compcost_analysis_CASPA.pdf}
-} \\
-\subfloat[][\texttt{FarView} \label{fig:1D-coherent-compcost-FarView}]
-{\includegraphics[width=\textwidth]
-{figures/1D_coherent_per_pixel_compcost_analysis_FarView.pdf}
-}
-\caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView} \label{fig:1D-incoherent-compcost}}
-\end{figure*}
-
 \begin{table*}[htb!]
 \normalsize
 \begin{threeparttable}
 \caption{Computational budget of intra- and inter-station coherent imaging architectures.}
 \label{tab:intra-inter-station-coherent-imaging}
 % \begin{tabularx}{\textwidth}{ccccc}
-\begin{tabular}{ccccc}
+\begin{tabular}{cccccc}
 \toprule
-\headrow Architecture & Components & Intra-station & Inter-station & Equations \\
- & (Timescale) & FLOP count & FLOP count & \\ 
- & & (per station & (per voxel) & \\
- & & per voxel) & & \\
+\headrow Architecture & Components & Intra-station & Inter-station & Timescale & Equations \\
+ & & FLOP count & FLOP count & & \\ 
+ & & (per station & (per voxel) & & \\
+ & & per voxel) & & & \\
 \midrule\midrule
-VBF & Beamforming ($\delta t$) & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
-& Squaring ($\delta t$) & $6 n_\textrm{p}^2$ & $6 n_\textrm{p}^2$ & \ref{eqn:intra-station-opt-pol-img-outprod} , \ref{eqn:inter-station-opt-pol-img-outprod}  \\
-& Accumulation ($\delta t$) & $2 n_\textrm{p}^2$ & $2 n_\textrm{p}^2$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
+VBF & Beamforming & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
+& Squaring & $6 n_\textrm{p}^2$ & $6 n_\textrm{p}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod} , \ref{eqn:inter-station-opt-pol-img-outprod}  \\
+& Accumulation & $2 n_\textrm{p}^2$ & $2 n_\textrm{p}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
 \midrule
-EPIC & Gridding ($\delta t$) & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} N_\textrm{ks}}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA}   \\
-& FFT ($\delta t$) & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{s}^2 \log_2\left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{A}^2 \log_2\left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA} \\
-& Squaring ($\delta t$) & $6 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $6 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
-& Accumulation ($\delta t$) & $2 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $2 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
+EPIC & Gridding & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} N_\textrm{ks}}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA}   \\
+& FFT & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{s}^2 \log_2\left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{A}^2 \log_2\left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA} \\
+& Squaring & $6 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $6 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
+& Accumulation & $2 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $2 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
 \midrule
-XBF & Correlator ($\delta t$) & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
-& Accumulation ($\delta t$) & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2  N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
-& DFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & \ref{eqn:intra-station-pol-xbf-img-expl}, \ref{eqn:inter-station-pol-xbf-img-expl}  \\
+XBF & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+& Accumulation & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2  N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+& DFT & $8 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2$ & $8 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2$ & $t_\textrm{acc}$ & \ref{eqn:intra-station-pol-xbf-img-expl}, \ref{eqn:inter-station-pol-xbf-img-expl}  \\
 \midrule
-XFFT & Correlator ($\delta t$) & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
-& Accumulation ($\delta t$) & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities} \\
-& Gridding ($t_\textrm{acc}$) & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
-& FFT ($t_\textrm{acc}$) & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+XFFT & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
+& Accumulation & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities} \\
+& Gridding & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $t_\textrm{acc}$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+& FFT & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $t_\textrm{acc}$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
 % \midrule
 % Three & Four&three three\tnote{b} &four & & \\
 \bottomrule
@@ -936,15 +885,120 @@ XFFT & Correlator ($\delta t$) & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\text
 
 \section{Results \& Discussion} \label{sec:results}
 
-\subsection{LAMBDA-I}
+\subsection{Station-scale Imaging Architectures}\label{sec:station-scale-imaging}
 
-\subsection{SKA-low}
+Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational cost densities of different imaging architectures discussed in section~\ref{sec:intra-station-arch} for varying parameters of the arrays in Table~\ref{tab:array_params}. The station layout parameters for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low} are identical, and thus so are their station level computing costs. For these station parameters, EPIC holds a clear computational advantage. For \texttt{CASPA}, EPIC and XFFT hold the advantage for imaging cadence faster and slower than $t_\textrm{acc}\simeq 5$~ms, respectively, while for \texttt{FarView}, a similar tipping point between EPIC and XFFT occurs at the cadence of $t_\textrm{acc}\simeq 1$~ms.
 
-\subsection{SKA-low Core}
+\begin{figure}
+\centering
+\subfloat[][Station imaging compute cost densities for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low}. \label{fig:1D-incoherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_LAMBDA-I.pdf}
+} \\
+\subfloat[][Station imaging compute cost densities for \texttt{CASPA}.\label{fig:1D-incoherent-compcost-CASPA}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_CASPA.pdf}
+} \\
+\subfloat[][Station imaging compute cost densities for \texttt{FarView}. \label{fig:1D-incoherent-compcost-FarView}]
+{\includegraphics[width=\textwidth]
+% {figures/1D_relative_compcost_analysis_SKA1-low.pdf}
+{figures/1D_per_pixel_compcost_analysis_FarView.pdf}
+}
+\caption{Computational cost densities of different station level imaging architectures for (a) \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, (b) \texttt{CASPA}, and (c) \texttt{FarView}. In each subpanel, all parameters are fixed at the array's nominal value (cyan line) except the parameter shown on the $x$-axis. For \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, the EPIC architecture is found to be most efficient computationally. For \texttt{CASPA}, EPIC is more efficient than other architectures when imaging cadence is $t_\textrm{acc}\lesssim 1-5$~ms, while XFFT is more efficient for $t_\textrm{acc}\gtrsim 5-10$~ms. For \texttt{FarView}, EPIC and XFFT are equally efficient when the cadence is $t_\textrm{acc}\approx 1$~ms, while EPIC and XFFT are advantageous for cadences faster and slower, respectively, than 1~ms.  \label{fig:1D-incoherent-compcost}}
+\end{figure}
 
-\subsection{CASPA}
+\subsection{Multi-scale Imaging Architectures}\label{sec:multi-scale-imaging}
 
-\subsection{FarView}
+Figure~\ref{fig:1D-coherent-compcost} shows a comparison of the compute cost densities in the discovery phase space of different multi-scale imaging architectures combining four options -- VBF, EPIC, XBF, and XFFT -- on the inter-station data with two options -- VBF and EPIC -- on the intra-station data for various array parameters and imaging cadences.  
+
+\begin{figure*}
+\centering
+\subfloat[][\texttt{LAMBDA-I} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_LAMBDA-I.pdf}
+} \\
+\subfloat[][\texttt{SKA1-Low-core} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low-core.pdf}
+} \\
+\subfloat[][\texttt{SKA1-Low} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
+} 
+\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via VBF (gray) and EPIC (black) for intra-station processing, and VBF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data. \label{fig:1D-incoherent-compcost-a}}
+\end{figure*}
+
+\begin{figure*}\ContinuedFloat
+\subfloat[][\texttt{CASPA} \label{fig:1D-coherent-compcost-CASPA}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_CASPA.pdf}
+} \\
+\subfloat[][\texttt{FarView} \label{fig:1D-coherent-compcost-FarView}]
+{\includegraphics[width=\textwidth]
+{figures/1D_coherent_per_pixel_compcost_analysis_FarView.pdf}
+}
+\caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView} \label{fig:1D-coherent-compcost}}
+\end{figure*}
+
+In all cases, the intra-station full field of view data processing (first stage) is most efficiently achieved using EPIC (black lines) rather than VBF (gray lines). This is because of the relatively large number of elements densely packed in stations and due to the capability of simultaneous full field of view beamforming by the EPIC architecture powered by the FFT's efficiency. 
+
+The inter-station processing, however, varies significantly due to the diversity in the various inter-station array parameters and imaging cadence considered. For example, 
+\begin{itemize}
+    \item \texttt{LAMBDA-I} will benefit from deploying the correlator beamforming (XBF) architecture for inter-station processing. 
+    \item \texttt{SKA1-low-core} will benefit from EPIC for the chosen parameters. However, if the number of stations, $N_\textrm{s}$, decreases,  the array diameter, $D_\textrm{A}$, increases or if the imaging cadence is slowed to $t_\textrm{acc} \gtrsim 5$~ms, the XFFT architecture starts to have an advantage over EPIC on the inter-station scale of data processing. 
+    \item \texttt{SKA1-low} will benefit from the XFFT architecture for inter-station processing.
+    \item \texttt{CASPA} will benefit from using the XBF architecture for inter-station processing due to significantly small number of stations.
+    \item \texttt{FarView} appears to have an advantage in using XFFT for inter-station processing for the chosen parameters. If $N_\textrm{s}$ increases or if the cadence increases to $t_\textrm{acc}\lesssim 1$~ms, then EPIC becomes more efficient. 
+\end{itemize}
+
+\subsection{Effect of Imaging Cadence}\label{sec:cadence}
+
+\begin{table*}[htb!]
+\normalsize
+\begin{threeparttable}
+\caption{Impact of imaging cadence on choice of efficient imaging architecture.}
+\label{tab:cadence}
+% \begin{tabularx}{\textwidth}{ccccc}
+\begin{tabular}{c|ccc|ccc}
+\toprule
+\headrow 
+Array & & Intra-station & & & Inter-station & \\
+ & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms \\ 
+\midrule\midrule
+
+\texttt{LAMBDA-I} & EPIC & EPIC & EPIC & BF/XBF & XBF & XBF \\
+\midrule
+\texttt{SKA1-low-core} & EPIC & EPIC & EPIC & EPIC & EPIC & XFFT/EPIC/XBF \\
+\midrule
+\texttt{SKA1-low} & EPIC & EPIC & EPIC & XFFT/EPIC & XFFT & XFFT \\
+\midrule
+\texttt{CASPA} & EPIC & EPIC & XFFT & XBF & XBF & XBF \\
+\midrule
+\texttt{FarView} & EPIC & EPIC/XFFT & XFFT/XBF & EPIC & XFFT & XBF/XFFT \\
+% \midrule
+% Three & Four&three three\tnote{b} &four & & \\
+\bottomrule
+% \end{tabularx}
+\end{tabular}
+% \begin{tablenotes}[hang]
+% % \item[]Table note
+% \item[a]Array filling factor, $\,f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$
+% % \item[b]Station filling factor, $\,f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$
+% \end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
+% \subsection{LAMBDA-I}
+
+% \subsection{SKA-low}
+
+% \subsection{SKA-low Core}
+
+% \subsection{CASPA}
+
+% \subsection{FarView}
 
 % \subsection{Australian VLBA-low}
 
@@ -1063,330 +1117,330 @@ Insert the Acknowledgment text here.
 % \printbibliography
 \bibliography{refs}
 
-\appendix
+% \appendix
 
-\section{Mathematical Details of Architectures}
+% \section{Mathematical Details of Architectures}
 
-\subsection{Co-polar Interferometry}\label{sec:copolar-interferometry}
+% \subsection{Co-polar Interferometry}\label{sec:copolar-interferometry}
 
-If we represent $\mathcal{E}^\alpha(\hat{\boldsymbol{s}},\nu,t)$ as the spectral Fourier components, $\nu$, of the time-domain electric fields, $\mathcal{E}_{t^\prime}(\alpha,\hat{\boldsymbol{s}},t^\prime)$, emanating from astrophysical sources of emission in directions denoted by the unit vector, $\hat{\boldsymbol{s}}$ measured over a finite time interval, $T$, centered around time, $t$, then:
-\begin{align}
-    \mathcal{E}^\alpha(\hat{\boldsymbol{s}},\nu,t) = \frac{1}{T}\int\limits_{t-T/2}^{t+T/2} \mathcal{E}_{t^\prime}^\alpha(\hat{\boldsymbol{s}},t^\prime) e^{-i 2\pi \nu t^\prime} \mathrm{d}t^\prime,
-\end{align}
-where, superscript $\alpha\in\{1,2\}$ denotes the polarisation state of the radiation, $\nu$ denotes the spectral component or the frequency of radiation, $\lambda=c/\nu$ is the wavelength, where $c$ is the speed of light. Because all the operations considered in this paper operate independently on each spectral channel, $\nu$, and time, $t$, we will hereafter assume implicit dependence on $\nu$ and $t$ throughout without explicitly specifying it. 
-
-A measuring instrument, like an antenna in an aperture array, in the aperture plane will measure the superposition of these electric fields as they propagate from the sky locations spanning the celestial surface, $\mathbb{S}$, while imprinting its transfer function, $\mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})$, as
-\begin{align}
-    \underline{E}_{a_m}^p &= \int_\mathbb{S} \sum_\alpha  \mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})\, \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \,\mathrm{d}\Omega \, , \label{eqn:polarimetric-Efield-element-ideal}
-\end{align}
-
-
-Electric fields in the aperture plane, $\underline{E}(\boldsymbol{r})$, can be written as a superposition of those that propagated from the astrophysical sources on the celestial surface $\mathbb{S}$, $\mathcal{E}(\hat{\boldsymbol{s}})$:
-\begin{align}
-    \underline{E}(\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda}\hat{\boldsymbol{s}}\cdot\boldsymbol{r}} \,\mathrm{d}\Omega,
-\end{align}
-where, the integral is over the celestial surface, $\mathbb{S}$, covered by the unit vector, $\hat{\boldsymbol{s}}$, $\boldsymbol{r}$ denotes the observer's location, $t$ denotes time, $\mathrm{d}\Omega=\mathrm{d}^2\hat{\boldsymbol{s}}$ is the infinitesimal solid angle element on the tangent plane of the celestial sphere perpendicular to the unit vector $\hat{\boldsymbol{s}}$. 
-
-Thus, the propagated electric field can be construed as a linear superposition of the electric fields emanating from astronomical sources with appropriate complex phases acquired during the propagation. Ignoring wide-field effects, this relation can be simplified as a Fourier transform of the electric fields in the sky coordinates. 
-
-% In the presence of a directional response of an ideal instrument, which includes but is not limited to the directional electric field pattern of the element, the electric field measured by the 
-
-In order to generalize later, we will consider a station indexed by $m$ as being made up of a group of $N_m$ elements, indexed by $a_m$. For now, we will focus on a single station, denoted by $m$. 
-
-The measuring instrument will imprint its transfer function on the measurements. If $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the directional electric field response of the element, $a_m$, then the electric field measured by this element will be ideally
-\begin{align}
-    \underline{E}_{a_m} &= \int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \,\mathrm{d}\Omega \, . \label{eqn:copolar-Efield-element-ideal}
-\end{align}
-In the typical case of non-ideal behavior of an element, the measured electric field will be potentially corrupted both in amplitude and phase relative to the ideal measurement in Equation~(\ref{eqn:copolar-Efield-element-ideal}). Then,
-\begin{align}
-    E_{a_m} &= g_{a_m}\underline{E}_{a_m} + n_{a_m} \, , \label{eqn:Efield-element}
-\end{align}
-where, $g_{a_m}$ denotes the multiplicative complex gain encapsulating the corruption of the wavefront due to instrumental and propagation effects, and $n_{a_m}$ denotes element-based additive noise in the measurement chain. A process of calibration is typically performed to remove the effects of this corruption by obtaining the best estimate, $\widehat{g}_{a_m}$, of the corrupting gain term, $g_{a_m}$, and the estimated electric field at the element after calibration will be:
-\begin{align}
-    \widehat{\underline{E}}_{a_m} &= \widehat{g}_{a_m}^{-1}\,E_{a_m} \, . \label{eqn:calibration}
-\end{align}
-
-
-% then $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the corresponding directional electric field response of the element. Thus, by application of Fourier transform properties, 
+% If we represent $\mathcal{E}^\alpha(\hat{\boldsymbol{s}},\nu,t)$ as the spectral Fourier components, $\nu$, of the time-domain electric fields, $\mathcal{E}_{t^\prime}(\alpha,\hat{\boldsymbol{s}},t^\prime)$, emanating from astrophysical sources of emission in directions denoted by the unit vector, $\hat{\boldsymbol{s}}$ measured over a finite time interval, $T$, centered around time, $t$, then:
 % \begin{align}
-%     E_{a_m}^\textrm{I} &= \int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-2\pi i\frac{\nu}{c} \boldsymbol{r}\cdot \hat{\boldsymbol{s}}} \,\mathrm{d}\Omega
+%     \mathcal{E}^\alpha(\hat{\boldsymbol{s}},\nu,t) = \frac{1}{T}\int\limits_{t-T/2}^{t+T/2} \mathcal{E}_{t^\prime}^\alpha(\hat{\boldsymbol{s}},t^\prime) e^{-i 2\pi \nu t^\prime} \mathrm{d}t^\prime,
+% \end{align}
+% where, superscript $\alpha\in\{1,2\}$ denotes the polarisation state of the radiation, $\nu$ denotes the spectral component or the frequency of radiation, $\lambda=c/\nu$ is the wavelength, where $c$ is the speed of light. Because all the operations considered in this paper operate independently on each spectral channel, $\nu$, and time, $t$, we will hereafter assume implicit dependence on $\nu$ and $t$ throughout without explicitly specifying it. 
+
+% A measuring instrument, like an antenna in an aperture array, in the aperture plane will measure the superposition of these electric fields as they propagate from the sky locations spanning the celestial surface, $\mathbb{S}$, while imprinting its transfer function, $\mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})$, as
+% \begin{align}
+%     \underline{E}_{a_m}^p &= \int_\mathbb{S} \sum_\alpha  \mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})\, \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \,\mathrm{d}\Omega \, , \label{eqn:polarimetric-Efield-element-ideal}
 % \end{align}
 
 
+% Electric fields in the aperture plane, $\underline{E}(\boldsymbol{r})$, can be written as a superposition of those that propagated from the astrophysical sources on the celestial surface $\mathbb{S}$, $\mathcal{E}(\hat{\boldsymbol{s}})$:
 % \begin{align}
-%     &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r} - \boldsymbol{r}_{a_m}) \nonumber\\
-%     &\quad \times \left[\int_\textrm{S} \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-2\pi i\nu \boldsymbol{r}\cdot \hat{\boldsymbol{s}}/c} \,\mathrm{d}\Omega\right]\, \mathrm{d}^2 \boldsymbol{r} + n_{a_m} \\
-%     &= \int_\textrm{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-2\pi i\nu \boldsymbol{r}\cdot \hat{\boldsymbol{s}}/c} \,\mathrm{d}\Omega \nonumber\\ 
-%     &\qquad + n_{a_m}  + n_{a_m}
+%     \underline{E}(\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda}\hat{\boldsymbol{s}}\cdot\boldsymbol{r}} \,\mathrm{d}\Omega,
 % \end{align}
-% The weighting, denoted by $W_{a_m}(\boldsymbol{r})$, encapsulates the aperture field illumination pattern of the element, the complex element gains (including direction-dependence) containing the effects of the propagation medium as well as of the instrumentation. $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the spatial Fourier transform of $W_{a_m}(\boldsymbol{r})$. If $W_{a_m}(\boldsymbol{r})$ denotes only the aperture field illumination pattern, then $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the corresponding directional element voltage response towards the celestial surface. 
+% where, the integral is over the celestial surface, $\mathbb{S}$, covered by the unit vector, $\hat{\boldsymbol{s}}$, $\boldsymbol{r}$ denotes the observer's location, $t$ denotes time, $\mathrm{d}\Omega=\mathrm{d}^2\hat{\boldsymbol{s}}$ is the infinitesimal solid angle element on the tangent plane of the celestial sphere perpendicular to the unit vector $\hat{\boldsymbol{s}}$. 
 
-The theory of mutual coherence has established the relation between the intensity distribution of spatially incoherent quasi-monochromatic emission, $I(\hat{\boldsymbol{s}})$ on $\mathbb{S}$ and mutual coherence, or ``true'' visibility, $\underline{V}(\Delta\boldsymbol{r})\coloneqq \bigl\langle \underline{E}(\boldsymbol{r})\underline{E}^*(\boldsymbol{r}+\Delta\boldsymbol{r})\bigr\rangle$, in the aperture plane, and is popularly known as the \textit{Van Cittert-Zernike} theorem \citep{VanCittert1934,Zernike1938,Born-Wolf,Goodman2000,TMS2017}:
-\begin{align}
-    \underline{V}(\Delta\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{I}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}} \,\mathrm{d}\Omega, \label{eqn:VCZ-theorem}
-\end{align}
-where, $\Delta\boldsymbol{r}$, denotes the displacement vector between any two locations\footnote{The dependence of spatial coherence on $\Delta\mathbb{R}$ (displacement vectors between the element pairs), rather than $\mathbb{R}$ (absolute positions), in Equation~(\ref{eqn:VCZ-theorem}) implies an assumption of wide-sense spatial stationarity for the electric fields measured on the aperture, which will hold true only when the spatial intensity distribution, $\mathcal{I}(\hat{\boldsymbol{s}})$, on $\mathbb{S}$ is incoherent.} in the aperture domain $\mathbb{R}$, $\langle\cdot\rangle$ denotes an estimator of the ensemble average\footnote{This is typically obtained by assuming ergodicity and averaging over a coherence scale usually along temporal or spectral axes, and sometimes over redundant element spacings.}, and $*$ denotes complex conjugation. When the ideal instrument's transfer function is included in the measurement process, the visibility measured by the interferometer elements $a$ and $b$ (with separation $\Delta\boldsymbol{r}_{a_m b_m}\coloneqq \boldsymbol{r}_{a_m}-\boldsymbol{r}_{b_m}$) will be:
-\begin{align}
-    \underline{V}_{a_m b_m} &= \int_\mathbb{S} \mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})\,\mathcal{I}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}_{a_m b_m}} \,\mathrm{d}\Omega, \label{eqn:ideal-copolar-visibilities}
-\end{align}
-where, 
-\begin{align}
-    \mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}}) &=  \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\,\mathcal{W}_{b_m}^*(\hat{\boldsymbol{s}}) \, ,
-\end{align}
-is called the directional cross-power pattern of an ideal two-element interferometer (made of elements $a$ and $b$). Equation~(\ref{eqn:ideal-copolar-visibilities}) is referred to as the radio interferometric measurement equation (RIME). 
-% In the absence of other non-ideal effects, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$ corresponds to the directional cross-power pattern of the interferometer comprising of elements $a$ and $b$.
+% Thus, the propagated electric field can be construed as a linear superposition of the electric fields emanating from astronomical sources with appropriate complex phases acquired during the propagation. Ignoring wide-field effects, this relation can be simplified as a Fourier transform of the electric fields in the sky coordinates. 
 
-Correlators in interferometer arrays produce complex correlations products of the measured (corrupted) electric fields between pairs of elements (denoted by $a$ and $b$) to produce corrupted visibilities,
-\begin{align}
-    V_{a_m b_m} &= \bigl\langle E_{a_m} \, E_{b_m}^*\bigr\rangle \\
-    &= g_{a_m}\, \underline{V}_{a_m b_m}\, g_{b_m}^* + n_{a_m b_m} \, . \label{eqn:corrupted-noise-visibility}
-\end{align}
-% where, $\underline{V}_{a_m b_m}$ denotes ideal visibilities measured at element spacing $\boldsymbol{r}_{a_m b_m}\coloneqq \boldsymbol{r}_{a_m}-\boldsymbol{r}_{b_m}$, $\langle\cdot\rangle$ denotes an estimator of the ensemble average\footnote{This is typically obtained by assuming ergodicity and averaging over a coherence scale usually along temporal or spectral axes, and sometimes over redundant element spacings.}, and $*$ denotes complex conjugation. 
-The corresponding estimate of ideal visibilities, after calibration, will be
-\begin{align}
-    \widehat{\underline{V}}_{a_m b_m} &= \bigl\langle \widehat{\underline{E}}_{a_m}\widehat{\underline{E}}_{b_m}^*\bigr\rangle \nonumber\\
-    &= \widehat{g}_{a_m}^{-1}\, V_{a_m b_m}\, \widehat{g}_{b_m}^{*^{-1}} \, .
-\end{align}
-Because this paper does not concern primarily with calibration, we will assume that the measured element electric fields are perfectly calibrated hereafter, and hence, $\widehat{\underline{E}}_{a_m}=\underline{E}_{a_m}$ and $E_{a_m}=\underline{E}_{a_m}+n_{a_m}$. Correspondingly, we will assume $\widehat{\underline{V}}_{a_m b_m}=\underline{V}_{a_m b_m}$ and $V_{a_m b_m}=\underline{V}_{a_m b_m}+n_{a_m b_m}$. 
+% % In the presence of a directional response of an ideal instrument, which includes but is not limited to the directional electric field pattern of the element, the electric field measured by the 
 
-% Equation~(\ref{eqn:ideal-copolar-visibilities}) can be alternatively expressed in the aperture domain, using Fourier transform properties, as:
+% In order to generalize later, we will consider a station indexed by $m$ as being made up of a group of $N_m$ elements, indexed by $a_m$. For now, we will focus on a single station, denoted by $m$. 
+
+% The measuring instrument will imprint its transfer function on the measurements. If $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the directional electric field response of the element, $a_m$, then the electric field measured by this element will be ideally
 % \begin{align}
-%     V_{a_m b_m}^\textrm{I} &= \int_{\Delta\mathbb{R}} B_{a_m b_m}(\Delta\boldsymbol{r}-\Delta\boldsymbol{r}_{a_m b_m})\,V^\textrm{T}(\Delta\boldsymbol{r})\,\mathrm{d}^2\Delta\boldsymbol{r}, \label{eqn:vis-degridding}
+%     \underline{E}_{a_m} &= \int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \,\mathrm{d}\Omega \, . \label{eqn:copolar-Efield-element-ideal}
 % \end{align}
-% where, $B_{a_m b_m}(\Delta\boldsymbol{r})$ denotes the cross-power illumination of the interferometer's aperture. Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. $B_{a_m b_m}(\Delta\boldsymbol{r})$ is the Fourier transform of $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. Thus,
+% In the typical case of non-ideal behavior of an element, the measured electric field will be potentially corrupted both in amplitude and phase relative to the ideal measurement in Equation~(\ref{eqn:copolar-Efield-element-ideal}). Then,
 % \begin{align}
-%     B_{a_m b_m}(\Delta\boldsymbol{r}) &= \frac{\nu^2}{c^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\mathcal{W}_{b_m}^{*}(\hat{\boldsymbol{s}})\nonumber\\
-%     &\qquad\qquad \times e^{-2\pi i\frac{\nu}{c} \Delta\boldsymbol{r}\cdot\hat{\boldsymbol{s}}} \,\mathrm{d}\Omega \\
-%     &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r}. \label{eqn:holographic-power-illumination}
+%     E_{a_m} &= g_{a_m}\underline{E}_{a_m} + n_{a_m} \, , \label{eqn:Efield-element}
 % \end{align}
+% where, $g_{a_m}$ denotes the multiplicative complex gain encapsulating the corruption of the wavefront due to instrumental and propagation effects, and $n_{a_m}$ denotes element-based additive noise in the measurement chain. A process of calibration is typically performed to remove the effects of this corruption by obtaining the best estimate, $\widehat{g}_{a_m}$, of the corrupting gain term, $g_{a_m}$, and the estimated electric field at the element after calibration will be:
+% \begin{align}
+%     \widehat{\underline{E}}_{a_m} &= \widehat{g}_{a_m}^{-1}\,E_{a_m} \, . \label{eqn:calibration}
+% \end{align}
+
+
+% % then $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the corresponding directional electric field response of the element. Thus, by application of Fourier transform properties, 
+% % \begin{align}
+% %     E_{a_m}^\textrm{I} &= \int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-2\pi i\frac{\nu}{c} \boldsymbol{r}\cdot \hat{\boldsymbol{s}}} \,\mathrm{d}\Omega
+% % \end{align}
+
+
+% % \begin{align}
+% %     &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r} - \boldsymbol{r}_{a_m}) \nonumber\\
+% %     &\quad \times \left[\int_\textrm{S} \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-2\pi i\nu \boldsymbol{r}\cdot \hat{\boldsymbol{s}}/c} \,\mathrm{d}\Omega\right]\, \mathrm{d}^2 \boldsymbol{r} + n_{a_m} \\
+% %     &= \int_\textrm{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, \mathcal{E}(\hat{\boldsymbol{s}})\, e^{-2\pi i\nu \boldsymbol{r}\cdot \hat{\boldsymbol{s}}/c} \,\mathrm{d}\Omega \nonumber\\ 
+% %     &\qquad + n_{a_m}  + n_{a_m}
+% % \end{align}
+% % The weighting, denoted by $W_{a_m}(\boldsymbol{r})$, encapsulates the aperture field illumination pattern of the element, the complex element gains (including direction-dependence) containing the effects of the propagation medium as well as of the instrumentation. $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the spatial Fourier transform of $W_{a_m}(\boldsymbol{r})$. If $W_{a_m}(\boldsymbol{r})$ denotes only the aperture field illumination pattern, then $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$ is the corresponding directional element voltage response towards the celestial surface. 
+
+% The theory of mutual coherence has established the relation between the intensity distribution of spatially incoherent quasi-monochromatic emission, $I(\hat{\boldsymbol{s}})$ on $\mathbb{S}$ and mutual coherence, or ``true'' visibility, $\underline{V}(\Delta\boldsymbol{r})\coloneqq \bigl\langle \underline{E}(\boldsymbol{r})\underline{E}^*(\boldsymbol{r}+\Delta\boldsymbol{r})\bigr\rangle$, in the aperture plane, and is popularly known as the \textit{Van Cittert-Zernike} theorem \citep{VanCittert1934,Zernike1938,Born-Wolf,Goodman2000,TMS2017}:
+% \begin{align}
+%     \underline{V}(\Delta\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{I}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}} \,\mathrm{d}\Omega, \label{eqn:VCZ-theorem}
+% \end{align}
+% where, $\Delta\boldsymbol{r}$, denotes the displacement vector between any two locations\footnote{The dependence of spatial coherence on $\Delta\mathbb{R}$ (displacement vectors between the element pairs), rather than $\mathbb{R}$ (absolute positions), in Equation~(\ref{eqn:VCZ-theorem}) implies an assumption of wide-sense spatial stationarity for the electric fields measured on the aperture, which will hold true only when the spatial intensity distribution, $\mathcal{I}(\hat{\boldsymbol{s}})$, on $\mathbb{S}$ is incoherent.} in the aperture domain $\mathbb{R}$, $\langle\cdot\rangle$ denotes an estimator of the ensemble average\footnote{This is typically obtained by assuming ergodicity and averaging over a coherence scale usually along temporal or spectral axes, and sometimes over redundant element spacings.}, and $*$ denotes complex conjugation. When the ideal instrument's transfer function is included in the measurement process, the visibility measured by the interferometer elements $a$ and $b$ (with separation $\Delta\boldsymbol{r}_{a_m b_m}\coloneqq \boldsymbol{r}_{a_m}-\boldsymbol{r}_{b_m}$) will be:
+% \begin{align}
+%     \underline{V}_{a_m b_m} &= \int_\mathbb{S} \mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})\,\mathcal{I}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}_{a_m b_m}} \,\mathrm{d}\Omega, \label{eqn:ideal-copolar-visibilities}
+% \end{align}
+% where, 
+% \begin{align}
+%     \mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}}) &=  \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\,\mathcal{W}_{b_m}^*(\hat{\boldsymbol{s}}) \, ,
+% \end{align}
+% is called the directional cross-power pattern of an ideal two-element interferometer (made of elements $a$ and $b$). Equation~(\ref{eqn:ideal-copolar-visibilities}) is referred to as the radio interferometric measurement equation (RIME). 
+% % In the absence of other non-ideal effects, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$ corresponds to the directional cross-power pattern of the interferometer comprising of elements $a$ and $b$.
+
+% Correlators in interferometer arrays produce complex correlations products of the measured (corrupted) electric fields between pairs of elements (denoted by $a$ and $b$) to produce corrupted visibilities,
+% \begin{align}
+%     V_{a_m b_m} &= \bigl\langle E_{a_m} \, E_{b_m}^*\bigr\rangle \\
+%     &= g_{a_m}\, \underline{V}_{a_m b_m}\, g_{b_m}^* + n_{a_m b_m} \, . \label{eqn:corrupted-noise-visibility}
+% \end{align}
+% % where, $\underline{V}_{a_m b_m}$ denotes ideal visibilities measured at element spacing $\boldsymbol{r}_{a_m b_m}\coloneqq \boldsymbol{r}_{a_m}-\boldsymbol{r}_{b_m}$, $\langle\cdot\rangle$ denotes an estimator of the ensemble average\footnote{This is typically obtained by assuming ergodicity and averaging over a coherence scale usually along temporal or spectral axes, and sometimes over redundant element spacings.}, and $*$ denotes complex conjugation. 
+% The corresponding estimate of ideal visibilities, after calibration, will be
+% \begin{align}
+%     \widehat{\underline{V}}_{a_m b_m} &= \bigl\langle \widehat{\underline{E}}_{a_m}\widehat{\underline{E}}_{b_m}^*\bigr\rangle \nonumber\\
+%     &= \widehat{g}_{a_m}^{-1}\, V_{a_m b_m}\, \widehat{g}_{b_m}^{*^{-1}} \, .
+% \end{align}
+% Because this paper does not concern primarily with calibration, we will assume that the measured element electric fields are perfectly calibrated hereafter, and hence, $\widehat{\underline{E}}_{a_m}=\underline{E}_{a_m}$ and $E_{a_m}=\underline{E}_{a_m}+n_{a_m}$. Correspondingly, we will assume $\widehat{\underline{V}}_{a_m b_m}=\underline{V}_{a_m b_m}$ and $V_{a_m b_m}=\underline{V}_{a_m b_m}+n_{a_m b_m}$. 
+
+% % Equation~(\ref{eqn:ideal-copolar-visibilities}) can be alternatively expressed in the aperture domain, using Fourier transform properties, as:
+% % \begin{align}
+% %     V_{a_m b_m}^\textrm{I} &= \int_{\Delta\mathbb{R}} B_{a_m b_m}(\Delta\boldsymbol{r}-\Delta\boldsymbol{r}_{a_m b_m})\,V^\textrm{T}(\Delta\boldsymbol{r})\,\mathrm{d}^2\Delta\boldsymbol{r}, \label{eqn:vis-degridding}
+% % \end{align}
+% % where, $B_{a_m b_m}(\Delta\boldsymbol{r})$ denotes the cross-power illumination of the interferometer's aperture. Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. $B_{a_m b_m}(\Delta\boldsymbol{r})$ is the Fourier transform of $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. Thus,
+% % \begin{align}
+% %     B_{a_m b_m}(\Delta\boldsymbol{r}) &= \frac{\nu^2}{c^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\mathcal{W}_{b_m}^{*}(\hat{\boldsymbol{s}})\nonumber\\
+% %     &\qquad\qquad \times e^{-2\pi i\frac{\nu}{c} \Delta\boldsymbol{r}\cdot\hat{\boldsymbol{s}}} \,\mathrm{d}\Omega \\
+% %     &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r}. \label{eqn:holographic-power-illumination}
+% % \end{align}
  
-% Interferometric image synthesis involves inverting Equation~(\ref{eqn:VCZ-theorem}) to obtain $\mathcal{I}(\hat{\boldsymbol{s}})$, the spatial intensity distribution on $\mathbb{S}$, using a number of calibrated visibility measurements, $\widehat{V}_{a_m b_m}$, from different element pairs. The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides an optimal solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}. In linear algebraic notation, the measurement and the optimal inversion operations can be written as \citep{Bhatnagar+2008,Morales+2009}:
+% % Interferometric image synthesis involves inverting Equation~(\ref{eqn:VCZ-theorem}) to obtain $\mathcal{I}(\hat{\boldsymbol{s}})$, the spatial intensity distribution on $\mathbb{S}$, using a number of calibrated visibility measurements, $\widehat{V}_{a_m b_m}$, from different element pairs. The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides an optimal solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}. In linear algebraic notation, the measurement and the optimal inversion operations can be written as \citep{Bhatnagar+2008,Morales+2009}:
+% % \begin{align}
+% %     \mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]} &= \mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}|\Delta\boldsymbol{r}]}\,\mathbf{F}_{[\Delta\boldsymbol{r}|\hat{\boldsymbol{s}}]}\,\mathbf{I}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}, \label{eqn:RIME-LA}
+% % \end{align}
+% % and
+% % \begin{align}
+% %     \widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:OptEst-LA} \\
+% %     &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+% %     &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]}, \label{eqn:opt-copolar-corr-image}
+% % \end{align}
+% % respectively. Here, the dependence on $\nu$ and $t$ have been omitted for convenience as they carry through the equation without transformations. $\vect(\mathbf{M})$ denotes the vectorization of a matrix $\mathbf{M}$ into a column vector. Quantities with a single bracketed variable, such as $\mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, $\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, $\mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, and $\widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, denote vectors that are a function of that variable, and those with two bracketed variables denote matrix operators that transform the vector between the variable on the right of the delimiter $\leftarrow$ to that on its left. For example, Equation~(\ref{eqn:RIME-LA}) Fourier transforms a vector of true pixelized intensities, $\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, to a spatial coherence function, $\mathbf{F}_{[\Delta\boldsymbol{r}|\hat{\boldsymbol{s}}]}\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, defined on a continuous variable (or finely sampled in case of a discretized implementation), $\boldsymbol{r}_{a_m b_m}$, which through the operator represented by $\mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}|\Delta\boldsymbol{r}]}$ is then further transformed into a discrete vector of measured visibilities between specific element pairs, $\mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, which includes an additive measurement noise vector, $\mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$. 
+% % % weighted by $B_{a_m b_m}(\Delta\boldsymbol{r})$ and integrated the propagated spatial coherence over the aperture defined on a continuous (or finely sampled in case of a discretized implementation) variable $\Delta\boldsymbol{r}$ and obtaining the visibility measured at the specific element spacing, $\Delta\boldsymbol{r}_{a_m b_m}$. 
+% % Equation~(\ref{eqn:OptEst-LA}) represents the optimal inversion operation that takes the vector of measured visibilities that have been calibrated, $\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, weights them by the inverse of the noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}|\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}_{a_m b_m}$ using the operator $\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}|\Delta\boldsymbol{r}_{a_m b_m}]}$, and Fourier transforms to obtain the optimal estimate of the vector of pixelized intensities, $\widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. The optimal solution in Equation~(\ref{eqn:OptEst-LA}) may require further treatment, such as deconvolution, based on the properties desired in the reconstructed image \citep{Bhatnagar+2008,Morales+2009}. 
+
+% Let $N_{a_m}$ denote the number of collecting elements in the interferometer array. Then, $\left\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\right\rangle_{[\Delta\boldsymbol{r}_{a_m b_m}]}$ involves generating the outer product of stochastic electric fields measured by the $N_{a_m}$ elements, and thus the cost of computing the correlations scales as $\mathcal{O}(N_{a_m}^2)$ \citep{Daishido+1991,Bunton+2004,Tegmark+2009} for every spectral channel, before they can be averaged within an accumulation interval as denoted by the $\langle\cdot\rangle$ operator. Thus, the correlator cost can become very expensive for arrays with large $N_{a_m}$ (as $N_{a_m}$ approaches hundreds to thousands of array elements) as will be the case with HERA, SKA-low, etc.
+
+% \subsection{Discrete and Linear Algebraic Representations}\label{sec:discrete-LA}
+
+% The measurement process and the imaging step via inversion can be represented in the aperture plane through equivalent Fourier domain quantities. The net electric field measured by an ideal element, $a$, in Equation~(\ref{eqn:copolar-Efield-element-ideal}) can be re-written as the weighted integral of the propagated electric field over the region the element is responsive to in the aperture surface, $\mathbb{R}$, 
 % \begin{align}
-%     \mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]} &= \mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}|\Delta\boldsymbol{r}]}\,\mathbf{F}_{[\Delta\boldsymbol{r}|\hat{\boldsymbol{s}}]}\,\mathbf{I}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}, \label{eqn:RIME-LA}
+%     \underline{E}_{a_m} &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}_{a_m} - \boldsymbol{r})\,E(\boldsymbol{r}) \, \mathrm{d}^2 \boldsymbol{r} \, , \label{eqn:copolar-Efield-element-ideal-aperture-continuous}
+% \end{align}
+% where, the weighting, denoted by $W_{a_m}(\boldsymbol{r})$, is the spatial Fourier transform of $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$,
+% \begin{align}
+%     W_{a_m}(\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \boldsymbol{r}} \,\mathrm{d}\Omega \, . \label{eqn:holographic-Efield-illumination}
+% \end{align}
+
+% Equation~(\ref{eqn:copolar-Efield-element-ideal-aperture-continuous}) involves a weighted integral of the propagated electric fields, where the weighting corresponds to the instrumental response, $W_{a_m}(\boldsymbol{r})$, centered at the location of the element, $a$, in the aperture plane, $\mathbb{R}$. Generally, $W_{a_m}(\boldsymbol{r})$ is physically interpretable as the holographic pattern of the element element in the aperture plane, which has support over the element's area of influence where it collects signals from. However, in some cases such as for narrow dipoles, this relation is purely mathematical and a physical interpretation is not straightforward. 
+% % such as narrow dipoles, this relation is  encapsulates the aperture field illumination pattern of the element or the element's aperture distribution, 
+% $W_{a_m}(\boldsymbol{r})$ can also include other instrumental effects that influence the element behavior. 
+
+% Similarly, $B_{a_m b_m}(\Delta\boldsymbol{r})$ denotes the cross-power illumination of the interferometer's aperture and is the Fourier transform of the directional cross-power pattern, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. $B_{a_m b_m}(\Delta\boldsymbol{r})$ is the Fourier transform of $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. Thus,
+% \begin{align}
+%     B_{a_m b_m}(\Delta\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\mathcal{W}_{b_m}^{*}(\hat{\boldsymbol{s}})\nonumber\\
+%     &\qquad\qquad \times e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \Delta\boldsymbol{r}} \,\mathrm{d}\Omega \label{eqn:holographic-power-illumination}
+% \end{align}
+% In the aperture (Fourier) domain, it is equivalent to
+% \begin{align}
+%     B_{a_m b_m}(\Delta\boldsymbol{r}) &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r} \, ,
+% \end{align}
+% which is a correlation of the aperture-plane responses of the two individual elements of the interferometer. 
+
+% Now, the RIME in Equation~(\ref{eqn:ideal-copolar-visibilities}) can be alternatively expressed in the aperture domain using Fourier transform properties as:
+% \begin{align}
+%     \underline{V}_{a_m b_m} &= \int_{\Delta\mathbb{R}} B_{a_m b_m}(\Delta\boldsymbol{r}_{a_m b_m}-\Delta\boldsymbol{r})\,\underline{V}(\Delta\boldsymbol{r})\,\mathrm{d}^2\Delta\boldsymbol{r}, \label{eqn:vis-degridding}
+% \end{align}
+% where, $B_{a_m b_m}(\Delta\boldsymbol{r})$ denotes the cross-power illumination of the interferometer's aperture. Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to, centered at $\Delta\boldsymbol{r}_{a_m b_m}$. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
+
+% % $B_{a_m b_m}(\Delta\boldsymbol{r})$ is the Fourier transform of $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. Thus,
+% % \begin{align}
+% %     B_{a_m b_m}(\Delta\boldsymbol{r}) &= \frac{\nu^2}{c^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\mathcal{W}_{b_m}^{*}(\hat{\boldsymbol{s}})\nonumber\\
+% %     &\qquad\qquad \times e^{-2\pi i\frac{\nu}{c} \Delta\boldsymbol{r}\cdot\hat{\boldsymbol{s}}} \,\mathrm{d}\Omega \\
+% %     &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r}. \label{eqn:holographic-power-illumination}
+% % \end{align}
+
+% % Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
+
+% In discrete form, Equations~(\ref{eqn:copolar-Efield-element-ideal}) and (\ref{eqn:Efield-element}) can be combined as
+% \begin{align}
+%     E_{a_m} &= \sum_k e^{-i\frac{2\pi}{\lambda}\hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, \left[\mathcal{W}_{a_m}(\hat{\boldsymbol{s}}_k) \, \mathcal{E}(\hat{\boldsymbol{s}}_k)\right] \, \delta\Omega_k + n_{a_m} \, ,
+% \end{align}
+% or equivalently, from Equation~(\ref{eqn:copolar-Efield-element-ideal-aperture-continuous}) as
+% \begin{align}
+%     E_{a_m} &= \sum_j W_{a_m}(\boldsymbol{r}_{a_m}-\boldsymbol{r}_j)\, \delta^2\boldsymbol{r}_j \nonumber\\ 
+%     &\qquad \left(\sum_k e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \, \mathcal{E}(\hat{\boldsymbol{s}}_k) \,\delta\Omega_k \right) + n_{a_m} \, . \label{eqn:Efield-element-aperture-discrete}
+% \end{align}
+% The term inside the parenthesis is a discrete Fourier transform of the spatial distribution of electric fields on the celestial sphere, which represents the propagated electric fields on a grid sampling the aperture plane at $\boldsymbol{r}_j$. The outer summation on the sampled aperture plane denotes a convolution of the true propagated electric fields with the instrumental response of element, $a$, at location, $\boldsymbol{r}_{a_m}$, which is further corrupted by additive noise, $n_{a_m}$. The outer summation also transforms the true instrument-independent electric fields on a well-sampled (typically, Nyquist-sampled) aperture grid, $\boldsymbol{r}_j$, to a discrete instrument-dependent measurement of the electric fields at an arbitrary element location, $\boldsymbol{r}_{a_m}$, which does not have to coincide with any of the grid points. 
+
+% Consider a collection of such electric fields in the sky plane and those measured by the elements in the aperture plane arranged as column vectors, $\boldsymbol{\mathcal{E}}_{[\hat{\boldsymbol{s}}]}\coloneqq \{\mathcal{E}(\hat{\boldsymbol{s}}_k)\}$ and $\mathbf{E}_{[\boldsymbol{r}_{a_m}]}\coloneqq \{E_{a_m}\}$, respectively. Then, Equation~(\ref{eqn:Efield-element-aperture-discrete}) can be represented in linear algebraic form
+% \begin{align}
+%     \mathbf{E}_{[\boldsymbol{r}_{a_m}]} &= \mathbf{W}_{[\boldsymbol{r}_{a_m}\leftarrow \boldsymbol{r}]} \, \mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{E}}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\boldsymbol{r}_{a_m}]} \, .
+% \end{align}
+% The subscripted $\leftarrow$ with variables on either side indicates the transformation brought out by the associated matrix. For example, $\mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]}\coloneqq e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j}$ denotes the Fourier matrix transforming variables defined on sky grid, $\hat{\boldsymbol{s}}_k$, to the aperture grid, $\boldsymbol{r}_j$. And, $\mathbf{W}_{[\boldsymbol{r}_{a_m}\leftarrow \boldsymbol{r}]}\coloneqq \{W_{a_m}(\boldsymbol{r}_{a_m}-\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the holographic pattern of an element, $W_{a_m}(\boldsymbol{r}_j)$, and the columns correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each row, the holographic weights are shifted to the element location, $\boldsymbol{r}_{a_m}$. 
+
+% Similarly, the RIME in discrete form is
+% \begin{align}
+%     V_{a_m b_m} &= \sum_k e^{-i\frac{2\pi}{\lambda}\hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, \left[\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}}_k) \,  \mathcal{I}(\hat{\boldsymbol{s}}_k)\right] \, \delta\Omega_k \nonumber\\ 
+%     &\qquad + n_{a_m b_m} \, .
+% \end{align}
+% Equivalently, Equations~(\ref{eqn:VCZ-theorem}), (\ref{eqn:corrupted-noise-visibility}), and (\ref{eqn:vis-degridding}) yield
+% \begin{align}
+%     V_{a_m b_m} &= \sum_j B_{a_m b_m}(\Delta\boldsymbol{r}_{a_m b_m}-\Delta\boldsymbol{r}_j)\, \delta^2\Delta\boldsymbol{r}_j \nonumber\\ 
+%     &\qquad \left(\sum_k e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j} \, \mathcal{I}(\hat{\boldsymbol{s}}_k) \,\delta\Omega_k \right) + n_{a_m b_m} \, . \label{eqn:copolar-aperture-plane-RIME}
+% \end{align}
+% Again, the term inside the parenthesis is a discrete Fourier transform of sky intensity distribution, which represents the spatial coherence on a grid sampling the aperture plane at $\Delta\boldsymbol{r}_j$. The outer summation on the sampled aperture plane denotes a convolution of the true spatial coherence with the instrumental response corresponding to the element pair $(a,b)$ at the element spacing, $\Delta\boldsymbol{r}_{a_m b_m}$, which is further corrupted by additive noise, $n_{a_m b_m}$. The outer summation also transforms the true instrument-independent spatial coherence on a well-sampled aperture grid, $\Delta\boldsymbol{r}_j$, to a discrete instrument-dependent visibility at an arbitrary element spacing, $\Delta\boldsymbol{r}_{a_m b_m}$, which does not have to coincide with any of the grid points. 
+
+% The linear algebraic form of Equation~(\ref{eqn:copolar-aperture-plane-RIME}) is
+% \begin{align}
+%     \mathbf{V}_{[\boldsymbol{r}_{a_m b_m}]} &= \mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow \Delta\boldsymbol{r}]} \, \mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{I}}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\boldsymbol{r}_{a_m b_m}]} \, ,
+% \end{align}
+% where, $\boldsymbol{\mathcal{I}}_{[\hat{\boldsymbol{s}}]}\coloneqq \{\mathcal{I}(\hat{\boldsymbol{s}}_k)\}$, $\mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \coloneqq \{V_{a_m b_m}\}$, $\mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \coloneqq \{n_{a_m b_m}\}$. $\mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]}\coloneqq e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j}$ denotes the Fourier matrix transforming variables defined on sky grid, $\hat{\boldsymbol{s}}_k$, to the aperture grid of element spacings, $\Delta\boldsymbol{r}_j$.  $\mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow \Delta\boldsymbol{r}]}\coloneqq \{B_{a_m b_m}(\Delta\boldsymbol{r}_{a_m b_m}-\Delta\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the aperture illumination pattern, $B_{a_m b_m}(\Delta\boldsymbol{r}_j)$, of an element pair, $(a,b)$, and the columns correspond to the aperture grid locations, $\Delta\boldsymbol{r}_j$. In each row, the aperture illumination weights are shifted to the location of the element pair spacing, $\Delta\boldsymbol{r}_{a_m b_m}$.
+
+% For a collection of such visibilities measured at arbitrary locations, Equation~(\ref{eqn:copolar-aperture-plane-RIME}) can be represented linear algebraically as
+% \begin{align}
+%     \mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]} &= \mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow\hat{\boldsymbol{s}}]}\,\mathbf{I}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:RIME-LA}
+% \end{align}
+
+% \subsection{Image Synthesis}\label{eqn:vis-imaging}
+
+% Interferometric image synthesis involves inverting Equation~(\ref{eqn:RIME-LA}) to obtain $\mathcal{I}(\hat{\boldsymbol{s}})$, the spatial intensity distribution on $\mathbb{S}$, using a number of calibrated visibility measurements, $\{\widehat{\underline{V}}_{a_m b_m}\}$, from different element pairs. The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[m,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+%     &\qquad \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:opt-copolar-corr-image}
+%     % &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+%     % &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:opt-copolar-corr-image}
+% \end{align}
+% The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. 
+
+% The use of $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ implies the following. First, if $\widetilde{\mathbf{B}}^\textrm{H}=\mathbf{B}^\textrm{H}$ (assumed hereafter, unless specified), then the inversion is lossless and optimal, minimizing noise and the reconstruction error \citep{Tegmark1997a}. This form is very similar to a matched filter. Second, it transforms the inverse noise covariance weighted visibilities at arbitrary locations, $\Delta\boldsymbol{r}_{a_m b_m}$, to finely sampled locations, $\Delta\boldsymbol{r}$, on a grid. If the grid is uniformly sampled, it facilitates efficient inverse Fourier transform using Fast Fourier Transform (FFT) algorithms. Noting that the optimal inversion is weighted by $\widetilde{\mathbf{B}}^\textrm{H}$, which is the conjugate of that in the RIME in Equation~(\ref{eqn:RIME-LA}), the phase introduced by the instrument is cancelled out precisely during the inversion. However, the amplitude is not. Hence, the inverted image, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, is attenuated relative to the true image, $\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, by a factor that is square of the interferometer's angular power pattern \citep{Bhatnagar+2008,Morales+2009}, once due to $\mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}]}$ in Equation~(\ref{eqn:RIME-LA}) (inherent in the measurement) and once more due to $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ in Equation~(\ref{eqn:opt-copolar-corr-image}). 
+
+% The discrete form of this optimal inversion operation can be written as 
+% \begin{align}
+%     \widetilde{\mathcal{I}}_m(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j  \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j} \label{eqn:opt-img-aperture-plane} \nonumber\\
+%     &\qquad\quad \left(\sum_{a_m,b_m} \widetilde{B}_{a_m b_m}^*(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{a_m b_m}) \,  \widehat{\underline{V}}_{a_m b_m}^\prime\right) \\
+%     &= \sum_{a_m,b_m} \widetilde{\mathcal{B}}_{a_m b_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{V}}_{a_m b_m}^\prime \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, , \label{eqn:opt-img-sky-plane}
+% \end{align}
+% where,
+% \begin{align}
+%     \widehat{\underline{V}}_{a_m b_m}^\prime &\equiv \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \, \widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \\
+%     &\propto \sum_{a_m^\prime,b_m^\prime} N^{-1}_{a_m b_m, a_m^\prime b_m^\prime} \, \widehat{\underline{V}}_{a_m^\prime b_m^\prime}  \label{eqn:inv-cov-weighted-vis}
+% \end{align}
+% denotes inverse noise-covariance weighted calibrated visibilities, and the proportionality indicates that it requires a normalization factor. Equation~(\ref{eqn:opt-img-sky-plane}) is an equivalent representation using the instrumental response, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}}_k)$, described on the sky plane using a discrete Fourier transform. It has the advantage that specific and arbitrary directions, $\hat{\boldsymbol{s}}_k$, can be chosen where the intensity can be estimated if the computational demand is too high for determining intensities in all directions. Hence, we term this as ``selective beamforming''. 
+
+% The representation in Equations~(\ref{eqn:opt-copolar-corr-image}) and (\ref{eqn:opt-img-aperture-plane}) have the advantage that the weighting and gridding operations can produce a uniformly sampled grid which makes it convenient to implement the Fourier transform operation efficiently through Fast Fourier Transform (FFT) algorithms. Another related advantage is that the intensities in all directions within the field of view (FoV) are simultaneously estimated with a sampling interval that depends on the maximum extent of the grid. So, it can be considered as a ``simultaneous full-FoV beamforming''. 
+
+% The optimal solution in either of the equivalent representations may require further treatment, such as deconvolution, based on the properties desired in the reconstructed image \citep{Bhatnagar+2008,Morales+2009}.
+
+% \subsection{E-field Parallel Imaging ``Correlator'' (EPIC)}\label{sec:EPIC}
+
+% The above solution in Equation~(\ref{eqn:opt-copolar-corr-image}), whether represented as selective or collective beamforming, requires the production of visibilities, which are correlation products of the electric fields from all the element pairs. For an interferometer array consisting of $N_{a_m}$ elements, the computational cost of the correlation process scales as $\sim N_{a_m}^2$. For large $N_{a_m}$, this cost can become prohibitive. 
+
+% The computational cost can be lowered substantially in certain situations by leveraging the properties of Fourier transforms. Noting that Equation~(\ref{eqn:opt-copolar-corr-image}) or (\ref{eqn:opt-img-sky-plane}) denotes the spatial Fourier transform of correlated quantities like $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ and $\widehat{\underline{V}}_{a_m b_m}^\prime$, it can be equivalently represented as the product of the spatial Fourier transforms of the pre-correlated quantities, namely, the gridded electric fields after calibration and weighting. Alternately, consider a holographic electric field distribution on the image plane reconstructed from the calibrated electric fields 
+% \begin{align}
+%     \widetilde{\mathcal{E}}_m(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \widetilde{\mathcal{W}}_{a_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{E}}_{a_m}^\prime \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:opt-hol-img-sky-plane}
+% \end{align}
+% where, $\widehat{\underline{E}}_{a_m}^\prime \propto \sum_{a_m^\prime}\widetilde{N}_{a_m,a_m^\prime}\widehat{\underline{E}}_{a_m^\prime}$ is the noise-weighted electric fields measured by the elements, and $\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}=\widetilde{\mathbf{N}}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}^\textrm{H} \widetilde{\mathbf{N}}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}$. Then the intensity distribution of these holographic electric fields in the image plane is 
+% \begin{align}
+%     \widetilde{\mathcal{I}}_m(\hat{\boldsymbol{s}}_k) &= \left\langle |\widetilde{\mathcal{E}}_m(\hat{\boldsymbol{s}}_k)|^2 \right\rangle \nonumber \\
+%     &= \Bigl\langle \left(\sum_{a_m} \widetilde{\mathcal{W}}_{a_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{E}}_{a_m}^\prime \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}}\right) \nonumber\\
+%     &\qquad\qquad\qquad \left(\sum_{b_m} \widetilde{\mathcal{W}}_{b_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{E}}_{b_m}^\prime \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{b_m}}\right)^* \Bigr\rangle \, . \label{eqn:opt-direct-image-sky-plane}
+% \end{align}
+% It can be shown that 
+% \begin{align}
+%     \widetilde{\mathcal{I}}_m(\hat{\boldsymbol{s}}_k) = \sum_{a_m,b_m} \widetilde{\mathcal{B}}_{a_m b_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{V}}_{a_m b_m}^\prime \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, ,
+% \end{align}
+% where, $\widehat{\underline{V}}_{a_m b_m}^\prime=\left\langle \widehat{\underline{E}}_{a_m}^\prime \widehat{\underline{E}}_{b_m}^{\prime *} \right\rangle$ and is thus identical to Equation~(\ref{eqn:opt-img-sky-plane}). Because Fourier transform properties give 
+% \begin{align}
+%     \widetilde{\mathcal{E}}_m(\hat{\boldsymbol{s}}_k) &\equiv \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \widetilde{W}_{a_m}^*(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widehat{\underline{E}}_{a_m}^\prime \right) \, ,
+% \end{align}
+% whose equivalent linear algebraic representation is 
+% \begin{align}
+%     \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[\boldsymbol{r}_{a_m}]} \, , \label{eqn:copolar-hol-img-LA}
+% \end{align}
+% the corresponding intensity estimate is given by \citep{Morales2011,Thyagarajan+2017}
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[m,\hat{\boldsymbol{s}}]} &= \left\langle \left|\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[\boldsymbol{r}_{a_m}]} \right|^2\right\rangle \, . \label{eqn:opt-copolar-direct-img-LA}
+% \end{align}
+% Here, 
+% \begin{align}
+%     \widetilde{\underline{\mathbf{E}}}_{[m,\boldsymbol{r}]} &= \widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[\boldsymbol{r}_{a_m}]} \label{eqn:gridded-Efield}
+% \end{align}
+% is the calibrated electric field from an element weighted and gridded onto the aperture plane, the inverse spatial Fourier transform of which is $\widetilde{\underline{\mathbf{E}}}_{[m,\boldsymbol{r}]}$. 
+% This forms the basis for the EPIC dataflow architecture \citep{Thyagarajan+2017}.  
+
+% % Thus, after some rearrangement, Equation~(\ref{eqn:opt-copolar-corr-image}) can be re-written as \citep{Morales2011,Thyagarajan+2017}:
+% % \begin{align}
+% %     \widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]} &= \Bigl\langle\Bigl(\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}|\boldsymbol{r}]}\,\mathbf{W}^\textrm{H}_{[\boldsymbol{r}|\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}|\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\Bigr) \nonumber\\ 
+% %     &\qquad\qquad \circ \vect\widehat{\mathbf{E}}^\textrm{H}[\boldsymbol{r}_{a_m}]\Bigl\rangle[\Delta\boldsymbol{r}_{a_m b_m}], \label{eqn:opt-direct-image}
+% % \end{align}
+
+% In summary, EPIC \citep{Thyagarajan+2017} is a direct imaging dataflow architecture that is based on the Modular Optimal Frequency Fourier imaging formalism \citep[MOFF;][]{Morales2011}. It applies element-based calibration to each element in the station, re-weights each of the calibrated element electric field measurements, and projects the calibrated electric field data from all elements onto a Nyquist-sampled grid on the aperture plane. The gridded data are Fourier transformed spatially to obtain holographic images (complex-valued electric field images) on the celestial sphere, which are then squared to obtain the intensity distribution on the image plane. Having a regular grid allows the usage of FFT whose computational cost scales as $\sim N_g \log_2 N_g$. 
+% % , which usually dominates the computational budget in contrast with visibility-based imaging as in Equation~(\ref{eqn:opt-copolar-corr-image}) which is dominated by the cost of pairwise correlations $\sim N_{a_m}^2$. 
+% For large-$N$ dense arrays, the FFT cost asymptotically approaches $N_{a_m} \log_2 N_{a_m}$ and can be substantially more efficient than a correlator-based architecture as described in Equation~(\ref{eqn:opt-copolar-corr-image}) for which the computation load is dominated by the cost of pairwise correlations $\sim N_{a_m}^2$. 
+
+% Alternative imaging schemes classified as \textit{direct imaging} have been proposed and implemented \citep{Daishido+1991,Daishido+2000,Otobe+1994,Foster+2014,Tegmark+2009}. Most of these have relied on measuring electric fields by placing elements on a regular grid convenient for performing a FFT. However, such regular grids are not ideal for imaging purposes due to high spatial redundancy of measurements in the aperture plane. Because of the separate stage that implements weighting and gridding by $\widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}$ in Equation~(\ref{eqn:opt-copolar-direct-img-LA}), EPIC has a significant advantage in its ability to handle arbitrary array layouts that do not necessarily lie on a regular grid, and even with heterogeneous array elements. Furthermore, EPIC has the equivalent information of the correlator visibilities, and can naturally incorporate $w$-projection for non-coplanar element spacings, direction-dependent ionospheric effects, wide-field distortions from refractive and scintillating atmospheric distortions, etc. \citep{Morales+2009,Morales2011}. 
+
+% \subsection{Extension of EPIC to Polarimetric Measurements} \label{sec:polarimetric-interferometry}
+
+% In the case of full polarimetric measurements, let us consider any pair of orthogonal polarization basis denoted by $p,q=1,2$ and $\alpha,\beta=1,2$ in the instrumental and celestial domains, respectively. Then, the electric fields in the sky and in the aperture planes will be two-element vectors, indexed by $p$ and $\alpha$ at each location, and will be denoted as $\underline{E}_{a_m}^p$ and $\mathcal{E}^\alpha(\hat{\boldsymbol{s}})$, respectively.  
+
+% The alternate but equivalent formalisms described for co-polar interferometric measurements can be extended to full polarimetric measurements as well, with slight modifications to account for the cross-polar effects, which are in general non-zero. For example, Equations~(\ref{eqn:copolar-Efield-element-ideal}) and (\ref{eqn:ideal-copolar-visibilities}) will be modified as 
+% \begin{align}
+%     \underline{E}_{a_m}^p &= \int_\mathbb{S} \sum_\alpha  \mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})\, \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \,\mathrm{d}\Omega \, , \label{eqn:polarimetric-Efield-element-ideal}
 % \end{align}
 % and
 % \begin{align}
-%     \widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:OptEst-LA} \\
-%     &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-%     &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]}, \label{eqn:opt-copolar-corr-image}
+%     \underline{V}_{a_m b_m}^{pq} &\coloneqq \left\langle \underline{E}_{a_m}^p \underline{E}_{b_m}^{q^*} \right\rangle \nonumber \\
+%     &= \int_\mathbb{S} \sum_{\alpha,\beta} \mathcal{B}_{a_m b_m}^{pq;\alpha\beta}(\hat{\boldsymbol{s}})\,\mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}_{a_m b_m}} \,\mathrm{d}\Omega \, , \label{eqn:ideal-polarimetric-visibilities}
 % \end{align}
-% respectively. Here, the dependence on $\nu$ and $t$ have been omitted for convenience as they carry through the equation without transformations. $\vect(\mathbf{M})$ denotes the vectorization of a matrix $\mathbf{M}$ into a column vector. Quantities with a single bracketed variable, such as $\mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, $\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, $\mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, and $\widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, denote vectors that are a function of that variable, and those with two bracketed variables denote matrix operators that transform the vector between the variable on the right of the delimiter $\leftarrow$ to that on its left. For example, Equation~(\ref{eqn:RIME-LA}) Fourier transforms a vector of true pixelized intensities, $\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, to a spatial coherence function, $\mathbf{F}_{[\Delta\boldsymbol{r}|\hat{\boldsymbol{s}}]}\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, defined on a continuous variable (or finely sampled in case of a discretized implementation), $\boldsymbol{r}_{a_m b_m}$, which through the operator represented by $\mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}|\Delta\boldsymbol{r}]}$ is then further transformed into a discrete vector of measured visibilities between specific element pairs, $\mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, which includes an additive measurement noise vector, $\mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$. 
-% % weighted by $B_{a_m b_m}(\Delta\boldsymbol{r})$ and integrated the propagated spatial coherence over the aperture defined on a continuous (or finely sampled in case of a discretized implementation) variable $\Delta\boldsymbol{r}$ and obtaining the visibility measured at the specific element spacing, $\Delta\boldsymbol{r}_{a_m b_m}$. 
-% Equation~(\ref{eqn:OptEst-LA}) represents the optimal inversion operation that takes the vector of measured visibilities that have been calibrated, $\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]}$, weights them by the inverse of the noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}|\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}_{a_m b_m}$ using the operator $\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}|\Delta\boldsymbol{r}_{a_m b_m}]}$, and Fourier transforms to obtain the optimal estimate of the vector of pixelized intensities, $\widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. The optimal solution in Equation~(\ref{eqn:OptEst-LA}) may require further treatment, such as deconvolution, based on the properties desired in the reconstructed image \citep{Bhatnagar+2008,Morales+2009}. 
-
-Let $N_{a_m}$ denote the number of collecting elements in the interferometer array. Then, $\left\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\right\rangle_{[\Delta\boldsymbol{r}_{a_m b_m}]}$ involves generating the outer product of stochastic electric fields measured by the $N_{a_m}$ elements, and thus the cost of computing the correlations scales as $\mathcal{O}(N_{a_m}^2)$ \citep{Daishido+1991,Bunton+2004,Tegmark+2009} for every spectral channel, before they can be averaged within an accumulation interval as denoted by the $\langle\cdot\rangle$ operator. Thus, the correlator cost can become very expensive for arrays with large $N_{a_m}$ (as $N_{a_m}$ approaches hundreds to thousands of array elements) as will be the case with HERA, SKA-low, etc.
-
-\subsection{Discrete and Linear Algebraic Representations}\label{sec:discrete-LA}
-
-The measurement process and the imaging step via inversion can be represented in the aperture plane through equivalent Fourier domain quantities. The net electric field measured by an ideal element, $a$, in Equation~(\ref{eqn:copolar-Efield-element-ideal}) can be re-written as the weighted integral of the propagated electric field over the region the element is responsive to in the aperture surface, $\mathbb{R}$, 
-\begin{align}
-    \underline{E}_{a_m} &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}_{a_m} - \boldsymbol{r})\,E(\boldsymbol{r}) \, \mathrm{d}^2 \boldsymbol{r} \, , \label{eqn:copolar-Efield-element-ideal-aperture-continuous}
-\end{align}
-where, the weighting, denoted by $W_{a_m}(\boldsymbol{r})$, is the spatial Fourier transform of $\mathcal{W}_{a_m}(\hat{\boldsymbol{s}})$,
-\begin{align}
-    W_{a_m}(\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \boldsymbol{r}} \,\mathrm{d}\Omega \, . \label{eqn:holographic-Efield-illumination}
-\end{align}
-
-Equation~(\ref{eqn:copolar-Efield-element-ideal-aperture-continuous}) involves a weighted integral of the propagated electric fields, where the weighting corresponds to the instrumental response, $W_{a_m}(\boldsymbol{r})$, centered at the location of the element, $a$, in the aperture plane, $\mathbb{R}$. Generally, $W_{a_m}(\boldsymbol{r})$ is physically interpretable as the holographic pattern of the element element in the aperture plane, which has support over the element's area of influence where it collects signals from. However, in some cases such as for narrow dipoles, this relation is purely mathematical and a physical interpretation is not straightforward. 
-% such as narrow dipoles, this relation is  encapsulates the aperture field illumination pattern of the element or the element's aperture distribution, 
-$W_{a_m}(\boldsymbol{r})$ can also include other instrumental effects that influence the element behavior. 
-
-Similarly, $B_{a_m b_m}(\Delta\boldsymbol{r})$ denotes the cross-power illumination of the interferometer's aperture and is the Fourier transform of the directional cross-power pattern, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. $B_{a_m b_m}(\Delta\boldsymbol{r})$ is the Fourier transform of $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. Thus,
-\begin{align}
-    B_{a_m b_m}(\Delta\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\mathcal{W}_{b_m}^{*}(\hat{\boldsymbol{s}})\nonumber\\
-    &\qquad\qquad \times e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \Delta\boldsymbol{r}} \,\mathrm{d}\Omega \label{eqn:holographic-power-illumination}
-\end{align}
-In the aperture (Fourier) domain, it is equivalent to
-\begin{align}
-    B_{a_m b_m}(\Delta\boldsymbol{r}) &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r} \, ,
-\end{align}
-which is a correlation of the aperture-plane responses of the two individual elements of the interferometer. 
-
-Now, the RIME in Equation~(\ref{eqn:ideal-copolar-visibilities}) can be alternatively expressed in the aperture domain using Fourier transform properties as:
-\begin{align}
-    \underline{V}_{a_m b_m} &= \int_{\Delta\mathbb{R}} B_{a_m b_m}(\Delta\boldsymbol{r}_{a_m b_m}-\Delta\boldsymbol{r})\,\underline{V}(\Delta\boldsymbol{r})\,\mathrm{d}^2\Delta\boldsymbol{r}, \label{eqn:vis-degridding}
-\end{align}
-where, $B_{a_m b_m}(\Delta\boldsymbol{r})$ denotes the cross-power illumination of the interferometer's aperture. Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to, centered at $\Delta\boldsymbol{r}_{a_m b_m}$. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
-
-% $B_{a_m b_m}(\Delta\boldsymbol{r})$ is the Fourier transform of $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$. Thus,
+% respectively, where, $\mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})$ is the element's polarimetric response that couples the polarization mode $\alpha$ on the sky location $\hat{\boldsymbol{s}}$ to the polarization mode $p$ measured by the element element, $a$. $\mathcal{I}^{\alpha\beta}$ denotes a component of polarized intensity and
 % \begin{align}
-%     B_{a_m b_m}(\Delta\boldsymbol{r}) &= \frac{\nu^2}{c^2}\int_\mathbb{S} \mathcal{W}_{a_m}(\hat{\boldsymbol{s}})\mathcal{W}_{b_m}^{*}(\hat{\boldsymbol{s}})\nonumber\\
-%     &\qquad\qquad \times e^{-2\pi i\frac{\nu}{c} \Delta\boldsymbol{r}\cdot\hat{\boldsymbol{s}}} \,\mathrm{d}\Omega \\
-%     &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r}. \label{eqn:holographic-power-illumination}
+%     \mathcal{B}_{a_m b_m}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}) &=  \mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})\,\mathcal{W}_{b_m}^{{q\beta }^*}(\hat{\boldsymbol{s}}) \, ,
 % \end{align}
+% is the directional polarimetric cross-power pattern of an ideal two-element interferometer (made of elements $a$ and $b$) measuring two polarizations, $p$ and $q$. Equation~(\ref{eqn:ideal-polarimetric-visibilities}) is the polarimetric RIME.  
 
-% Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
-
-In discrete form, Equations~(\ref{eqn:copolar-Efield-element-ideal}) and (\ref{eqn:Efield-element}) can be combined as
-\begin{align}
-    E_{a_m} &= \sum_k e^{-i\frac{2\pi}{\lambda}\hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, \left[\mathcal{W}_{a_m}(\hat{\boldsymbol{s}}_k) \, \mathcal{E}(\hat{\boldsymbol{s}}_k)\right] \, \delta\Omega_k + n_{a_m} \, ,
-\end{align}
-or equivalently, from Equation~(\ref{eqn:copolar-Efield-element-ideal-aperture-continuous}) as
-\begin{align}
-    E_{a_m} &= \sum_j W_{a_m}(\boldsymbol{r}_{a_m}-\boldsymbol{r}_j)\, \delta^2\boldsymbol{r}_j \nonumber\\ 
-    &\qquad \left(\sum_k e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \, \mathcal{E}(\hat{\boldsymbol{s}}_k) \,\delta\Omega_k \right) + n_{a_m} \, . \label{eqn:Efield-element-aperture-discrete}
-\end{align}
-The term inside the parenthesis is a discrete Fourier transform of the spatial distribution of electric fields on the celestial sphere, which represents the propagated electric fields on a grid sampling the aperture plane at $\boldsymbol{r}_j$. The outer summation on the sampled aperture plane denotes a convolution of the true propagated electric fields with the instrumental response of element, $a$, at location, $\boldsymbol{r}_{a_m}$, which is further corrupted by additive noise, $n_{a_m}$. The outer summation also transforms the true instrument-independent electric fields on a well-sampled (typically, Nyquist-sampled) aperture grid, $\boldsymbol{r}_j$, to a discrete instrument-dependent measurement of the electric fields at an arbitrary element location, $\boldsymbol{r}_{a_m}$, which does not have to coincide with any of the grid points. 
-
-Consider a collection of such electric fields in the sky plane and those measured by the elements in the aperture plane arranged as column vectors, $\boldsymbol{\mathcal{E}}_{[\hat{\boldsymbol{s}}]}\coloneqq \{\mathcal{E}(\hat{\boldsymbol{s}}_k)\}$ and $\mathbf{E}_{[\boldsymbol{r}_{a_m}]}\coloneqq \{E_{a_m}\}$, respectively. Then, Equation~(\ref{eqn:Efield-element-aperture-discrete}) can be represented in linear algebraic form
-\begin{align}
-    \mathbf{E}_{[\boldsymbol{r}_{a_m}]} &= \mathbf{W}_{[\boldsymbol{r}_{a_m}\leftarrow \boldsymbol{r}]} \, \mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{E}}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\boldsymbol{r}_{a_m}]} \, .
-\end{align}
-The subscripted $\leftarrow$ with variables on either side indicates the transformation brought out by the associated matrix. For example, $\mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]}\coloneqq e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j}$ denotes the Fourier matrix transforming variables defined on sky grid, $\hat{\boldsymbol{s}}_k$, to the aperture grid, $\boldsymbol{r}_j$. And, $\mathbf{W}_{[\boldsymbol{r}_{a_m}\leftarrow \boldsymbol{r}]}\coloneqq \{W_{a_m}(\boldsymbol{r}_{a_m}-\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the holographic pattern of an element, $W_{a_m}(\boldsymbol{r}_j)$, and the columns correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each row, the holographic weights are shifted to the element location, $\boldsymbol{r}_{a_m}$. 
-
-Similarly, the RIME in discrete form is
-\begin{align}
-    V_{a_m b_m} &= \sum_k e^{-i\frac{2\pi}{\lambda}\hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, \left[\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}}_k) \,  \mathcal{I}(\hat{\boldsymbol{s}}_k)\right] \, \delta\Omega_k \nonumber\\ 
-    &\qquad + n_{a_m b_m} \, .
-\end{align}
-Equivalently, Equations~(\ref{eqn:VCZ-theorem}), (\ref{eqn:corrupted-noise-visibility}), and (\ref{eqn:vis-degridding}) yield
-\begin{align}
-    V_{a_m b_m} &= \sum_j B_{a_m b_m}(\Delta\boldsymbol{r}_{a_m b_m}-\Delta\boldsymbol{r}_j)\, \delta^2\Delta\boldsymbol{r}_j \nonumber\\ 
-    &\qquad \left(\sum_k e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j} \, \mathcal{I}(\hat{\boldsymbol{s}}_k) \,\delta\Omega_k \right) + n_{a_m b_m} \, . \label{eqn:copolar-aperture-plane-RIME}
-\end{align}
-Again, the term inside the parenthesis is a discrete Fourier transform of sky intensity distribution, which represents the spatial coherence on a grid sampling the aperture plane at $\Delta\boldsymbol{r}_j$. The outer summation on the sampled aperture plane denotes a convolution of the true spatial coherence with the instrumental response corresponding to the element pair $(a,b)$ at the element spacing, $\Delta\boldsymbol{r}_{a_m b_m}$, which is further corrupted by additive noise, $n_{a_m b_m}$. The outer summation also transforms the true instrument-independent spatial coherence on a well-sampled aperture grid, $\Delta\boldsymbol{r}_j$, to a discrete instrument-dependent visibility at an arbitrary element spacing, $\Delta\boldsymbol{r}_{a_m b_m}$, which does not have to coincide with any of the grid points. 
-
-The linear algebraic form of Equation~(\ref{eqn:copolar-aperture-plane-RIME}) is
-\begin{align}
-    \mathbf{V}_{[\boldsymbol{r}_{a_m b_m}]} &= \mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow \Delta\boldsymbol{r}]} \, \mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{I}}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\boldsymbol{r}_{a_m b_m}]} \, ,
-\end{align}
-where, $\boldsymbol{\mathcal{I}}_{[\hat{\boldsymbol{s}}]}\coloneqq \{\mathcal{I}(\hat{\boldsymbol{s}}_k)\}$, $\mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \coloneqq \{V_{a_m b_m}\}$, $\mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \coloneqq \{n_{a_m b_m}\}$. $\mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]}\coloneqq e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j}$ denotes the Fourier matrix transforming variables defined on sky grid, $\hat{\boldsymbol{s}}_k$, to the aperture grid of element spacings, $\Delta\boldsymbol{r}_j$.  $\mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow \Delta\boldsymbol{r}]}\coloneqq \{B_{a_m b_m}(\Delta\boldsymbol{r}_{a_m b_m}-\Delta\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the aperture illumination pattern, $B_{a_m b_m}(\Delta\boldsymbol{r}_j)$, of an element pair, $(a,b)$, and the columns correspond to the aperture grid locations, $\Delta\boldsymbol{r}_j$. In each row, the aperture illumination weights are shifted to the location of the element pair spacing, $\Delta\boldsymbol{r}_{a_m b_m}$.
-
-For a collection of such visibilities measured at arbitrary locations, Equation~(\ref{eqn:copolar-aperture-plane-RIME}) can be represented linear algebraically as
-\begin{align}
-    \mathbf{V}_{[\Delta\boldsymbol{r}_{a_m b_m}]} &= \mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow\hat{\boldsymbol{s}}]}\,\mathbf{I}_{[\hat{\boldsymbol{s}}]} + \mathbf{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:RIME-LA}
-\end{align}
-
-\subsection{Image Synthesis}\label{eqn:vis-imaging}
-
-Interferometric image synthesis involves inverting Equation~(\ref{eqn:RIME-LA}) to obtain $\mathcal{I}(\hat{\boldsymbol{s}})$, the spatial intensity distribution on $\mathbb{S}$, using a number of calibrated visibility measurements, $\{\widehat{\underline{V}}_{a_m b_m}\}$, from different element pairs. The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
-\begin{align}
-    \widetilde{\mathbf{I}}_{[m,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-    &\qquad \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:opt-copolar-corr-image}
-    % &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-    % &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:opt-copolar-corr-image}
-\end{align}
-The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. 
-
-The use of $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ implies the following. First, if $\widetilde{\mathbf{B}}^\textrm{H}=\mathbf{B}^\textrm{H}$ (assumed hereafter, unless specified), then the inversion is lossless and optimal, minimizing noise and the reconstruction error \citep{Tegmark1997a}. This form is very similar to a matched filter. Second, it transforms the inverse noise covariance weighted visibilities at arbitrary locations, $\Delta\boldsymbol{r}_{a_m b_m}$, to finely sampled locations, $\Delta\boldsymbol{r}$, on a grid. If the grid is uniformly sampled, it facilitates efficient inverse Fourier transform using Fast Fourier Transform (FFT) algorithms. Noting that the optimal inversion is weighted by $\widetilde{\mathbf{B}}^\textrm{H}$, which is the conjugate of that in the RIME in Equation~(\ref{eqn:RIME-LA}), the phase introduced by the instrument is cancelled out precisely during the inversion. However, the amplitude is not. Hence, the inverted image, $\widetilde{\mathbf{I}}_{[\hat{\boldsymbol{s}}]}$, is attenuated relative to the true image, $\mathbf{I}_{[\hat{\boldsymbol{s}}]}$, by a factor that is square of the interferometer's angular power pattern \citep{Bhatnagar+2008,Morales+2009}, once due to $\mathbf{B}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}]}$ in Equation~(\ref{eqn:RIME-LA}) (inherent in the measurement) and once more due to $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ in Equation~(\ref{eqn:opt-copolar-corr-image}). 
-
-The discrete form of this optimal inversion operation can be written as 
-\begin{align}
-    \widetilde{\mathcal{I}}_m(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j  \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j} \label{eqn:opt-img-aperture-plane} \nonumber\\
-    &\qquad\quad \left(\sum_{a_m,b_m} \widetilde{B}_{a_m b_m}^*(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{a_m b_m}) \,  \widehat{\underline{V}}_{a_m b_m}^\prime\right) \\
-    &= \sum_{a_m,b_m} \widetilde{\mathcal{B}}_{a_m b_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{V}}_{a_m b_m}^\prime \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, , \label{eqn:opt-img-sky-plane}
-\end{align}
-where,
-\begin{align}
-    \widehat{\underline{V}}_{a_m b_m}^\prime &\equiv \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \, \widehat{\mathbf{V}}_{[\Delta\boldsymbol{r}_{a_m b_m}]} \\
-    &\propto \sum_{a_m^\prime,b_m^\prime} N^{-1}_{a_m b_m, a_m^\prime b_m^\prime} \, \widehat{\underline{V}}_{a_m^\prime b_m^\prime}  \label{eqn:inv-cov-weighted-vis}
-\end{align}
-denotes inverse noise-covariance weighted calibrated visibilities, and the proportionality indicates that it requires a normalization factor. Equation~(\ref{eqn:opt-img-sky-plane}) is an equivalent representation using the instrumental response, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}}_k)$, described on the sky plane using a discrete Fourier transform. It has the advantage that specific and arbitrary directions, $\hat{\boldsymbol{s}}_k$, can be chosen where the intensity can be estimated if the computational demand is too high for determining intensities in all directions. Hence, we term this as ``selective beamforming''. 
-
-The representation in Equations~(\ref{eqn:opt-copolar-corr-image}) and (\ref{eqn:opt-img-aperture-plane}) have the advantage that the weighting and gridding operations can produce a uniformly sampled grid which makes it convenient to implement the Fourier transform operation efficiently through Fast Fourier Transform (FFT) algorithms. Another related advantage is that the intensities in all directions within the field of view (FoV) are simultaneously estimated with a sampling interval that depends on the maximum extent of the grid. So, it can be considered as a ``simultaneous full-FoV beamforming''. 
-
-The optimal solution in either of the equivalent representations may require further treatment, such as deconvolution, based on the properties desired in the reconstructed image \citep{Bhatnagar+2008,Morales+2009}.
-
-\subsection{E-field Parallel Imaging ``Correlator'' (EPIC)}\label{sec:EPIC}
-
-The above solution in Equation~(\ref{eqn:opt-copolar-corr-image}), whether represented as selective or collective beamforming, requires the production of visibilities, which are correlation products of the electric fields from all the element pairs. For an interferometer array consisting of $N_{a_m}$ elements, the computational cost of the correlation process scales as $\sim N_{a_m}^2$. For large $N_{a_m}$, this cost can become prohibitive. 
-
-The computational cost can be lowered substantially in certain situations by leveraging the properties of Fourier transforms. Noting that Equation~(\ref{eqn:opt-copolar-corr-image}) or (\ref{eqn:opt-img-sky-plane}) denotes the spatial Fourier transform of correlated quantities like $\widetilde{\mathbf{B}}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}$ and $\widehat{\underline{V}}_{a_m b_m}^\prime$, it can be equivalently represented as the product of the spatial Fourier transforms of the pre-correlated quantities, namely, the gridded electric fields after calibration and weighting. Alternately, consider a holographic electric field distribution on the image plane reconstructed from the calibrated electric fields 
-\begin{align}
-    \widetilde{\mathcal{E}}_m(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \widetilde{\mathcal{W}}_{a_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{E}}_{a_m}^\prime \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:opt-hol-img-sky-plane}
-\end{align}
-where, $\widehat{\underline{E}}_{a_m}^\prime \propto \sum_{a_m^\prime}\widetilde{N}_{a_m,a_m^\prime}\widehat{\underline{E}}_{a_m^\prime}$ is the noise-weighted electric fields measured by the elements, and $\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}=\widetilde{\mathbf{N}}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}^\textrm{H} \widetilde{\mathbf{N}}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}$. Then the intensity distribution of these holographic electric fields in the image plane is 
-\begin{align}
-    \widetilde{\mathcal{I}}_m(\hat{\boldsymbol{s}}_k) &= \left\langle |\widetilde{\mathcal{E}}_m(\hat{\boldsymbol{s}}_k)|^2 \right\rangle \nonumber \\
-    &= \Bigl\langle \left(\sum_{a_m} \widetilde{\mathcal{W}}_{a_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{E}}_{a_m}^\prime \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}}\right) \nonumber\\
-    &\qquad\qquad\qquad \left(\sum_{b_m} \widetilde{\mathcal{W}}_{b_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{E}}_{b_m}^\prime \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{b_m}}\right)^* \Bigr\rangle \, . \label{eqn:opt-direct-image-sky-plane}
-\end{align}
-It can be shown that 
-\begin{align}
-    \widetilde{\mathcal{I}}_m(\hat{\boldsymbol{s}}_k) = \sum_{a_m,b_m} \widetilde{\mathcal{B}}_{a_m b_m}^*(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{V}}_{a_m b_m}^\prime \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, ,
-\end{align}
-where, $\widehat{\underline{V}}_{a_m b_m}^\prime=\left\langle \widehat{\underline{E}}_{a_m}^\prime \widehat{\underline{E}}_{b_m}^{\prime *} \right\rangle$ and is thus identical to Equation~(\ref{eqn:opt-img-sky-plane}). Because Fourier transform properties give 
-\begin{align}
-    \widetilde{\mathcal{E}}_m(\hat{\boldsymbol{s}}_k) &\equiv \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \widetilde{W}_{a_m}^*(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widehat{\underline{E}}_{a_m}^\prime \right) \, ,
-\end{align}
-whose equivalent linear algebraic representation is 
-\begin{align}
-    \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[\boldsymbol{r}_{a_m}]} \, , \label{eqn:copolar-hol-img-LA}
-\end{align}
-the corresponding intensity estimate is given by \citep{Morales2011,Thyagarajan+2017}
-\begin{align}
-    \widetilde{\mathbf{I}}_{[m,\hat{\boldsymbol{s}}]} &= \left\langle \left|\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[\boldsymbol{r}_{a_m}]} \right|^2\right\rangle \, . \label{eqn:opt-copolar-direct-img-LA}
-\end{align}
-Here, 
-\begin{align}
-    \widetilde{\underline{\mathbf{E}}}_{[m,\boldsymbol{r}]} &= \widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}\leftarrow\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[\boldsymbol{r}_{a_m}]} \label{eqn:gridded-Efield}
-\end{align}
-is the calibrated electric field from an element weighted and gridded onto the aperture plane, the inverse spatial Fourier transform of which is $\widetilde{\underline{\mathbf{E}}}_{[m,\boldsymbol{r}]}$. 
-This forms the basis for the EPIC dataflow architecture \citep{Thyagarajan+2017}.  
-
-% Thus, after some rearrangement, Equation~(\ref{eqn:opt-copolar-corr-image}) can be re-written as \citep{Morales2011,Thyagarajan+2017}:
+% The dirty polarized intensity estimate in discrete form analogous to Equation~(\ref{eqn:opt-img-sky-plane}) is given by
 % \begin{align}
-%     \widehat{\mathbf{I}}_{[\hat{\boldsymbol{s}}]} &= \Bigl\langle\Bigl(\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}|\boldsymbol{r}]}\,\mathbf{W}^\textrm{H}_{[\boldsymbol{r}|\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{N}}^\textrm{H}_{[\boldsymbol{r}_{a_m}|\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\Bigr) \nonumber\\ 
-%     &\qquad\qquad \circ \vect\widehat{\mathbf{E}}^\textrm{H}[\boldsymbol{r}_{a_m}]\Bigl\rangle[\Delta\boldsymbol{r}_{a_m b_m}], \label{eqn:opt-direct-image}
+%     \widetilde{\mathcal{I}}^{\alpha\beta}_m(\hat{\boldsymbol{s}}_k) &= \sum_{a_m,b_m} \sum_{p,q} \widetilde{\mathcal{B}}_{a_m b_m}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{V}}_{a_m b_m}^{\prime pq} \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \nonumber \\
+%     &= \sum_{a_m,b_m} \sum_{p,q} \left\langle \widehat{\underline{E}}_{a_m}^{\prime p} \widehat{\underline{E}}_{b_m}^{\prime q^*} \right\rangle \nonumber \\
+%     &\qquad \times \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{W}}_{b_m}^{q\beta}(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot(\boldsymbol{r}_{a_m}-\boldsymbol{r}_{b_m})} \\
+%     &= \Biggl\langle \left[\sum_{a_m} \sum_p \widehat{\underline{E}}_{a_m}^{\prime p} \, \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \right] \nonumber\\ 
+%     &\qquad \left[\sum_{b_m} \sum_q \widehat{\underline{E}}_{b_m}^{\prime q} \, \widetilde{\mathcal{W}}_{b_m}^{{q\alpha}^*}(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{b_m}} \right]^*\Biggr\rangle \\
+%     &= \left\langle \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) \,  \widetilde{\mathcal{E}}_m^{\beta^*}(\hat{\boldsymbol{s}}_k) \right\rangle \, , \label{eqn:opt-pol-corr-img-outprod}
 % \end{align}
+% with 
+% \begin{align}
+%     \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}) \, \widehat{\underline{E}}_{a_m}^{\prime p} \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \, . \label{eqn:pol-hol-img-expl}
+% \end{align}
+% The algebraic representation equivalent of Equation~(\ref{eqn:pol-hol-img-expl}) is 
+% \begin{align}
+%     \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\alpha,\hat{\boldsymbol{s}}\leftarrow \alpha,\boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\nonumber \\
+%     &\qquad \widetilde{\mathbf{N}}^\textrm{H}_{[p,\boldsymbol{r}_{a_m}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[p,\boldsymbol{r}_{a_m}]} \, , \label{eqn:pol-hol-img-LA}
+% \end{align}
+% while the dirty polarized intensity estimates in linear algebraic form analogous to Equations~(\ref{eqn:opt-copolar-corr-image}) and (\ref{eqn:opt-pol-corr-img-outprod}) are
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\alpha\beta,\hat{\boldsymbol{s}}\leftarrow\alpha\beta,\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+%     &\qquad\quad \mathbf{N}^{-1}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:opt-polarimetric-corr-image-LA}
+% \end{align}
+% and 
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\beta,\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:opt-polarimetric-direct-img-LA}
+% \end{align}
+% respectively, where, the subscripts have been modified to include the polarization component as well. The $\bigotimes_{\alpha\beta}$ denotes an outer product only over the indices, $\alpha$ and $\beta$, at every location, $\hat{\boldsymbol{s}}$. The usage of the conjugate as indicated by $*$ instead of the Hermitian operator signifies that it is not an outer product over the sky locations, $\hat{\boldsymbol{s}}$. 
 
-In summary, EPIC \citep{Thyagarajan+2017} is a direct imaging dataflow architecture that is based on the Modular Optimal Frequency Fourier imaging formalism \citep[MOFF;][]{Morales2011}. It applies element-based calibration to each element in the station, re-weights each of the calibrated element electric field measurements, and projects the calibrated electric field data from all elements onto a Nyquist-sampled grid on the aperture plane. The gridded data are Fourier transformed spatially to obtain holographic images (complex-valued electric field images) on the celestial sphere, which are then squared to obtain the intensity distribution on the image plane. Having a regular grid allows the usage of FFT whose computational cost scales as $\sim N_g \log_2 N_g$. 
-% , which usually dominates the computational budget in contrast with visibility-based imaging as in Equation~(\ref{eqn:opt-copolar-corr-image}) which is dominated by the cost of pairwise correlations $\sim N_{a_m}^2$. 
-For large-$N$ dense arrays, the FFT cost asymptotically approaches $N_{a_m} \log_2 N_{a_m}$ and can be substantially more efficient than a correlator-based architecture as described in Equation~(\ref{eqn:opt-copolar-corr-image}) for which the computation load is dominated by the cost of pairwise correlations $\sim N_{a_m}^2$. 
+% Equation~(\ref{eqn:pol-hol-img-LA}) is nothing but a gridded version of the weighted beamforming in Equation~(\ref{eqn:pol-hol-img-expl}). With a Nyquist-sampled grid it contains all the information in Equation~(\ref{eqn:pol-hol-img-expl}). Equation~(\ref{eqn:pol-hol-img-LA}) yields the full image plane information in the FFT therein and is thus a ``simultaneous full-FoV beamforming'', whereas Equation~(\ref{eqn:pol-hol-img-expl}) allows us to selectively specify directions in which beamforming needs to be applied (``selective beamforming''). The former will be useful for blind searches for transient image features whereas the latter will be advantageous if we need to monitor selected objects whose directions are known \textit{a priori}.  
 
-Alternative imaging schemes classified as \textit{direct imaging} have been proposed and implemented \citep{Daishido+1991,Daishido+2000,Otobe+1994,Foster+2014,Tegmark+2009}. Most of these have relied on measuring electric fields by placing elements on a regular grid convenient for performing a FFT. However, such regular grids are not ideal for imaging purposes due to high spatial redundancy of measurements in the aperture plane. Because of the separate stage that implements weighting and gridding by $\widetilde{\mathbf{W}}^\textrm{H}_{[\boldsymbol{r}\leftarrow\boldsymbol{r}_{a_m}]}$ in Equation~(\ref{eqn:opt-copolar-direct-img-LA}), EPIC has a significant advantage in its ability to handle arbitrary array layouts that do not necessarily lie on a regular grid, and even with heterogeneous array elements. Furthermore, EPIC has the equivalent information of the correlator visibilities, and can naturally incorporate $w$-projection for non-coplanar element spacings, direction-dependent ionospheric effects, wide-field distortions from refractive and scintillating atmospheric distortions, etc. \citep{Morales+2009,Morales2011}. 
-
-\subsection{Extension of EPIC to Polarimetric Measurements} \label{sec:polarimetric-interferometry}
-
-In the case of full polarimetric measurements, let us consider any pair of orthogonal polarization basis denoted by $p,q=1,2$ and $\alpha,\beta=1,2$ in the instrumental and celestial domains, respectively. Then, the electric fields in the sky and in the aperture planes will be two-element vectors, indexed by $p$ and $\alpha$ at each location, and will be denoted as $\underline{E}_{a_m}^p$ and $\mathcal{E}^\alpha(\hat{\boldsymbol{s}})$, respectively.  
-
-The alternate but equivalent formalisms described for co-polar interferometric measurements can be extended to full polarimetric measurements as well, with slight modifications to account for the cross-polar effects, which are in general non-zero. For example, Equations~(\ref{eqn:copolar-Efield-element-ideal}) and (\ref{eqn:ideal-copolar-visibilities}) will be modified as 
-\begin{align}
-    \underline{E}_{a_m}^p &= \int_\mathbb{S} \sum_\alpha  \mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})\, \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \,\mathrm{d}\Omega \, , \label{eqn:polarimetric-Efield-element-ideal}
-\end{align}
-and
-\begin{align}
-    \underline{V}_{a_m b_m}^{pq} &\coloneqq \left\langle \underline{E}_{a_m}^p \underline{E}_{b_m}^{q^*} \right\rangle \nonumber \\
-    &= \int_\mathbb{S} \sum_{\alpha,\beta} \mathcal{B}_{a_m b_m}^{pq;\alpha\beta}(\hat{\boldsymbol{s}})\,\mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}_{a_m b_m}} \,\mathrm{d}\Omega \, , \label{eqn:ideal-polarimetric-visibilities}
-\end{align}
-respectively, where, $\mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})$ is the element's polarimetric response that couples the polarization mode $\alpha$ on the sky location $\hat{\boldsymbol{s}}$ to the polarization mode $p$ measured by the element element, $a$. $\mathcal{I}^{\alpha\beta}$ denotes a component of polarized intensity and
-\begin{align}
-    \mathcal{B}_{a_m b_m}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}) &=  \mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}})\,\mathcal{W}_{b_m}^{{q\beta }^*}(\hat{\boldsymbol{s}}) \, ,
-\end{align}
-is the directional polarimetric cross-power pattern of an ideal two-element interferometer (made of elements $a$ and $b$) measuring two polarizations, $p$ and $q$. Equation~(\ref{eqn:ideal-polarimetric-visibilities}) is the polarimetric RIME.  
-
-The dirty polarized intensity estimate in discrete form analogous to Equation~(\ref{eqn:opt-img-sky-plane}) is given by
-\begin{align}
-    \widetilde{\mathcal{I}}^{\alpha\beta}_m(\hat{\boldsymbol{s}}_k) &= \sum_{a_m,b_m} \sum_{p,q} \widetilde{\mathcal{B}}_{a_m b_m}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widehat{\underline{V}}_{a_m b_m}^{\prime pq} \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \nonumber \\
-    &= \sum_{a_m,b_m} \sum_{p,q} \left\langle \widehat{\underline{E}}_{a_m}^{\prime p} \widehat{\underline{E}}_{b_m}^{\prime q^*} \right\rangle \nonumber \\
-    &\qquad \times \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{W}}_{b_m}^{q\beta}(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot(\boldsymbol{r}_{a_m}-\boldsymbol{r}_{b_m})} \\
-    &= \Biggl\langle \left[\sum_{a_m} \sum_p \widehat{\underline{E}}_{a_m}^{\prime p} \, \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \right] \nonumber\\ 
-    &\qquad \left[\sum_{b_m} \sum_q \widehat{\underline{E}}_{b_m}^{\prime q} \, \widetilde{\mathcal{W}}_{b_m}^{{q\alpha}^*}(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{b_m}} \right]^*\Biggr\rangle \\
-    &= \left\langle \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) \,  \widetilde{\mathcal{E}}_m^{\beta^*}(\hat{\boldsymbol{s}}_k) \right\rangle \, , \label{eqn:opt-pol-corr-img-outprod}
-\end{align}
-with 
-\begin{align}
-    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}) \, \widehat{\underline{E}}_{a_m}^{\prime p} \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a_m}} \, . \label{eqn:pol-hol-img-expl}
-\end{align}
-The algebraic representation equivalent of Equation~(\ref{eqn:pol-hol-img-expl}) is 
-\begin{align}
-    \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\alpha,\hat{\boldsymbol{s}}\leftarrow \alpha,\boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\nonumber \\
-    &\qquad \widetilde{\mathbf{N}}^\textrm{H}_{[p,\boldsymbol{r}_{a_m}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widehat{\underline{\mathbf{E}}}_{[p,\boldsymbol{r}_{a_m}]} \, , \label{eqn:pol-hol-img-LA}
-\end{align}
-while the dirty polarized intensity estimates in linear algebraic form analogous to Equations~(\ref{eqn:opt-copolar-corr-image}) and (\ref{eqn:opt-pol-corr-img-outprod}) are
-\begin{align}
-    \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\alpha\beta,\hat{\boldsymbol{s}}\leftarrow\alpha\beta,\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-    &\qquad\quad \mathbf{N}^{-1}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:opt-polarimetric-corr-image-LA}
-\end{align}
-and 
-\begin{align}
-    \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\beta,\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:opt-polarimetric-direct-img-LA}
-\end{align}
-respectively, where, the subscripts have been modified to include the polarization component as well. The $\bigotimes_{\alpha\beta}$ denotes an outer product only over the indices, $\alpha$ and $\beta$, at every location, $\hat{\boldsymbol{s}}$. The usage of the conjugate as indicated by $*$ instead of the Hermitian operator signifies that it is not an outer product over the sky locations, $\hat{\boldsymbol{s}}$. 
-
-Equation~(\ref{eqn:pol-hol-img-LA}) is nothing but a gridded version of the weighted beamforming in Equation~(\ref{eqn:pol-hol-img-expl}). With a Nyquist-sampled grid it contains all the information in Equation~(\ref{eqn:pol-hol-img-expl}). Equation~(\ref{eqn:pol-hol-img-LA}) yields the full image plane information in the FFT therein and is thus a ``simultaneous full-FoV beamforming'', whereas Equation~(\ref{eqn:pol-hol-img-expl}) allows us to selectively specify directions in which beamforming needs to be applied (``selective beamforming''). The former will be useful for blind searches for transient image features whereas the latter will be advantageous if we need to monitor selected objects whose directions are known \textit{a priori}.  
-
-The discussion on computational efficiency with correlator- and EPIC-based approaches in the copolar case holds for the polarimetric case too, with the main difference being that in the latter, the intensity images have four Stokes components compared to only one in the copolar case. 
+% The discussion on computational efficiency with correlator- and EPIC-based approaches in the copolar case holds for the polarimetric case too, with the main difference being that in the latter, the intensity images have four Stokes components compared to only one in the copolar case. 
 
 
 \end{document}
