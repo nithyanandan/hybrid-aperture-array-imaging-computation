@@ -25,15 +25,15 @@
 \affiliation{CSIRO, Space \& Astronomy, P. O. Box 1130, Bentley, WA 6102, Australia}
 \email[Nithyanandan Thyagarajan]{Nithyanandan.Thyagarajan@csiro.au}
 
-% \author{S. Author}
-% \affiliation{Second Division, Organization, City, Pincode, State, Country}
-% % \alsoaffiliation{Joint first authors}
+\author{S. Author}
+\affiliation{Second Division, Organization, City, Pincode, State, Country}
+% \alsoaffiliation{Joint first authors}
 
-% \author{T. Author}
-% \affiliation{Second Division, Organization, City, Pincode, State, Country}
+\author{T. Author}
+\affiliation{Second Division, Organization, City, Pincode, State, Country}
 
-% \author{F.T. Author}
-% \affiliation{Fourth Division, Organization, City, Pincode, State, Country}
+\author{F.T. Author}
+\affiliation{Fourth Division, Organization, City, Pincode, State, Country}
 
 % \addbibresource{example.bib}
 
@@ -47,11 +47,13 @@
 
 \section{Introduction}
 
-\cite{TMS2017}
-\cite{Otobe+1994,Tegmark+2009,Tegmark+2010,Zheng+2014}
-\cite{Morales2011,Thyagarajan+2017}
-\cite{Cornwell+2008}
-\cite{Beardsley+2017}
+\cite{TMS2017},
+\cite{Otobe+1994,Tegmark+2009,Tegmark+2010,Zheng+2014},
+\cite{Morales2011,Thyagarajan+2017},
+\cite{Cornwell+2008},
+\cite{Beardsley+2017},
+\cite{Price2024},
+
 
 \section{Mathematical Notation}
 
@@ -133,20 +135,22 @@ whose discrete linear algebraic representation is
 \end{align}
 Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to, centered at $\Delta\boldsymbol{r}_{ab}$. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
 
-\section{Cost Metric} \label{sec:computational-cost}
+\section{Motivations}\label{sec:motivation}
 
-The primary metric for computational cost used in this study is the number of real floating point operations (FLOP) and the density of such operations in the discovery phase space volume whose dimensions span time, frequency, polarisation, and two-dimensional location on the sky. The computational cost will be estimated per independent interval of time (in FLOP per second or FLOPS) for all possible polarisation states per frequency channel ($\delta\nu$) per pixel ($\delta\Omega$). In this paper, discovery phase space volume element comprising of a single frequency channel at a single two-dimensional pixel will be referred to as a \textit{voxel} ($\delta\nu\,\delta\Omega$).
+This study is motivated by (a) the field of radio transient phenomena that span large ranges in time, and (b) large, modern radio interferometer arrays that access spatial scales spanning several orders of magnitude. 
 
-The cost estimates rely on the following floating point operations. A complex addition consists of two FLOPs, and a complex multiplication consists of four real multiplications and two real additions and therefore six FLOPs. A complex multiply-accumulate (CMAC) operation includes one complex multiplication and addition, therefore requiring eight FLOPs.
+\subsection{Scientific: Time domain astronomy}\label{sec:time-domain-astronomy}
 
-Although alternate computational metrics that include additional components, such as memory bandwidth, could be justified from a practical standpoint, these metrics will vary significantly with real-life implementations and hardware components available. Therefore, we take a theoretical approach with the justification that the budget of floating point operations will form a lower bound regardless of the details of any particular implementation. 
+The observed phenomena of radio transients span orders of magnitude in timescales -- provide examples \cite{Pietka+2015}.
 
-\section{Multi-scale, Hierarchical Aperture Arrays} \label{sec:multi-scale-arrays}
+\subsection{Technical: Multi-scale, Hierarchical Aperture Arrays} \label{sec:multi-scale-arrays}
 
 We consider aperture arrays that operate interferometrically and hierarchically on multiple spatial scales. Examples of these multi-scale hierarchical aperture arrays include the Murchison Widefield Array \cite[MWA;][]{Tingay+2013}, the Low Frequency Array \cite[LOFAR;][]{vanHaarlem+2013}, the swarm of Long Wavelength Arrays \cite[LWA Swarm;][]{Dowell+2018}, and the Square Kilometre Array low \cite[SKA-low;][]{Dewdney+2009}. The specific spatial scales are the dimensions of the antenna, station (a grouping of antennas), and the array (a grouping of stations), denoted by $D_\textrm{a}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The number of stations in the array and the number of antennas in a station (indexed by $m$) are denoted by $N_\textrm{s}$ and $N_{\textrm{a/s}_m}$, respectively. 
 % Although $N_\textrm{a/s_m}$ could vary with each station, we assume it remains the same for each station for simplicity. 
 
-The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), low frequency Australian Very Long Baseline Array (\texttt{Aus-VLBA-low}), and low frequency inter-continental VLBA (\texttt{IC-VLBA-low}). The last two are hypothetical interferometers. It is assumed that $N_{\textrm{a/s}_m}=N_\textrm{a/s}=256$ (same for each station), $D_\textrm{a}/\lambda=1$, and $D_\textrm{s}/\lambda=17.5$ for each of these arrays, where, the nominal wavelength chosen here is $\lambda=2$~m. The corresponding station filling factor, $f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$, is 0.836 for all the arrays. ~\texttt{SKA-low-core}, ~\texttt{SKA-low}, ~\texttt{Aus-VLBA-low}, and ~\texttt{IC-VLBA-low} are taken to consist of $N_\textrm{s}=256, 512, 512,$ and 512 stations in an array diameter of $D_\textrm{A}/\lambda=525, 3.25\times 10^4, 1.95\times 10^6$, and $3.9\times 10^6$, respectively. The corresponding array filling factors, defined as $f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$, are 0.284, $1.48\times 10^{-4}$, $4.12\times 10^{-8}$, and $1.03\times 10^{-8}$, respectively. These parameters for the chosen examples are summarised in Table~\ref{tab:array_params}. 
+The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), \texttt{LAMBDA-I}, \texttt{CASPA} \citep{Luo+2024}, and \texttt{FarView}. The last three are hypothetical interferometers. 
+% It is assumed that $N_{\textrm{a/s}_m}=N_\textrm{a/s}=256$ (same for each station), $D_\textrm{a}/\lambda=1$, and $D_\textrm{s}/\lambda=17.5$ for each of these arrays, where, the nominal wavelength chosen here is $\lambda=2$~m. The corresponding station filling factor, $f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$, is 0.836 for all the arrays. ~\texttt{SKA-low-core}, ~\texttt{SKA-low}, ~\texttt{Aus-VLBA-low}, and ~\texttt{IC-VLBA-low} are taken to consist of $N_\textrm{s}=256, 512, 512,$ and 512 stations in an array diameter of $D_\textrm{A}/\lambda=525, 3.25\times 10^4, 1.95\times 10^6$, and $3.9\times 10^6$, respectively. The corresponding array filling factors, defined as $f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$, are 0.284, $1.48\times 10^{-4}$, $4.12\times 10^{-8}$, and $1.03\times 10^{-8}$, respectively. 
+These parameters for the chosen examples are summarised in Table~\ref{tab:array_params}. 
 
 % \begin{figure}
 % \includegraphics[width=\linewidth]
@@ -211,11 +215,19 @@ The specific aperture array examples we consider are the \texttt{SKA-low}, core 
 
 We have considered aperture arrays consisting of three spatial scales, but the analysis can be easily extended to other arrays consisting of even larger levels of spatial hierarchy. 
 
+\section{Cost Metric} \label{sec:computational-cost}
+
+The primary metric for computational cost used in this study is the number of real floating point operations (FLOP) and the density of such operations in the discovery phase space volume whose dimensions span time, frequency, polarisation, and two-dimensional location on the sky. The computational cost will be estimated per independent interval of time (in FLOP per second or FLOPS) for all possible polarisation states per frequency channel ($\delta\nu$) per pixel ($\delta\Omega$). In this paper, discovery phase space volume element comprising of a single frequency channel at a single two-dimensional pixel will be referred to as a \textit{voxel} ($\delta\nu\,\delta\Omega$).
+
+The cost estimates rely on the following floating point operations. A complex addition consists of two FLOPs, and a complex multiplication consists of four real multiplications and two real additions and therefore six FLOPs. A complex multiply-accumulate (CMAC) operation includes one complex multiplication and addition, therefore requiring eight FLOPs.
+
+Although alternate computational metrics that include additional components, such as memory bandwidth, could be justified from a practical standpoint, these metrics will vary significantly with real-life implementations and hardware components available. Therefore, we take a theoretical approach with the justification that the budget of floating point operations will form a lower bound regardless of the details of any particular implementation. 
+
 \section{Fast Imaging Architectures} \label{sec:img-archs}
 
 We consider two broad classes of two-stage fast imaging architectures. In either case, the first stage is intra-station interferometry of the element electric fields using the options of voltage beamforming (BF), E-field Parallel Imaging Correlator (EPIC), beamforming of correlations (XBF), or correlation followed by FFT (XFFT). The second stage inter-station combination of the data products from the first stage. The main difference between the two classes is in whether the second stage uses the first stage products coherently or incoherently. A schematic of these hybrid architectures and their computational cost components are illustrated in Figure~\ref{fig:hybrid-architectures-cost-schematic}. Below, we provide details on the computational cost budget for these hybrid architectures along with the merits and demerits of either classes. 
 
-Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $t_\textrm{acc}$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ is 25~$\mu$s, and we explore the possibilities for $t_\textrm{acc}$ ranging from 0.1~ms to 10~s.  
+Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $t_\textrm{acc}$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ is 25~$\mu$s, and we explore the possibilities for $t_\textrm{acc}$ ranging from 100~$\mu$s to 10~s.  
 
 \begin{figure*}
 \includegraphics[width=\linewidth]{figures/flops_calc.pdf}
@@ -885,6 +897,8 @@ XFFT & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}
 
 \section{Results \& Discussion} \label{sec:results}
 
+Below, we provide a comparative view of the various architectures from the point of view of computational cost density for the range of array layouts and imaging cadence considered in this paper. 
+
 \subsection{Station-scale Imaging Architectures}\label{sec:station-scale-imaging}
 
 Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational cost densities of different imaging architectures discussed in section~\ref{sec:intra-station-arch} for varying parameters of the arrays in Table~\ref{tab:array_params}. The station layout parameters for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low} are identical, and thus so are their station level computing costs. For these station parameters, EPIC holds a clear computational advantage. For \texttt{CASPA}, EPIC and XFFT hold the advantage for imaging cadence faster and slower than $t_\textrm{acc}\simeq 5$~ms, respectively, while for \texttt{FarView}, a similar tipping point between EPIC and XFFT occurs at the cadence of $t_\textrm{acc}\simeq 1$~ms.
@@ -911,7 +925,7 @@ Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational 
 
 \subsection{Multi-scale Imaging Architectures}\label{sec:multi-scale-imaging}
 
-Figure~\ref{fig:1D-coherent-compcost} shows a comparison of the compute cost densities in the discovery phase space of different multi-scale imaging architectures combining four options -- VBF, EPIC, XBF, and XFFT -- on the inter-station data with two options -- VBF and EPIC -- on the intra-station data for various array parameters and imaging cadences.  
+Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost densities in the discovery phase space of different multi-scale imaging architectures combining four options -- VBF, EPIC, XBF, and XFFT -- on the inter-station data with two options -- VBF and EPIC -- on the intra-station data for various array parameters and imaging cadences.  
 
 \begin{figure*}
 \centering
@@ -927,7 +941,7 @@ Figure~\ref{fig:1D-coherent-compcost} shows a comparison of the compute cost den
 {\includegraphics[width=\textwidth]
 {figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
 } 
-\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via VBF (gray) and EPIC (black) for intra-station processing, and VBF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data. \label{fig:1D-incoherent-compcost-a}}
+\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via VBF (gray) and EPIC (black) for intra-station processing, and VBF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data. \label{fig:1D-coherent-compcost-a}}
 \end{figure*}
 
 \begin{figure*}\ContinuedFloat
@@ -939,7 +953,7 @@ Figure~\ref{fig:1D-coherent-compcost} shows a comparison of the compute cost den
 {\includegraphics[width=\textwidth]
 {figures/1D_coherent_per_pixel_compcost_analysis_FarView.pdf}
 }
-\caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView} \label{fig:1D-coherent-compcost}}
+\caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView} \label{fig:1D-coherent-compcost-b}}
 \end{figure*}
 
 In all cases, the intra-station full field of view data processing (first stage) is most efficiently achieved using EPIC (black lines) rather than VBF (gray lines). This is because of the relatively large number of elements densely packed in stations and due to the capability of simultaneous full field of view beamforming by the EPIC architecture powered by the FFT's efficiency. 
@@ -947,13 +961,15 @@ In all cases, the intra-station full field of view data processing (first stage)
 The inter-station processing, however, varies significantly due to the diversity in the various inter-station array parameters and imaging cadence considered. For example, 
 \begin{itemize}
     \item \texttt{LAMBDA-I} will benefit from deploying the correlator beamforming (XBF) architecture for inter-station processing. 
-    \item \texttt{SKA1-low-core} will benefit from EPIC for the chosen parameters. However, if the number of stations, $N_\textrm{s}$, decreases,  the array diameter, $D_\textrm{A}$, increases or if the imaging cadence is slowed to $t_\textrm{acc} \gtrsim 5$~ms, the XFFT architecture starts to have an advantage over EPIC on the inter-station scale of data processing. 
+    \item \texttt{SKA1-low-core} will benefit from EPIC for the chosen parameters. However, if the number of stations, $N_\textrm{s}$, decreases,  the array diameter, $D_\textrm{A}$, increases or if the imaging cadence interval is slowed to $t_\textrm{acc} \gtrsim 5$~ms, the XFFT architecture starts to have an advantage over EPIC on the inter-station scale of data processing. 
     \item \texttt{SKA1-low} will benefit from the XFFT architecture for inter-station processing.
     \item \texttt{CASPA} will benefit from using the XBF architecture for inter-station processing due to significantly small number of stations.
-    \item \texttt{FarView} appears to have an advantage in using XFFT for inter-station processing for the chosen parameters. If $N_\textrm{s}$ increases or if the cadence increases to $t_\textrm{acc}\lesssim 1$~ms, then EPIC becomes more efficient. 
+    \item \texttt{FarView} appears to have an advantage in using XFFT for inter-station processing for the chosen parameters. If $N_\textrm{s}$ increases or if the cadence interval decreases to $t_\textrm{acc}\lesssim 1$~ms, then EPIC becomes more efficient. 
 \end{itemize}
 
 \subsection{Effect of Imaging Cadence}\label{sec:cadence}
+
+The cadence of imaging is a key discriminator of the choice of imaging architectures. Here, we examine how the cadence interval determines the choice of imaging architecture for multi-scale arrays for intra- and inter-station processing. Table~\ref{tab:cadence} summarises the findings from Figures~\ref{fig:1D-incoherent-compcost} and \ref{fig:1D-coherent-compcost-b} based on the dependence of the computational cost densities of the different architectures and arrays on $t_\textrm{acc}$.
 
 \begin{table*}[htb!]
 \normalsize
@@ -990,7 +1006,13 @@ Array & & Intra-station & & & Inter-station & \\
 \end{threeparttable}
 \end{table*}
 
-% \subsection{LAMBDA-I}
+\subsection{Other considerations}\label{sec:other-metrics}
+
+Besides computational costs, there are other practical considerations in the deployment of an architecture such as the hardware's processing bandwidth, internal memory bandwidth management, input and output data rates, etc.\footnote{\url{https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md}} 
+
+\cite{Sokolowski+2024}
+
+Post-processing steps like deconvolution and de-dispersion add to these costs. 
 
 % \subsection{SKA-low}
 
