@@ -54,8 +54,9 @@
 \cite{Beardsley+2017},
 \cite{Price2024},
 
+The paper is organised as follows. In \S\ref{sec:notation}, the mathematical notation describing the measurements and imaging process is established. \S\ref{sec:motivation} describes the scientific and technical motivations for this paper. \S\ref{sec:computational-cost} describes the metric of computational cost density in discovery phase space based on which we compare different imaging architectures described in \S\ref{sec:img-archs}. The multi-scale imaging architecture options for intra- and inter-station data processing are described in sections \ref{sec:inter-station-arch} and \ref{sec:inter-station-arch}, respectively. \S\ref{sec:results} presents a summary of the results, and conclusions are presented in \S\ref{sec:conclusion}. 
 
-\section{Mathematical Notation}
+\section{Mathematical Notation}\label{sec:notation}
 
 Let $\mathcal{E}^\alpha_\nu(\hat{\boldsymbol{s}},t)$ represent the spectral Fourier components of the electric field time series emanating from astrophysical sources of emission in directions denoted by the unit vector, $\hat{\boldsymbol{s}}$, where, $\alpha\in\{1,2\}$ denotes the index of the polarisation state of the radiation, $\nu$ denotes the spectral component or the frequency of radiation, $\lambda=c/\nu$ is the wavelength, and $c$ is the speed of light. Hereafter, without loss of generality, all quantities can be implicitly assumed to depend on time and frequency throughout without explicit specification. Thus, $\mathcal{E}^\alpha(\hat{\boldsymbol{s}})\equiv \mathcal{E}^\alpha_\nu(\hat{\boldsymbol{s}},t)$
 
@@ -141,7 +142,7 @@ This study is motivated by (a) the field of radio transient phenomena that span 
 
 \subsection{Scientific: Time domain astronomy}\label{sec:time-domain-astronomy}
 
-The observed phenomena of radio transients span orders of magnitude in timescales -- provide examples \cite{Pietka+2015}.
+The observed phenomena of radio transients span orders of magnitude in timescales -- provide examples \citep{Pietka+2015,Chandra+2016}. 
 
 \subsection{Technical: Multi-scale, Hierarchical Aperture Arrays} \label{sec:multi-scale-arrays}
 
