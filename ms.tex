@@ -230,12 +230,13 @@ We consider two broad classes of two-stage fast imaging architectures. In either
 
 Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $t_\textrm{acc}$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ is 25~$\mu$s, and we explore the possibilities for $t_\textrm{acc}$ ranging from 100~$\mu$s to 10~s.  
 
-\begin{figure*}
-\includegraphics[width=\linewidth]{figures/flops_calc.pdf}
+\begin{figure}
+% \includegraphics[width=\linewidth]{figures/flops_calc.pdf}
+\includegraphics[width=\linewidth]{figures/flops_calc_abridged.pdf}
 % \includegraphics[width=\linewidth]{fig_01.pdf}
 \caption{
 \label{fig:hybrid-architectures-cost-schematic}}
-\end{figure*}
+\end{figure}
 
 \section{Intra-station Imaging Architectures} \label{sec:intra-station-arch}
 
