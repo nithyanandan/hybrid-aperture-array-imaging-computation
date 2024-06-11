@@ -54,7 +54,13 @@
 \cite{Beardsley+2017},
 \cite{Price2024},
 
-The paper is organised as follows. In \S\ref{sec:notation}, the mathematical notation describing the measurements and imaging process is established. \S\ref{sec:motivation} describes the scientific and technical motivations for this paper. \S\ref{sec:computational-cost} describes the metric of computational cost density in discovery phase space based on which we compare different imaging architectures described in \S\ref{sec:img-archs}. The multi-scale imaging architecture options for intra- and inter-station data processing are described in sections \ref{sec:inter-station-arch} and \ref{sec:inter-station-arch}, respectively. \S\ref{sec:results} presents a summary of the results, and conclusions are presented in \S\ref{sec:conclusion}. 
+The variable and transient radio sky encompasses a variety of intriguing astrophysical phenomena. These events occur across timescales spanning orders of magnitude, frequency ranges, and polarizations \citep[][and references therein]{Pietka+2015,Chandra+2016}. Notable examples include pulsars and their giant radio pulses, magnetars, fast radio bursts (FRBs), rotating radio transients (RRATs), Jovian and solar bursts, flare stars, cataclysmic variables (CVs), exoplanet and stellar outbursts, X-ray binaries, novae, supernovae, gamma-ray bursts (GRBs) and their afterglows, active galactic nuclei (AGNs) and blazars, tidal disruption events, both the prompt and afterglow counterparts to gravitational wave (GW) merger events, as well as many phenomena yet to be understood \citep{Lorimer+2007,Thyagarajan+2011,Keane2013,Thornton+2013,Bochenek+2020}. 
+
+The effectiveness of discovering these transients depends on an instrument's field of view and the duration of on-sky observation \citep{Cordes2007}. Ideally, instruments should operate continuously, covering a wide range of timescales from microseconds to days, with a large instantaneous field of view. However, due to the significant computational and data rate demands, compromises are often made by limiting one or more discovery parameters such as time resolution, on-sky observing time, field of view, angular resolution, or bandwidth.
+
+Modern radio arrays tend to be aperture arrays that operate interferometrically and hierarchically on multiple spatial scales. Examples of these multi-scale hierarchical aperture arrays include the Murchison Widefield Array \cite[MWA;][]{Tingay+2013}, the Low Frequency Array \cite[LOFAR;][]{vanHaarlem+2013}, the swarm of Long Wavelength Arrays \cite[LWA Swarm;][]{Dowell+2018}, and the Square Kilometre Array low \cite[SKA-low;][]{Dewdney+2009}. 
+
+The paper is organised as follows. In \S\ref{sec:notation}, the mathematical notation describing the measurements and imaging process is established. \S\ref{sec:multi-scale-arrays} describes the parametrisation of multi-scale aperture arrays studied in this paper. \S\ref{sec:computational-cost} describes the metric of computational cost density in discovery phase space based on which we compare different imaging architectures described in \S\ref{sec:img-archs}. The multi-scale imaging architecture options for intra- and inter-station data processing are described in sections \ref{sec:inter-station-arch} and \ref{sec:inter-station-arch}, respectively. \S\ref{sec:results} presents a summary of the results, and conclusions are presented in \S\ref{sec:conclusion}. 
 
 \section{Mathematical Notation}\label{sec:notation}
 
@@ -136,19 +142,15 @@ whose discrete linear algebraic representation is
 \end{align}
 Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to, centered at $\Delta\boldsymbol{r}_{ab}$. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
 
-\section{Motivations}\label{sec:motivation}
+% \section{Motivations}\label{sec:motivation}
 
-This study is motivated by (a) the field of radio transient phenomena that span large ranges in time, and (b) large, modern radio interferometer arrays that access spatial scales spanning several orders of magnitude. 
+% This study is motivated by (a) the field of radio transient phenomena that span large ranges in time, and (b) large, modern radio interferometer arrays that access spatial scales spanning several orders of magnitude. 
 
-\subsection{Scientific: Time domain astronomy}\label{sec:time-domain-astronomy}
+% \subsection{Scientific: Time domain astronomy}\label{sec:time-domain-astronomy}
 
-The variable and transient radio sky encompasses a variety of intriguing astrophysical phenomena. These events occur across timescales spanning orders of magnitude, frequency ranges, and polarizations \citep[][and references therein]{Pietka+2015,Chandra+2016}. Notable examples include pulsars and their giant radio pulses, magnetars, fast radio bursts (FRBs), rotating radio transients (RRATs), Jovian and solar bursts, flare stars, cataclysmic variables (CVs), exoplanet and stellar outbursts, X-ray binaries, novae, supernovae, gamma-ray bursts (GRBs) and their afterglows, active galactic nuclei (AGNs) and blazars, tidal disruption events, both the prompt and afterglow counterparts to gravitational wave (GW) merger events, as well as many phenomena yet to be understood \citep{Lorimer+2007,Thyagarajan+2011,Keane2013,Thornton+2013,Bochenek+2020}. 
+\section{Multi-scale, Hierarchical Aperture Arrays} \label{sec:multi-scale-arrays}
 
-The effectiveness of discovering these transients depends on an instrument's field of view and the duration of on-sky observation \citep{Cordes2007}. Ideally, instruments should operate continuously, covering a wide range of timescales from microseconds to days, with a large instantaneous field of view. However, due to the significant computational and data rate demands, compromises are often made by limiting one or more discovery parameters such as time resolution, on-sky observing time, field of view, angular resolution, or bandwidth.
-
-\subsection{Technical: Multi-scale, Hierarchical Aperture Arrays} \label{sec:multi-scale-arrays}
-
-Modern radio arrays tend to be aperture arrays that operate interferometrically and hierarchically on multiple spatial scales. Examples of these multi-scale hierarchical aperture arrays include the Murchison Widefield Array \cite[MWA;][]{Tingay+2013}, the Low Frequency Array \cite[LOFAR;][]{vanHaarlem+2013}, the swarm of Long Wavelength Arrays \cite[LWA Swarm;][]{Dowell+2018}, and the Square Kilometre Array low \cite[SKA-low;][]{Dewdney+2009}. The specific spatial scales are the dimensions of the antenna, station (a grouping of antennas), and the array (a grouping of stations), denoted by $D_\textrm{a}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The number of stations in the array and the number of antennas in a station (indexed by $m$) are denoted by $N_\textrm{s}$ and $N_{\textrm{a/s}_m}$, respectively. 
+The hierarchical, multi-scale aperture array scenario we consider involves spatial scales corresponding to the dimensions of the antenna, station (a grouping of antennas), and the array (a grouping of stations), denoted by $D_\textrm{a}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The number of stations in the array and the number of antennas in a station (indexed by $m$) are denoted by $N_\textrm{s}$ and $N_{\textrm{a/s}_m}$, respectively. 
 % Although $N_\textrm{a/s_m}$ could vary with each station, we assume it remains the same for each station for simplicity. 
 
 The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), \texttt{LAMBDA-I}, \texttt{CASPA} \citep{Luo+2024}, and \texttt{FarView}. The last three are hypothetical interferometers. 
@@ -216,7 +218,7 @@ These parameters for the chosen examples are summarised in Table~\ref{tab:array_
 \end{threeparttable}
 \end{table*}
 
-We have considered aperture arrays consisting of three spatial scales, but the analysis can be easily extended to other arrays consisting of even larger levels of spatial hierarchy. 
+Although we have considered aperture arrays consisting of three spatial scales, the analysis can be extended without loss of generality to arrays consisting of even larger levels of spatial hierarchy. 
 
 \section{Cost Metric} \label{sec:computational-cost}
 
@@ -228,7 +230,7 @@ Although alternate computational metrics that include additional components, suc
 
 \section{Fast Imaging Architectures} \label{sec:img-archs}
 
-We consider two broad classes of two-stage fast imaging architectures. In either case, the first stage is intra-station interferometry of the element electric fields using the options of voltage beamforming (BF), E-field Parallel Imaging Correlator (EPIC), beamforming of correlations (XBF), or correlation followed by FFT (XFFT). The second stage inter-station combination of the data products from the first stage. The main difference between the two classes is in whether the second stage uses the first stage products coherently or incoherently. A schematic of these hybrid architectures and their computational cost components are illustrated in Figure~\ref{fig:hybrid-architectures-cost-schematic}. Below, we provide details on the computational cost budget for these hybrid architectures along with the merits and demerits of either classes. 
+We consider two broad classes of two-stage fast imaging architectures. In both classes, the first stage is intra-station interferometry of the element electric fields using the options of voltage beamforming (BF), E-field Parallel Imaging Correlator (EPIC), beamforming of correlations (XBF), or correlation followed by FFT (XFFT). The second stage inter-station combination of the data products from the first stage. The main difference between the two classes is in whether the second stage uses the first stage products coherently or incoherently. A schematic of these hybrid architectures and their computational cost components are illustrated in Figure~\ref{fig:hybrid-architectures-cost-schematic}. Below, we provide details on the computational cost budget for these hybrid architectures along with the merits and demerits of either classes. 
 
 Fast imaging involves processing data on multiple time scales. The channelisation of a voltage time stream of length $\delta t$ with a time resolution of $t_\textrm{s}$ will correspond to spectral channels of width $\delta\nu=1/\delta t$ and a bandwidth of $B=1/t_\textrm{s}$. The number of spectral channels is $N_\nu=B/\delta\nu=\delta t/t_\textrm{s}$. Images are expected to be produced at a cadence of $t_\textrm{acc}$, which is typically larger than $\delta t$ and smaller than the time scale on which calibration needs to be updated. In this paper, the nominal values chosen for $\delta t$ is 25~$\mu$s, and we explore the possibilities for $t_\textrm{acc}$ ranging from 100~$\mu$s to 10~s.  
 
