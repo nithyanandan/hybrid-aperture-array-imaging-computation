@@ -1018,6 +1018,10 @@ Array & \multicolumn{3}{c|}{Intra-station architecture} & \multicolumn{3}{c}{Int
 \end{threeparttable}
 \end{table*}
 
+For intra-station processing, EPIC emerges as the most viable among various architectures for all arrays considered on all timescales, except for \texttt{CASPA} when $t_\textrm{acc}\gtrsim 100$~ms where the XFFT architecture emerges to be more efficient than EPIC. This is because the stations having a sufficiently large number of elements packed densely is a predominant aspect of all these arrays (see Table~\ref{tab:array_params}. For arrays like \texttt{CASPA} that have lesser number of elements and/or are not as densely packed, the cadence interval becomes an important factor. For cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, the XFFT architecture becomes advantageous.
+
+The same reasoning can be extended for inter-station processing, where there is significant diversity. There is a large range in the number of stations and in the array filling factor. As a result, both the layout and cadence interval play significant roles in determining the efficiency of architectures. 
+
 \subsection{Other considerations}\label{sec:other-metrics}
 
 Besides computational costs, there are other practical considerations in the deployment of an architecture such as the hardware's processing bandwidth, internal memory bandwidth management, input and output data rates, etc.\footnote{\url{https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md}} 
