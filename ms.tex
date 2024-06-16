@@ -318,17 +318,30 @@ Figure~\ref{fig:multidim-incoherent-compcost-XBF-LAMBDA-I} shows the covariant v
 
 \subsection{Correlation and FFT (XFFT)}
 
-Here, $\widetilde{V}_{a_m b_m}^{pq}$, the calibrated station visibilities in station $m$ in Equation~(\ref{eqn:intra-station-pol-visibilities}) are gridded and Fourier transformed using an FFT rather than the discrete Fourier transform of correlator beamforming. Mathematically, it is similar to the operations performed on calibrated electric fields from the elements in EPIC, with two key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (2) the spatial Fourier transform can occur on a slower cadence of $t_\textrm{acc}$ or the calibration timescale, whichever is shorter. 
-
-The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
+In this approach, $\widetilde{V}_{a_m b_m}^{pq}$, the calibrated and inverse noise covariance weighted station visibilities in station $m$ in Equation~(\ref{eqn:intra-station-pol-visibilities}) are gridded with weights, $\widetilde{B}_{a_m b_m}^{\alpha\beta pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{a_m b_m})$, onto a grid and Fourier transformed using an FFT rather than the discrete Fourier transform of correlator beamforming,
 \begin{align}
-    \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-    &\qquad \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:intra-station-opt-pol-corr-image}
-    % &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
-    % &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:opt-copolar-corr-image}
+  \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j} \nonumber\\
+  &\quad \left(\sum_{a_m,b_m} \sum_p \widetilde{B}_{a_m b_m}^{\alpha\beta pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{a_m b_m}) \, \widetilde{V}_{a_m b_m}^{pq} \right) \, . \label{eqn:intra-station-pol-img-xfft-expl}
 \end{align}
-% The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. 
-The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[q,\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the gridding operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain for station, $m$, the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. 
+
+Mathematically, this is the counterpart to the operations performed on calibrated electric fields from the elements in EPIC, with few key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (3) the spatial Fourier transform can occur on a slower cadence of $t_\textrm{acc}$ or the calibration timescale, whichever is shorter. This is an explicit form of the optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}. The purpose of $\widetilde{B}_{a_m b_m}^{\alpha\beta pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{a_m b_m})$ is similar \citep{Morales+2009,Bhatnagar+2008} to its counterpart gridding operator in the EPIC architecture \citep{Morales2011}. 
+
+% The optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}, and can be expressed linear algebraically as \citep{Bhatnagar+2008,Morales+2009}:
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &=  \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+%     &\qquad \mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]} \label{eqn:intra-station-opt-pol-corr-image}
+%     % &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}\,\mathbf{B}^\textrm{H}_{[\Delta\boldsymbol{r}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\,\mathbf{N}^{-1}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]} \nonumber\\ 
+%     % &\qquad\qquad\qquad \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)_{[\Delta\boldsymbol{r}_{a_m b_m}]} \, . \label{eqn:opt-copolar-corr-image}
+% \end{align}
+% % The subscript, $m$, on the left hand side denotes that the image was made using measurements within the station, $m$. 
+% The inversion operation above takes a column vector of calibrated visibilities, $\widehat{\mathbf{V}}_{[pq,\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \vect\left(\Bigl\langle\widehat{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]}\widehat{\mathbf{E}}^\textrm{H}_{[q,\boldsymbol{r}_{b_m}]}\Bigl\rangle\right)$ at element spacings, $\Delta\boldsymbol{r}_{a_m b_m}$, in station $m$, weights them by the inverse noise covariance, $\mathbf{N}_{[\Delta\boldsymbol{r}_{a_m b_m}\leftarrow\Delta\boldsymbol{r}_{a_m b_m}]}\coloneqq \langle \boldsymbol{n}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\boldsymbol{n}^\textrm{H}_{[\Delta\boldsymbol{r}_{a_m b_m}]}\rangle$, then weights and projects this inverse noise-covariance weighted vector of visibilities onto a finely sampled grid denoted by $\Delta\boldsymbol{r}$ using the gridding operator $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$, and inverse-Fourier transforms using $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow\Delta\boldsymbol{r}]}$ to obtain for station, $m$, the estimate of the vector of pixelized intensities, $\widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]}$, on $\mathbb{S}$. 
+
+% \begin{align}
+%     \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k) 
+%     &= \sum_{a_m,b_m} \sum_{p,q} \widetilde{\mathcal{B}}_{a_m b_m}^{*pq;\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widetilde{V}_{a_m b_m}^{pq} \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_{a_m b_m}} \, , \label{eqn:intra-station-pol-xfft-img-expl} 
+% \end{align}
+
+
 
 % The purpose of $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{a_m b_m}]}$ is similar \citep{Morales+2009,Cornwell+2008} to its counterpart gridding operator in the EPIC architecture \citep{Morales2011}. 
 % % implies the following. First, if $\widetilde{\mathbf{B}}^\textrm{H}=\mathbf{B}^\textrm{H}$ (assumed hereafter, unless specified), then the inversion is lossless and optimal, minimizing noise and the reconstruction error \citep{Tegmark1997a}. This form is very similar to a matched filter. Second, it transforms the inverse noise covariance weighted visibilities at arbitrary locations, $\Delta\boldsymbol{r}_{a_m b_m}$, to finely sampled locations, $\Delta\boldsymbol{r}$, on a grid. If the grid is uniformly sampled, it facilitates efficient inverse Fourier transform using Fast Fourier Transform (FFT) algorithms. 
@@ -476,9 +489,18 @@ where, the angular brackets denote a temporal averaging across an interval of $t
 
 Inter-station EPIC takes the form
 \begin{align}
+  \widetilde{\mathcal{E}}^\alpha(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\boldsymbol{r}_j} \nonumber\\
+  &\quad \left(\sum_{m} \sum_p \widetilde{W}_{m}^{\alpha p*}(\boldsymbol{r}_j-\boldsymbol{r}_{m}) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \right) \, , \label{eqn:inter-station-pol-hol-img-epic-expl}
+\end{align}
+
+\begin{align}
     \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{m}]}\,\widetilde{\boldsymbol{\mathcal{E}}}_{[m,p,\hat{\boldsymbol{s}}]} \, . \label{eqn:inter-station-pol-hol-img-epic-LA}
 \end{align}
 for producing gridding and two-dimensional FFT electrical fields with an angular resolution corresponding to the full array layout including all stations. The intensities are produced by squaring and accumulation as
+\begin{align}
+    \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) &= \left\langle \widetilde{\mathcal{E}}^\alpha(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) \, \widetilde{\mathcal{E}}^{\beta *}(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-expl}    
+\end{align}
+
 \begin{align}
     \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-LA}    
 \end{align}
@@ -502,9 +524,15 @@ where, $\widetilde{\mathcal{B}}_{kmn}^{*pq;\alpha\beta}(\hat{\boldsymbol{\sigma}
 
 The visibilities are obtained as in Equation~(\ref{eqn:inter-station-pol-visibilities}) and transformed using an FFT following the same formalism in Equation~(\ref{eqn:intra-station-opt-pol-corr-image}), to yield the polarised intensities,
 \begin{align}
-    \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]} \mathbf{N}^{-1}_{[mn\leftarrow mn]}\,\widehat{\mathbf{V}}_{[mn,pq,\hat{\boldsymbol{s}}]} \, , \label{eqn:inter-station-opt-pol-corr-image}
+  \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_j} \nonumber\\
+  &\quad \left(\sum_{m,n} \sum_{p,q} \widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{mn}) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \right) \, , \label{eqn:inter-station-pol-img-xfft-expl}
 \end{align}
-where, $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]}$ is the gridding operator that places discrete inverse noise covariance weighted intra-station visibilities onto a array-scale grid and accumulates any visibilities overlapping on the grid points. 
+where, $\widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{mn})$ is the gridding operator that places discrete inverse noise covariance weighted intra-station visibilities, $\widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k)$, phased towards $\hat{\boldsymbol{s}}_k$ onto an array-scale grid and accumulates any visibilities overlapping on the grid points. 
+
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]} \mathbf{N}^{-1}_{[mn\leftarrow mn]}\,\widehat{\mathbf{V}}_{[mn,pq,\hat{\boldsymbol{s}}]} \, , \label{eqn:inter-station-opt-pol-corr-image}
+% \end{align}
+% where, $\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]}$ is the gridding operator that places discrete inverse noise covariance weighted intra-station visibilities onto a array-scale grid and accumulates any visibilities overlapping on the grid points. 
 
 \begin{table*}[htb!]
 \normalsize
