@@ -57,7 +57,9 @@ This new paradigm poses severe computational and data rate challenges necessitat
 
 In this paper, our primary motivation is to explore different imaging architectures and their combinations appropriate for aperture arrays spanning a multi-dimensional space of array layout parameters and cadence intervals from a computational standpoint. Conversely, the paper also provides a guide to choosing the array layout parameters and cadence intervals where a given architecture, or combinations thereof, will remain computationally efficient. Several upcoming and hypothetical multi-scale aperture arrays are used as examples. 
 
-The paper is organised as follows. In \S\ref{sec:notation}, the mathematical notation describing the measurements and imaging process is established. \S\ref{sec:multi-scale-arrays} describes the parametrisation of multi-scale aperture arrays studied. \S\ref{sec:computational-cost} describes the metric of computational cost density in discovery phase space based on which we compare different imaging architectures described in \S\ref{sec:img-archs}. The multi-scale imaging architecture options are described in sections \ref{sec:inter-station-arch} and \ref{sec:inter-station-arch}, respectively. \S\ref{sec:results} contains a discussion and summary of the results, and conclusions are presented in \S\ref{sec:conclusion}. 
+The paper is organised as follows.
+% In \S\ref{sec:notation}, the mathematical notation describing the measurements and imaging process is established.
+\S\ref{sec:multi-scale-arrays} describes the parametrisation of multi-scale aperture arrays studied. \S\ref{sec:computational-cost} describes the metric of computational cost density in discovery phase space based on which we compare different imaging architectures described in \S\ref{sec:img-archs}. The multi-scale imaging architecture options are described in sections \ref{sec:inter-station-arch} and \ref{sec:inter-station-arch}, respectively. \S\ref{sec:results} contains a discussion and summary of the results, and conclusions are presented in \S\ref{sec:conclusion}. 
 
 % \section{Motivations}\label{sec:motivation}
 
@@ -245,13 +247,23 @@ Application of the FFT will have the effect of simultaneously beamforming over t
 
 Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I} shows a breakdown of the costs per station per voxel of various components constituting the EPIC architecture, with nominal values of a \texttt{LAMBDA-I} station marked in cyan. The dominant cost is from the two-dimensional FFT (black dashed lines) in Equation~\ref{eqn:intra-station-pol-hol-img-epic}.
 % or equivalently, Equation~\ref{eqn:intra-station-pol-hol-img-epic-LA}.
-Because the spatial FFT cost depends only on the grid dimensions, it is independent of $N_\textrm{a/s}$ as the grid can hold any $N_\textrm{a/s}$ elements as physically possible. This spatial FFT scales roughly as $(\gamma_\textrm{s} \, D_\textrm{s}/D_\textrm{a})^2\log_2(\gamma_\textrm{s}\, D_\textrm{s}/D_\textrm{a})^2$, where, $\gamma_\textrm{s}$ is a constant padding factor. Notably, because the spatial FFT produces an image over the entire field of view at every independent pixel in one instant, it is not a pixelwise operation, and therefore, its cost per pixel is $\approx \log_2(D_\textrm{s}/D_\textrm{a})$, showing a weak dependence on $D_\textrm{s}$ and $D_\textrm{a}$. The pixelwise squaring (pink dot-dashed lines) and temporal averaging (blue dot-dashed lines) costs in Equation~\ref{eqn:intra-station-opt-polarimetric-direct-img-LA} are subdominant. Being per pixel operations, the cost per voxel remains constant with $N_\textrm{a/s}$, $D_\textrm{s}$ and $D_\textrm{a}$ similar to the voltage beamforming architecture. The gridding (black dotted lines) with weights in Equations~(\ref{eqn:intra-station-pol-hol-img-epic}) and (\ref{eqn:intra-station-pol-hol-img-epic-LA}) is a per-element operation and depends only on $N_\textrm{a/s}$, it scales linearly with $N_\textrm{a/s}$ and inverse squared with $D_\textrm{s}$ per voxel. Overall, the gridding cost is significantly subdominant. Again, the spatial averaging of pixels across multiple stations (orange dot-dashed line) is not a station-level operation, but is only shown to emphasise that it operates on a much slower cadence of $t_\textrm{acc}$, scaling inversely with $t_\textrm{acc}$, and adds only negligible cost to the overall cost budget. 
+Because the spatial FFT cost depends only on the grid dimensions, it is independent of $N_\textrm{a/s}$ as the grid can hold any $N_\textrm{a/s}$ elements as physically possible. This spatial FFT scales roughly as $(\gamma_\textrm{s} \, D_\textrm{s}/D_\textrm{a})^2\log_2(\gamma_\textrm{s}\, D_\textrm{s}/D_\textrm{a})^2$, where, $\gamma_\textrm{s}$ is a constant padding factor. Notably, because the spatial FFT produces an image over the entire field of view at every independent pixel in one instant, it is not a pixelwise operation, and therefore, its cost per pixel is $\approx \log_2(D_\textrm{s}/D_\textrm{a})$, showing a weak dependence on $D_\textrm{s}$ and $D_\textrm{a}$. The pixelwise squaring (pink dot-dashed lines) and temporal averaging (blue dot-dashed lines) costs in Equation~\ref{eqn:intra-station-opt-pol-img-outprod}
+% {eqn:intra-station-opt-polarimetric-direct-img-LA}
+are subdominant. Being per pixel operations, the cost per voxel remains constant with $N_\textrm{a/s}$, $D_\textrm{s}$ and $D_\textrm{a}$ similar to the voltage beamforming architecture. The gridding (black dotted lines) with weights in Equation~(\ref{eqn:intra-station-pol-hol-img-epic})
+% and (\ref{eqn:intra-station-pol-hol-img-epic-LA})
+is a per-element operation and depends only on $N_\textrm{a/s}$, it scales linearly with $N_\textrm{a/s}$ and inverse squared with $D_\textrm{s}$ per voxel. Overall, the gridding cost is significantly subdominant. Again, the spatial averaging of pixels across multiple stations (orange dot-dashed line) is not a station-level operation, but is only shown to emphasise that it operates on a much slower cadence of $t_\textrm{acc}$, scaling inversely with $t_\textrm{acc}$, and adds only negligible cost to the overall cost budget. 
 
 \begin{figure}
 \includegraphics[width=0.99\linewidth]
 % {figures/1D_epic_cost_analysis_SKA1-low.pdf}
 {figures/1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
-\caption{A breakdown of the computational cost density function over the station parameters for the EPIC architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I} station (cyan lines). The spatial FFT cost in Equation~(\ref{eqn:intra-station-pol-hol-img-epic-LA}) denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-polarimetric-direct-img-LA}). The gridding operation (black dotted lines) in Equation~(\ref{eqn:intra-station-pol-hol-img-epic-LA}) contributes even lesser to the cost budget. 
+\caption{A breakdown of the computational cost density function over the station parameters for the EPIC architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I} station (cyan lines). The spatial FFT cost in Equation~(\ref{eqn:intra-station-pol-hol-img-epic})
+  % {eqn:intra-station-pol-hol-img-epic-LA}
+  denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}).
+  % {eqn:intra-station-opt-polarimetric-direct-img-LA}
+  The gridding operation (black dotted lines) in Equation~(\ref{eqn:intra-station-pol-hol-img-epic})
+  % {eqn:intra-station-pol-hol-img-epic-LA}
+  contributes even lesser to the cost budget. 
 \label{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure}
 
@@ -458,7 +470,9 @@ where, $w_{m}^{\alpha\beta}(\hat{\boldsymbol{s}}_k)$ represents station weights 
 
 \subsection{Coherent Architectures} \label{sec:coherent}
 
-A coherent combination of data between stations requires electric field data products with phase information from the first stage of processing on individual stations. Thus, intra-station visibilities in which only phase differences remain and from which the original absolute phases have been removed, as well as the image intensity outputs of XBF and XFFT, are unusable for coherent processing at the inter-station level. Hence, we consider two possibilities, namely, the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, from VBF and EPIC from equations~\ref{eqn:intra-station-pol-hol-img-expl} and \ref{eqn:intra-station-pol-hol-img-epic-LA}, respectively. 
+A coherent combination of data between stations requires electric field data products with phase information from the first stage of processing on individual stations. Thus, intra-station visibilities in which only phase differences remain and from which the original absolute phases have been removed, as well as the image intensity outputs of XBF and XFFT, are unusable for coherent processing at the inter-station level. Hence, we consider two possibilities, namely, the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, from VBF and EPIC from equations~\ref{eqn:intra-station-pol-hol-img-expl} and \ref{eqn:intra-station-pol-hol-img-epic},
+% {eqn:intra-station-pol-hol-img-epic-LA},
+respectively. 
 
 The pointing direction of the virtual synthesised telescope from the elements of station, $m$ is denoted by $\hat{\boldsymbol{s}}_k$. The field of view and angular resolution of the intra-station $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ are determined by the station element and the station dimensions, respectively. Using these electric fields as measurements from virtual synthesised telescopes, the inter-station imaging architecture can take any of the architectures that were already discussed under intra-station imaging by combining the electric fields from synthesised telescopes from different stations virtually pointed in the same direction. Since the computational costs depend on the station and array layouts, this necessitates hybrid architectures appropriate for multi-scale aperture arrays. 
 
@@ -502,16 +516,17 @@ Inter-station EPIC takes the form
 % \begin{align}
 %     \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{m}]}\,\widetilde{\boldsymbol{\mathcal{E}}}_{[m,p,\hat{\boldsymbol{s}}]} \, . \label{eqn:inter-station-pol-hol-img-epic-LA}
 % \end{align}
-for gridding (parenthesis) and two-dimensional FFT (outer summation) of electrical fields with an angular resolution corresponding to the full array layout including all stations. The intensities are produced by squaring and accumulation as
-\begin{align}
-    \widetilde{\mathcal{I}}_{\hat{\boldsymbol{s}}_k}^{\alpha\beta}(\hat{\boldsymbol{\sigma}}_l) &= \left\langle \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) \, \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^{\beta *}(\hat{\boldsymbol{\sigma}}_l) \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-expl}    
-\end{align}
+for gridding (parenthesis) and two-dimensional FFT (outer summation) of electrical fields with an angular resolution corresponding to the full array layout including all stations. The polarised intensities are produced by squaring and accumulation as in Equation~(\ref{eqn:inter-station-opt-pol-img-outprod}).
+% \begin{align}
+%     \widetilde{\mathcal{I}}_{\hat{\boldsymbol{s}}_k}^{\alpha\beta}(\hat{\boldsymbol{\sigma}}_l) &= \left\langle \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) \, \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^{\beta *}(\hat{\boldsymbol{\sigma}}_l) \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-expl}    
+% \end{align}
+
 % \begin{align}
 %     \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-LA}    
 % \end{align}
-where,
-% the outer product is performed over polarisation indices, $\alpha$ and $\beta$, and
-the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$.  
+% where,
+% % the outer product is performed over polarisation indices, $\alpha$ and $\beta$, and
+% the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$.  
 
 \subsubsection{Correlator Beamforming}
 
@@ -530,7 +545,7 @@ where, $\widetilde{\mathcal{B}}_{mn}^{*pq;\alpha\beta}(\hat{\boldsymbol{\sigma}}
 
 \subsubsection{Correlation FFT}
 
-The visibilities are obtained as in Equation~(\ref{eqn:inter-station-pol-visibilities}) and transformed using an FFT following the same formalism in Equation~(\ref{eqn:intra-station-opt-pol-corr-image}), to yield the polarised intensities,
+The visibilities are obtained as in Equation~(\ref{eqn:inter-station-pol-visibilities}) and transformed using an FFT following the same formalism in Equation~(\ref{eqn:intra-station-pol-img-xfft-expl}), to yield the polarised intensities,
 \begin{align}
   \widetilde{\mathcal{I}}_{\hat{\boldsymbol{s}}_k}^{\alpha\beta}(\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_j} \nonumber\\
   &\quad \left(\sum_{m,n} \sum_{p,q} \widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{mn}, \hat{\boldsymbol{s}}_k) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \right) \, , \label{eqn:inter-station-pol-img-xfft-expl}
@@ -557,13 +572,13 @@ where, $\widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\bolds
 \midrule\midrule
 VBF & Beamforming & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
 % \multirow{3}{*}{VBF} & Beamforming & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
-& Squaring & $6 n_\textrm{p}^2$ & $6 n_\textrm{p}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod} , \ref{eqn:inter-station-opt-pol-img-outprod}  \\
+& Squaring & $6 n_\textrm{p}^2$ & $6 n_\textrm{p}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod}  \\
 & Accumulation & $2 n_\textrm{p}^2$ & $2 n_\textrm{p}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
 \midrule
-EPIC & Gridding & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} N_\textrm{ks}}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA}   \\
-& FFT & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{s}^2 \log_2\left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{A}^2 \log_2\left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-epic-LA}, \ref{eqn:inter-station-pol-hol-img-epic-LA} \\
-& Squaring & $6 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $6 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
-& Accumulation & $2 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $2 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-polarimetric-direct-img-LA}, \ref{eqn:inter-station-opt-polarimetric-direct-img-LA} \\
+EPIC & Gridding & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} N_\textrm{ka}}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} N_\textrm{ks}}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-epic}, \ref{eqn:inter-station-pol-hol-img-epic-expl}   \\
+& FFT & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{s}^2 \log_2\left(\gamma_\textrm{s}\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p} \frac{r}{\log_2 r} \gamma_\textrm{A}^2 \log_2\left(\gamma_\textrm{A}\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-epic}, \ref{eqn:inter-station-pol-hol-img-epic-expl}   \\
+& Squaring & $6 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $6 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod}  \\ 
+& Accumulation & $2 n_\textrm{p}^2 \gamma_\textrm{s}^2$ & $2 n_\textrm{p}^2 \gamma_\textrm{A}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod}  \\
 \midrule
 XBF & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
 & Accumulation & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2  N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
@@ -571,8 +586,8 @@ XBF & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{
 \midrule
 XFFT & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{6 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities}  \\
 & Accumulation & $\frac{2 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{2 n_\textrm{p}^2 N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $\delta t$ & \ref{eqn:intra-station-pol-visibilities}, \ref{eqn:inter-station-pol-visibilities} \\
-& Gridding & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $t_\textrm{acc}$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
-& FFT & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $t_\textrm{acc}$ & \ref{eqn:intra-station-opt-pol-corr-image}, \ref{eqn:inter-station-opt-pol-corr-image} \\
+& Gridding & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ka}) N_\textrm{a/s} (N_\textrm{a/s}-1)/2}{(D_\textrm{s}/D_\textrm{a})^2}$ & $\frac{8 n_\textrm{p}^4 (2^2 N_\textrm{ks}) N_\textrm{s} (N_\textrm{s}-1)/2}{(D_\textrm{A}/D_\textrm{s})^2}$ & $t_\textrm{acc}$ & \ref{eqn:intra-station-pol-img-xfft-expl}, \ref{eqn:inter-station-pol-img-xfft-expl} \\
+& FFT & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 \frac{r}{\log_2 r} \log_2\left(\frac{D_\textrm{A}}{D_\textrm{S}}\right)^2$ & $t_\textrm{acc}$ & \ref{eqn:intra-station-pol-img-xfft-expl}, \ref{eqn:inter-station-pol-img-xfft-expl} \\
 % \midrule
 % Three & Four&three three\tnote{b} &four & & \\
 \bottomrule
@@ -905,11 +920,11 @@ Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost d
 {\includegraphics[width=\textwidth]
 {figures/1D_coherent_per_pixel_compcost_analysis_LAMBDA-I.pdf}
 } \\
-\subfloat[][\texttt{SKA1-Low-core} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+\subfloat[][\texttt{SKA1-Low-core} \label{fig:1D-coherent-compcost-SKA1-low-core}]
 {\includegraphics[width=\textwidth]
 {figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low-core.pdf}
 } \\
-\subfloat[][\texttt{SKA1-Low} \label{fig:1D-coherent-compcost-LAMBDA-I}]
+\subfloat[][\texttt{SKA1-Low} \label{fig:1D-coherent-compcost-SKA1-low}]
 {\includegraphics[width=\textwidth]
 {figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
 } 
