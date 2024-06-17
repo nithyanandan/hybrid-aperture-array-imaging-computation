@@ -224,24 +224,28 @@ Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I} shows a covariant view
 
 A simultaneous beamforming filling the entire field of view can also be achieved by a two-dimensional spatial Fast Fourier Transform (FFT) of the measurements on the aperture plane. This can be enabled even for an irregular layout of station elements by gridding the calibrated electric fields measured by the station elements. The Optimal Map Making formalism \citep[OMM;][]{Tegmark1997a} formalism adopted by \citet{Morales2011} is the basis of the architecture called E-field Parallel Imaging Correlator \cite[EPIC;][]{Thyagarajan+2017},
 \begin{align}
-    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \sum_p \widetilde{W}_{a_m}^{\alpha p*}(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widetilde{E}_{a_m}^p \right) \, , \label{eqn:intra-station-pol-hol-img-epic}
+    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \left(\sum_{a_m} \sum_p \widetilde{W}_{a_m}^{\alpha p*}(\boldsymbol{r}_j-\boldsymbol{r}_{a_m}) \, \widetilde{E}_{a_m}^p \right) \, . \label{eqn:intra-station-pol-hol-img-epic}
 \end{align}
-whose equivalent linear algebraic representation is 
-\begin{align}
-  \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]} \, . \label{eqn:intra-station-pol-hol-img-epic-LA}
-\end{align}
-The subscripted variables on either side of $\leftarrow$ indicate the transformation carried out by the associated matrix. For example, $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\coloneqq e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j}$ denotes the Hermitian of the Fourier matrix (inverse Fourier matrix) transforming variables defined on aperture grid, $\boldsymbol{r}_j$, to sky grid, $\hat{\boldsymbol{s}}_k$. $\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\coloneqq \{\widetilde{W}_{a}^{\alpha p *}(\boldsymbol{r}_j-\boldsymbol{r}_a)\}$ is a matrix, where each column corresponds to the gridding weights of an element, $\widetilde{W}_{a}^{\alpha p*}(\boldsymbol{r}_j)$, and the rows correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each column, the gridding weights are shifted to the element location, $\boldsymbol{r}_{a}$. 
-% And, $\mathbf{W}_{[p,\boldsymbol{r}_{a}\leftarrow \alpha,\boldsymbol{r}]}\coloneqq \{W_{a}^{p\alpha}(\boldsymbol{r}_{a}-\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the holographic pattern of an element, $W_{a}^{p\alpha}(\boldsymbol{r}_j)$, and the columns correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each row, the holographic weights are shifted to the element location, $\boldsymbol{r}_{a}$. 
+The expression within the parenthesis represents the gridding operation, and the summation outside denotes the Fourier transform. The polarised intensities are estimated according to Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}).
+
+% whose equivalent linear algebraic representation is 
+% \begin{align}
+%   \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\,\widetilde{\mathbf{E}}_{[p,\boldsymbol{r}_{a_m}]} \, . \label{eqn:intra-station-pol-hol-img-epic-LA}
+% \end{align}
+% The subscripted variables on either side of $\leftarrow$ indicate the transformation carried out by the associated matrix. For example, $\mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{s}}\leftarrow \boldsymbol{r}]}\coloneqq e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j}$ denotes the Hermitian of the Fourier matrix (inverse Fourier matrix) transforming variables defined on aperture grid, $\boldsymbol{r}_j$, to sky grid, $\hat{\boldsymbol{s}}_k$. $\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{a_m}]}\coloneqq \{\widetilde{W}_{a}^{\alpha p *}(\boldsymbol{r}_j-\boldsymbol{r}_a)\}$ is a matrix, where each column corresponds to the gridding weights of an element, $\widetilde{W}_{a}^{\alpha p*}(\boldsymbol{r}_j)$, and the rows correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each column, the gridding weights are shifted to the element location, $\boldsymbol{r}_{a}$. 
+% % And, $\mathbf{W}_{[p,\boldsymbol{r}_{a}\leftarrow \alpha,\boldsymbol{r}]}\coloneqq \{W_{a}^{p\alpha}(\boldsymbol{r}_{a}-\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the holographic pattern of an element, $W_{a}^{p\alpha}(\boldsymbol{r}_j)$, and the columns correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each row, the holographic weights are shifted to the element location, $\boldsymbol{r}_{a}$. 
 
 Application of the FFT will have the effect of simultaneously beamforming over the entire field of view, $\Omega_\textrm{a}$. The convolution with $\widetilde{W}_{a_m}^{p\alpha*}(\boldsymbol{r})$ has two purposes. Firstly, it can be chosen to optimise specific properties in the synthesised image. For example, choosing $\widetilde{W}_{a_m}^{p\alpha}(\boldsymbol{r})=W_{a_m}^{p\alpha*}(\boldsymbol{r})$ will optimise the signal-to-noise ratio in the image. Secondly, it also acts as gridding convolution transforming data from discrete and arbitrary locations onto a regular grid, thereby facilitating the application of a two-dimensional spatial FFT. 
 
-The polarised intensity on $\mathbb{S}$ is again given by Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}), which is expressed linear algebraically as
-\begin{align}
-    \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\beta,\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:intra-station-opt-polarimetric-direct-img-LA}    
-\end{align}
-where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$. 
+% The polarised intensity on $\mathbb{S}$ is again given by Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}), which is expressed linear algebraically as
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[m,\alpha\beta,\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[m,\beta,\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:intra-station-opt-polarimetric-direct-img-LA}    
+% \end{align}
+% where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$. 
 
-Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I} shows a breakdown of the costs per station per voxel of various components constituting the EPIC architecture, with nominal values of a \texttt{LAMBDA-I} station marked in cyan. The dominant cost is from the two-dimensional FFT (black dashed lines) in Equation~\ref{eqn:intra-station-pol-hol-img-epic} or equivalently, Equation~\ref{eqn:intra-station-pol-hol-img-epic-LA}. Because the spatial FFT cost depends only on the grid dimensions, it is independent of $N_\textrm{a/s}$ as the grid can hold any $N_\textrm{a/s}$ elements as physically possible. This spatial FFT scales roughly as $(\gamma_\textrm{s} \, D_\textrm{s}/D_\textrm{a})^2\log_2(\gamma_\textrm{s}\, D_\textrm{s}/D_\textrm{a})^2$, where, $\gamma_\textrm{s}$ is a constant padding factor. Notably, because the spatial FFT produces an image over the entire field of view at every independent pixel in one instant, it is not a pixelwise operation, and therefore, its cost per pixel is $\approx \log_2(D_\textrm{s}/D_\textrm{a})$, showing a weak dependence on $D_\textrm{s}$ and $D_\textrm{a}$. The pixelwise squaring (pink dot-dashed lines) and temporal averaging (blue dot-dashed lines) costs in Equation~\ref{eqn:intra-station-opt-polarimetric-direct-img-LA} are subdominant. Being per pixel operations, the cost per voxel remains constant with $N_\textrm{a/s}$, $D_\textrm{s}$ and $D_\textrm{a}$ similar to the voltage beamforming architecture. The gridding (black dotted lines) with weights in Equations~(\ref{eqn:intra-station-pol-hol-img-epic}) and (\ref{eqn:intra-station-pol-hol-img-epic-LA}) is a per-element operation and depends only on $N_\textrm{a/s}$, it scales linearly with $N_\textrm{a/s}$ and inverse squared with $D_\textrm{s}$ per voxel. Overall, the gridding cost is significantly subdominant. Again, the spatial averaging of pixels across multiple stations (orange dot-dashed line) is not a station-level operation, but is only shown to emphasise that it operates on a much slower cadence of $t_\textrm{acc}$, scaling inversely with $t_\textrm{acc}$, and adds only negligible cost to the overall cost budget. 
+Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I} shows a breakdown of the costs per station per voxel of various components constituting the EPIC architecture, with nominal values of a \texttt{LAMBDA-I} station marked in cyan. The dominant cost is from the two-dimensional FFT (black dashed lines) in Equation~\ref{eqn:intra-station-pol-hol-img-epic}.
+% or equivalently, Equation~\ref{eqn:intra-station-pol-hol-img-epic-LA}.
+Because the spatial FFT cost depends only on the grid dimensions, it is independent of $N_\textrm{a/s}$ as the grid can hold any $N_\textrm{a/s}$ elements as physically possible. This spatial FFT scales roughly as $(\gamma_\textrm{s} \, D_\textrm{s}/D_\textrm{a})^2\log_2(\gamma_\textrm{s}\, D_\textrm{s}/D_\textrm{a})^2$, where, $\gamma_\textrm{s}$ is a constant padding factor. Notably, because the spatial FFT produces an image over the entire field of view at every independent pixel in one instant, it is not a pixelwise operation, and therefore, its cost per pixel is $\approx \log_2(D_\textrm{s}/D_\textrm{a})$, showing a weak dependence on $D_\textrm{s}$ and $D_\textrm{a}$. The pixelwise squaring (pink dot-dashed lines) and temporal averaging (blue dot-dashed lines) costs in Equation~\ref{eqn:intra-station-opt-polarimetric-direct-img-LA} are subdominant. Being per pixel operations, the cost per voxel remains constant with $N_\textrm{a/s}$, $D_\textrm{s}$ and $D_\textrm{a}$ similar to the voltage beamforming architecture. The gridding (black dotted lines) with weights in Equations~(\ref{eqn:intra-station-pol-hol-img-epic}) and (\ref{eqn:intra-station-pol-hol-img-epic-LA}) is a per-element operation and depends only on $N_\textrm{a/s}$, it scales linearly with $N_\textrm{a/s}$ and inverse squared with $D_\textrm{s}$ per voxel. Overall, the gridding cost is significantly subdominant. Again, the spatial averaging of pixels across multiple stations (orange dot-dashed line) is not a station-level operation, but is only shown to emphasise that it operates on a much slower cadence of $t_\textrm{acc}$, scaling inversely with $t_\textrm{acc}$, and adds only negligible cost to the overall cost budget. 
 
 \begin{figure}
 \includegraphics[width=0.99\linewidth]
@@ -323,6 +327,7 @@ In this approach, $\widetilde{V}_{a_m b_m}^{pq}$, the calibrated and inverse noi
   \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\Delta\boldsymbol{r}_j} \nonumber\\
   &\quad \left(\sum_{a_m,b_m} \sum_p \widetilde{B}_{a_m b_m}^{\alpha\beta pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{a_m b_m}) \, \widetilde{V}_{a_m b_m}^{pq} \right) \, . \label{eqn:intra-station-pol-img-xfft-expl}
 \end{align}
+The gridding and Fourier transform are represented by the parenthesis and outer summation, respectively. 
 
 Mathematically, this is the counterpart to the operations performed on calibrated electric fields from the elements in EPIC, with few key differences -- (1) the calibrated visibilities can be accumulated and allowed for Earth rotation and bandwidth synthesis, (2) the gridding and spatial Fourier transform operates on visibilities rather than electric fields, and (3) the spatial Fourier transform can occur on a slower cadence of $t_\textrm{acc}$ or the calibration timescale, whichever is shorter. This is an explicit form of the optimal map-making (OMM) formalism \citep{Tegmark1997a} provides a lossless and optimal (least-squares) solution, which in the radio interferometric context is often referred to as the ``dirty image'' \citep{TMS2017,SIRA-II}. The purpose of $\widetilde{B}_{a_m b_m}^{\alpha\beta pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{a_m b_m})$ is similar \citep{Morales+2009,Bhatnagar+2008} to its counterpart gridding operator in the EPIC architecture \citep{Morales2011}. 
 
@@ -447,9 +452,9 @@ The products from the intra-station architectures form the inputs for inter-stat
 
 Incoherent inter-station imaging simply involves accumulating the images from each station at a cadence of . The angular resolution remains the same as the intra-station images (assuming all stations have equal angular resolution). This can be achieved through the four methods described in section~\ref{sec:intra-station-arch} by accumulating the intensities, 
 \begin{align}
-    \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k) &= \frac{\sum_m w_{km}^{\alpha\beta} \, \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k)}{\sum_m w_{km}^{\alpha\beta}} \, , \label{eqn:inter-station-incoherent-pol-images}
+    \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k) &= \frac{\sum_m w_{m}^{\alpha\beta}(\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{I}}_m^{\alpha\beta}(\hat{\boldsymbol{s}}_k)}{\sum_m w_{m}^{\alpha\beta}(\hat{\boldsymbol{s}}_k)} \, , \label{eqn:inter-station-incoherent-pol-images}
 \end{align}
-where, $w_{km}^{\alpha\beta}$ represents station weights in the incoherent accumulation of intensities for the intra-station beam centred on $\hat{\boldsymbol{s}}_k$. The incoherent nature of this inter-station intensity accumulation implies that it does not depend on inter-station spacing in the array layout and the array diameter, $D_A$. 
+where, $w_{m}^{\alpha\beta}(\hat{\boldsymbol{s}}_k)$ represents station weights in the incoherent accumulation of intensities for the intra-station beam centred on $\hat{\boldsymbol{s}}_k$. The incoherent nature of this inter-station intensity accumulation implies that it does not depend on inter-station spacing in the array layout and the array diameter, $D_A$. 
 
 \subsection{Coherent Architectures} \label{sec:coherent}
 
@@ -457,7 +462,9 @@ A coherent combination of data between stations requires electric field data pro
 
 The pointing direction of the virtual synthesised telescope from the elements of station, $m$ is denoted by $\hat{\boldsymbol{s}}_k$. The field of view and angular resolution of the intra-station $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ are determined by the station element and the station dimensions, respectively. Using these electric fields as measurements from virtual synthesised telescopes, the inter-station imaging architecture can take any of the architectures that were already discussed under intra-station imaging by combining the electric fields from synthesised telescopes from different stations virtually pointed in the same direction. Since the computational costs depend on the station and array layouts, this necessitates hybrid architectures appropriate for multi-scale aperture arrays. 
 
-Below, $\widetilde{E}_{a_m}^p$ is replaced with the Electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ (equivalently,  $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]}$) coherently produced by the intra-station processing either through voltage beamforming or EPIC with corresponding changes in replacing intra-station with inter-station terms. We use $\hat{\boldsymbol{\sigma}}_l$ and $\boldsymbol{r}_{m}$ to denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and location of station $m$, respectively. 
+Below, $\widetilde{E}_{a_m}^p$ is replaced with the Electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$
+% (equivalently,  $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]}$)
+coherently produced by the intra-station processing either through voltage beamforming or EPIC with corresponding changes in replacing intra-station with inter-station terms. We use $\boldsymbol{\sigma}_l$ and $\boldsymbol{r}_{m}$ to denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and location of station $m$, respectively. 
 
 \subsubsection{Beamforming}
 
@@ -465,11 +472,11 @@ The inter-station beamforming
 % takes the same form as Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) except $\widetilde{E}_{a_m}^p$ is replaced with beamformed $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ and corresponding changes in other terms too. Thus,
 can be written as
 \begin{align}
-    \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) &= \sum_{m} \sum_p  \widetilde{\mathcal{W}}_{km}^{{p\alpha}^*}(\hat{\boldsymbol{\sigma}}_l) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\boldsymbol{r}_{m}} \, . \label{eqn:inter-station-pol-hol-img-expl}    
+    \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\boldsymbol{\sigma}_l) &= \sum_{m} \sum_p  \widetilde{\mathcal{W}}_{m}^{{p\alpha}^*}(\boldsymbol{\sigma}_l,\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \boldsymbol{\sigma}_l\cdot\boldsymbol{r}_{m}} \, . \label{eqn:inter-station-pol-hol-img-expl}    
 \end{align}
-The corresponding polarised intensity at $\hat{\boldsymbol{\sigma}}_l$ within the station resolution element denoted by $\hat{\boldsymbol{s}}_k$, is given by the ``squaring'' and averaging operations, similar to Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}),
+The corresponding polarised intensity at $\boldsymbol{\sigma}_l$ within the station resolution element denoted by $\hat{\boldsymbol{s}}_k$, is given by the ``squaring'' and averaging operations, similar to Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}),
 \begin{align}
-    \widetilde{\mathcal{I}}^{\alpha\beta}_{\hat{\boldsymbol{s}}_k}(\hat{\boldsymbol{\sigma}}_l) &= \left\langle \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) \,  \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^{\beta^*}(\hat{\boldsymbol{\sigma}}_l) \right\rangle \, , \label{eqn:inter-station-opt-pol-img-outprod}
+    \widetilde{\mathcal{I}}^{\alpha\beta}_{\hat{\boldsymbol{s}}_k}(\boldsymbol{\sigma}_l) &= \left\langle \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\boldsymbol{\sigma}_l) \,  \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^{\beta^*}(\boldsymbol{\sigma}_l) \right\rangle \, , \label{eqn:inter-station-opt-pol-img-outprod}
 \end{align}
 where, the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$. The angular resolution of the inter-station beamforming will correspond to the dimensions of the layout of stations within the array.
 
@@ -489,45 +496,46 @@ where, the angular brackets denote a temporal averaging across an interval of $t
 
 Inter-station EPIC takes the form
 \begin{align}
-  \widetilde{\mathcal{E}}^\alpha(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\boldsymbol{r}_j} \nonumber\\
-  &\quad \left(\sum_{m} \sum_p \widetilde{W}_{m}^{\alpha p*}(\boldsymbol{r}_j-\boldsymbol{r}_{m}) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \right) \, , \label{eqn:inter-station-pol-hol-img-epic-expl}
+  \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\boldsymbol{r}_j} \nonumber\\
+  &\quad \left(\sum_{m} \sum_p \widetilde{W}_{m}^{\alpha p*}(\boldsymbol{r}_j-\boldsymbol{r}_{m},\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \right) \, , \label{eqn:inter-station-pol-hol-img-epic-expl}
 \end{align}
-
+% \begin{align}
+%     \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{m}]}\,\widetilde{\boldsymbol{\mathcal{E}}}_{[m,p,\hat{\boldsymbol{s}}]} \, . \label{eqn:inter-station-pol-hol-img-epic-LA}
+% \end{align}
+for gridding (parenthesis) and two-dimensional FFT (outer summation) of electrical fields with an angular resolution corresponding to the full array layout including all stations. The intensities are produced by squaring and accumulation as
 \begin{align}
-    \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow \boldsymbol{r}]}\,\widetilde{\mathbf{W}}^\textrm{H}_{[\alpha,\boldsymbol{r}\leftarrow p,\boldsymbol{r}_{m}]}\,\widetilde{\boldsymbol{\mathcal{E}}}_{[m,p,\hat{\boldsymbol{s}}]} \, . \label{eqn:inter-station-pol-hol-img-epic-LA}
+    \widetilde{\mathcal{I}}_{\hat{\boldsymbol{s}}_k}^{\alpha\beta}(\hat{\boldsymbol{\sigma}}_l) &= \left\langle \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) \, \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^{\beta *}(\hat{\boldsymbol{\sigma}}_l) \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-expl}    
 \end{align}
-for producing gridding and two-dimensional FFT electrical fields with an angular resolution corresponding to the full array layout including all stations. The intensities are produced by squaring and accumulation as
-\begin{align}
-    \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) &= \left\langle \widetilde{\mathcal{E}}^\alpha(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) \, \widetilde{\mathcal{E}}^{\beta *}(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-expl}    
-\end{align}
-
-\begin{align}
-    \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-LA}    
-\end{align}
-where, the outer product is performed over polarisation indices, $\alpha$ and $\beta$, and the the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$.  
-
+% \begin{align}
+%     \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \left\langle \widetilde{\boldsymbol{\mathcal{E}}}_{[\alpha,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} \bigotimes_{\alpha\beta} \widetilde{\boldsymbol{\mathcal{E}}}_{[\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]}^* \right\rangle \, , \label{eqn:inter-station-opt-polarimetric-direct-img-LA}    
+% \end{align}
+where,
+% the outer product is performed over polarisation indices, $\alpha$ and $\beta$, and
+the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$.  
 
 \subsubsection{Correlator Beamforming}
 
-The intra-station electric fields, $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,p,\hat{\boldsymbol{s}}]}$ or $\widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k)$, phase-centred towards $\hat{\boldsymbol{s}}_k$ are correlated to produce the inter-station visibilities, 
+The intra-station electric fields,
+% $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,p,\hat{\boldsymbol{s}}]}$ or
+$\widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k)$, phase-centred towards $\hat{\boldsymbol{s}}_k$ are correlated to produce the inter-station visibilities, 
 \begin{align}
     \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) &= \bigl\langle \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_n^{q*}(\hat{\boldsymbol{s}}_k)\bigr\rangle \label{eqn:inter-station-pol-visibilities}
 \end{align}
 which are then beamformed similar to Equation~(\ref{eqn:intra-station-pol-xbf-img-expl}) to produce the intensities at a higher angular resolution around $\hat{\boldsymbol{s}}_k$ filling the station-scale angular resolution element (equivalently, the array's field of view),
 \begin{align}
     \widetilde{\mathcal{I}}^{\alpha\beta}_{\hat{\boldsymbol{s}}_k}(\hat{\boldsymbol{\sigma}}_l)
-    &= \sum_{m,n} \sum_{p,q} \widetilde{\mathcal{B}}_{kmn}^{*pq;\alpha\beta}(\hat{\boldsymbol{\sigma}}_l) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_{m n}} \, , \label{eqn:inter-station-pol-xbf-img-expl} 
+    &= \sum_{m,n} \sum_{p,q} \widetilde{\mathcal{B}}_{mn}^{*pq;\alpha\beta}(\hat{\boldsymbol{\sigma}}_l, \hat{\boldsymbol{s}}_k) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_{m n}} \, , \label{eqn:inter-station-pol-xbf-img-expl} 
 \end{align}
-where, $\widetilde{\mathcal{B}}_{kmn}^{*pq;\alpha\beta}(\hat{\boldsymbol{\sigma}}_l)$ is applied to the visibility phase-centred on $\hat{\boldsymbol{s}}_k$ as a directional weighting (direction denoted by $\hat{\boldsymbol{\sigma}}_l$).  
+where, $\widetilde{\mathcal{B}}_{mn}^{*pq;\alpha\beta}(\hat{\boldsymbol{\sigma}}_l,\hat{\boldsymbol{s}}_k)$ is applied to the visibility phase-centred on $\hat{\boldsymbol{s}}_k$ as a directional weighting (direction denoted by $\hat{\boldsymbol{\sigma}}_l$).  
 
 \subsubsection{Correlation FFT}
 
 The visibilities are obtained as in Equation~(\ref{eqn:inter-station-pol-visibilities}) and transformed using an FFT following the same formalism in Equation~(\ref{eqn:intra-station-opt-pol-corr-image}), to yield the polarised intensities,
 \begin{align}
-  \widetilde{\mathcal{I}}^{\alpha\beta}(\hat{\boldsymbol{s}}_k+\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_j} \nonumber\\
-  &\quad \left(\sum_{m,n} \sum_{p,q} \widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{mn}) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \right) \, , \label{eqn:inter-station-pol-img-xfft-expl}
+  \widetilde{\mathcal{I}}_{\hat{\boldsymbol{s}}_k}^{\alpha\beta}(\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \Delta\boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_j} \nonumber\\
+  &\quad \left(\sum_{m,n} \sum_{p,q} \widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{mn}, \hat{\boldsymbol{s}}_k) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \right) \, , \label{eqn:inter-station-pol-img-xfft-expl}
 \end{align}
-where, $\widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{mn})$ is the gridding operator that places discrete inverse noise covariance weighted intra-station visibilities, $\widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k)$, phased towards $\hat{\boldsymbol{s}}_k$ onto an array-scale grid and accumulates any visibilities overlapping on the grid points. 
+where, $\widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\boldsymbol{r}_{mn}, \hat{\boldsymbol{s}}_k)$ is the gridding operator that projects discrete inverse noise covariance weighted intra-station visibilities, $\widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k)$, phased towards $\hat{\boldsymbol{s}}_k$ onto an array-scale grid and accumulates any visibilities overlapping on the grid points. 
 
 % \begin{align}
 %     \widetilde{\mathbf{I}}_{[\alpha\beta,\hat{\boldsymbol{\sigma}},\hat{\boldsymbol{s}}]} &= \mathbf{F}^\textrm{H}_{[\hat{\boldsymbol{\sigma}}\leftarrow\Delta\boldsymbol{r}]}\,\widetilde{\mathbf{B}}^\textrm{H}_{[\alpha\beta,\Delta\boldsymbol{r}\leftarrow pq,\Delta\boldsymbol{r}_{mn}]} \mathbf{N}^{-1}_{[mn\leftarrow mn]}\,\widehat{\mathbf{V}}_{[mn,pq,\hat{\boldsymbol{s}}]} \, , \label{eqn:inter-station-opt-pol-corr-image}
@@ -1116,87 +1124,87 @@ Insert the Acknowledgment text here.
 % \printbibliography
 \bibliography{refs}
 
-\appendix
+% \appendix
 
-\section{Mathematical Details}\label{sec:notation}
+% \section{Mathematical Details}\label{sec:notation}
 
-Let $\mathcal{E}^\alpha_\nu(\hat{\boldsymbol{s}},t)$ represent the spectral Fourier components of the electric field time series emanating from astrophysical sources of emission in directions denoted by the unit vector, $\hat{\boldsymbol{s}}$, where, $\alpha\in\{1,2\}$ denotes the index of the polarisation state of the radiation, $\nu$ denotes the spectral component or the frequency of radiation, $\lambda=c/\nu$ is the wavelength, and $c$ is the speed of light. Hereafter, without loss of generality, all quantities can be implicitly assumed to depend on time and frequency throughout without explicit specification. Thus, $\mathcal{E}^\alpha(\hat{\boldsymbol{s}})\equiv \mathcal{E}^\alpha_\nu(\hat{\boldsymbol{s}},t)$
+% Let $\mathcal{E}^\alpha_\nu(\hat{\boldsymbol{s}},t)$ represent the spectral Fourier components of the electric field time series emanating from astrophysical sources of emission in directions denoted by the unit vector, $\hat{\boldsymbol{s}}$, where, $\alpha\in\{1,2\}$ denotes the index of the polarisation state of the radiation, $\nu$ denotes the spectral component or the frequency of radiation, $\lambda=c/\nu$ is the wavelength, and $c$ is the speed of light. Hereafter, without loss of generality, all quantities can be implicitly assumed to depend on time and frequency throughout without explicit specification. Thus, $\mathcal{E}^\alpha(\hat{\boldsymbol{s}})\equiv \mathcal{E}^\alpha_\nu(\hat{\boldsymbol{s}},t)$
 
-Electric fields in the aperture plane, $E^\alpha(\boldsymbol{r})$, can be written as a superposition of those that propagated from the astrophysical sources on the celestial surface $\mathbb{S}$:
-\begin{align}
-    E^\alpha(\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda}\hat{\boldsymbol{s}}\cdot\boldsymbol{r}} \,\mathrm{d}\Omega,
-\end{align}
-where, the integral is over the celestial surface, $\mathbb{S}$, covered by the unit vector, $\hat{\boldsymbol{s}}$, $\boldsymbol{r}$ denotes the observer's location, $\mathrm{d}\Omega=\mathrm{d}^2\hat{\boldsymbol{s}}$ is the infinitesimal solid angle element on $\mathbb{S}$ perpendicular to $\hat{\boldsymbol{s}}$. 
-
-The measuring instrument will imprint its transfer function on the measurements. If $a$ denotes a collecting element at location $\boldsymbol{r}_{a}$, then the electric field measured by this element will be
-\begin{align}
-    E_{a}^p &= \int_\mathbb{S} \sum_\alpha \mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})\, \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a}} \,\mathrm{d}\Omega + n_{a}^p \, , \label{eqn:polarimetric-Efield-element-ideal}
-\end{align}
-where, $n_{a}^p$ and $\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})$ are the stochastic noise and polarisation-sensitive, directional electric field response of the element, $a$, respectively. $\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})$ denotes the contribution from polarisation state, $\alpha$, in $\mathbb{S}$ to polarisation state, $p$, in the measurement.
-
-Thus, the measured electric field can be treated as a linear superposition of the electric fields emanating from astronomical sources with appropriate complex phases acquired on account of propagation and properties of the measuring instrument. Ignoring wide-field effects, this relation can be simplified as a two-dimensional Fourier transform of the electric fields in the sky coordinates \citep{TMS2017}. Using the convolution theorem of Fourier transform, Equation~(\ref{eqn:polarimetric-Efield-element-ideal}) can be expressed as the weighted integral of the propagated electric field over the region the element is responsive to in the aperture surface, $\mathbb{R}$, 
-\begin{align}
-    E_{a}^p &= \int_\mathbb{R} \sum_\alpha W_{a}^{p\alpha}(\boldsymbol{r}_{a} - \boldsymbol{r})\,E^\alpha(\boldsymbol{r}) \, \mathrm{d}^2 \boldsymbol{r}+ n_{a}^p \, , \label{eqn:polarimetric-Efield-element-ideal-aperture-continuous}
-\end{align}
-where, the weighting, denoted by $W_{a}^{p\alpha}(\boldsymbol{r})$, is the spatial Fourier transform of $\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})$,
-\begin{align}
-    W_{a}^{p\alpha}(\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \boldsymbol{r}} \,\mathrm{d}\Omega \, . \label{eqn:holographic-Efield-illumination}
-\end{align}
-
-Equation~(\ref{eqn:polarimetric-Efield-element-ideal-aperture-continuous}) involves a weighted integral of the propagated electric fields, where the weighting corresponds to the instrumental response, $W_{a}^{p\alpha}(\boldsymbol{r})$, centred at the location of the element, $a$, in the aperture plane, $\mathbb{R}$. Generally, $W_{a}^{p\alpha}(\boldsymbol{r})$ is physically interpretable as the holographic pattern of the element element in the aperture plane, which has support over the element's area of influence where it collects signals from. 
-% However, in some cases such as for narrow dipoles, this relation is purely mathematical and a physical interpretation is not straightforward. 
-% such as narrow dipoles, this relation is  encapsulates the aperture field illumination pattern of the element or the element's aperture distribution, 
-$W_{a}^{p\alpha}(\boldsymbol{r})$ can also include other instrumental effects that influence the element behavior. 
-
-Equations~(\ref{eqn:polarimetric-Efield-element-ideal}) and (\ref{eqn:polarimetric-Efield-element-ideal-aperture-continuous}) can be discretised as:
-\begin{align}
-    E_{a}^p &= \sum_k e^{-i\frac{2\pi}{\lambda}\hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a}} \, \sum_\alpha \left[\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}}_k) \, \mathcal{E}^\alpha(\hat{\boldsymbol{s}}_k)\right] \, \delta\Omega_k + n_{a}^p \, , \label{eqn:Efield-element-img-discrete}
-\end{align}
-or
-\begin{align}
-    E_{a}^p &= \sum_j \sum_\alpha W_{a}^{p\alpha}(\boldsymbol{r}_{a}-\boldsymbol{r}_j)\, \delta^2\boldsymbol{r}_j \left(\sum_k e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \, \mathcal{E}^\alpha(\hat{\boldsymbol{s}}_k) \,\delta\Omega_k \right) \nonumber\\ 
-    &\quad + n_{a}^p \, , \label{eqn:Efield-element-aperture-discrete}    
-\end{align}
-respectively. Equation~(\ref{eqn:Efield-element-aperture-discrete}) can be represented linear algebraically as
-\begin{align}
-    \mathbf{E}_{[p,\boldsymbol{r}_{a}]} &= \mathbf{W}_{[p,\boldsymbol{r}_{a}\leftarrow \alpha,\boldsymbol{r}]} \, \mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{E}}_{[\alpha,\hat{\boldsymbol{s}}]} + \mathbf{n}_{[p,\boldsymbol{r}_{a}]} \, .
-\end{align}
-The subscripted variables on either side of $\leftarrow$ indicate the transformation carried out by the associated matrix. For example, $\mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]}\coloneqq e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j}$ denotes the Fourier matrix transforming variables defined on sky grid, $\hat{\boldsymbol{s}}_k$, to the aperture grid, $\boldsymbol{r}_j$. And, $\mathbf{W}_{[p,\boldsymbol{r}_{a}\leftarrow \alpha,\boldsymbol{r}]}\coloneqq \{W_{a}^{p\alpha}(\boldsymbol{r}_{a}-\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the holographic pattern of an element, $W_{a}^{p\alpha}(\boldsymbol{r}_j)$, and the columns correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each row, the holographic weights are shifted to the element location, $\boldsymbol{r}_{a}$. 
-
-The theory of mutual coherence has established the relation between the intensity distribution of spatially incoherent quasi-monochromatic emission, $I^{\alpha\beta}(\hat{\boldsymbol{s}})\coloneqq \bigl\langle \mathcal{E}^\alpha(\hat{\boldsymbol{s}}) \mathcal{E}^{\beta *}(\hat{\boldsymbol{s}}) \bigr\rangle$ on $\mathbb{S}$ and mutual coherence, or visibility, $V^{\alpha\beta}(\Delta\boldsymbol{r})\coloneqq \bigl\langle E^\alpha(\boldsymbol{r})E^{\beta *}(\boldsymbol{r}+\Delta\boldsymbol{r})\bigr\rangle$, in the aperture plane, and is popularly known as the \textit{Van Cittert-Zernike} theorem \citep{VanCittert1934,Zernike1938,Born-Wolf,Goodman2000,TMS2017}:
-\begin{align}
-    V^{\alpha\beta}(\Delta\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}} \,\mathrm{d}\Omega, \label{eqn:VCZ-theorem}
-\end{align}
-where, $\Delta\boldsymbol{r}$, denotes the displacement vector between any two locations\footnote{The dependence of spatial coherence on $\Delta\mathbb{R}$ (displacement vectors between the element pairs), rather than $\mathbb{R}$ (absolute positions), in Equation~(\ref{eqn:VCZ-theorem}) implies an assumption of wide-sense spatial stationarity for the electric fields measured on the aperture, which will hold true only when the spatial intensity distribution, $\mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})$, on $\mathbb{S}$ is spatially incoherent.} in the aperture domain $\mathbb{R}$, $\langle\cdot\rangle$ denotes an estimator of the ensemble average\footnote{This is typically obtained by assuming ergodicity and averaging over a coherence scale usually along temporal or spectral axes, and sometimes over redundant element spacings.}, and $*$ denotes complex conjugation. When the instrument's transfer function is included in the measurement process, the visibility measured by the interferometer elements $a$ and $b$ (with separation $\Delta\boldsymbol{r}_{ab}\coloneqq \boldsymbol{r}_{a}-\boldsymbol{r}_{b}$) will be:
-\begin{align}
-    V_{ab}^{pq} &= \int_\mathbb{S} \sum_{\alpha,\beta} \mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}})\,\mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}_{ab}} \,\mathrm{d}\Omega + n_{ab}^{pq} \, , \label{eqn:ideal-polarimetric-visibilities}
-\end{align}
-where, 
-\begin{align}
-    \mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}) &=  \mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}}) \mathcal{W}_{b}^{{q\beta }^*}(\hat{\boldsymbol{s}}) \, ,
-\end{align}
-is the directional polarimetric cross-power pattern of an ideal two-element interferometer (made of elements $a$ and $b$) measuring two polarizations, $p$ and $q$. Equation~(\ref{eqn:ideal-polarimetric-visibilities}) is the polarimetric radio interferometric measurement equation (RIME).  
-% In the absence of other non-ideal effects, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$ corresponds to the directional cross-power pattern of the interferometer comprising of elements $a$ and $b$.
-
-From the Fourier transform relations, the above equations can be expressed equivalently in the aperture plane. The cross-power illumination of the interferometer's aperture, $B_{ab}^{pq;\alpha\beta}(\Delta\boldsymbol{r})$, is the Fourier transform of the directional cross-power pattern, $\mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}})$,
-\begin{align}
-    B_{ab}^{pq;\alpha\beta}(\Delta\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}) \, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \Delta\boldsymbol{r}_{ab}} \,\mathrm{d}\Omega \label{eqn:holographic-power-illumination} \\
-    &= \int_\mathbb{R} W_{a}^{p\alpha}(\boldsymbol{r}) \, W_{b}^{q\beta *}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r} \, ,
-\end{align}
-% In the aperture (Fourier) domain, it is equivalent to
+% Electric fields in the aperture plane, $E^\alpha(\boldsymbol{r})$, can be written as a superposition of those that propagated from the astrophysical sources on the celestial surface $\mathbb{S}$:
 % \begin{align}
-%     B_{a_m b_m}^{pq;\alpha\beta}(\Delta\boldsymbol{r}) &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r} \, ,
+%     E^\alpha(\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda}\hat{\boldsymbol{s}}\cdot\boldsymbol{r}} \,\mathrm{d}\Omega,
 % \end{align}
-which is a correlation of the aperture-plane responses of the two individual elements of the interferometer. The RIME in Equation~(\ref{eqn:ideal-polarimetric-visibilities}) can be expressed alternatively in the aperture domain as:
-\begin{align}
-    V_{ab}^{pq} &= \bigl\langle E_{a}^p \, E_{b}^{q*}\bigr\rangle\\ 
-    &= \int_{\Delta\mathbb{R}} \sum_{\alpha,\beta} B_{ab}^{pq;\alpha\beta}(\Delta\boldsymbol{r}_{ab}-\Delta\boldsymbol{r})\,V^{\alpha\beta}(\Delta\boldsymbol{r})\,\mathrm{d}^2\Delta\boldsymbol{r}  + n_{ab}^{pq} \, , \label{eqn:vis-degridding}
-\end{align}
-whose discrete linear algebraic representation is
-\begin{align}
-    \mathbf{V}_{[pq,\Delta\boldsymbol{r}_{ab}]} &= \mathbf{B}_{[pq,\Delta\boldsymbol{r}_{ab}\leftarrow \alpha\beta,\Delta\boldsymbol{r}]} \, \mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{I}}_{[\alpha\beta,\hat{\boldsymbol{s}}]} + \mathbf{n}_{[pq,\Delta\boldsymbol{r}_{ab}]} \, .
-\end{align}
-Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to, centered at $\Delta\boldsymbol{r}_{ab}$. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
+% where, the integral is over the celestial surface, $\mathbb{S}$, covered by the unit vector, $\hat{\boldsymbol{s}}$, $\boldsymbol{r}$ denotes the observer's location, $\mathrm{d}\Omega=\mathrm{d}^2\hat{\boldsymbol{s}}$ is the infinitesimal solid angle element on $\mathbb{S}$ perpendicular to $\hat{\boldsymbol{s}}$. 
+
+% The measuring instrument will imprint its transfer function on the measurements. If $a$ denotes a collecting element at location $\boldsymbol{r}_{a}$, then the electric field measured by this element will be
+% \begin{align}
+%     E_{a}^p &= \int_\mathbb{S} \sum_\alpha \mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})\, \mathcal{E}^\alpha(\hat{\boldsymbol{s}})\, e^{-i \frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\boldsymbol{r}_{a}} \,\mathrm{d}\Omega + n_{a}^p \, , \label{eqn:polarimetric-Efield-element-ideal}
+% \end{align}
+% where, $n_{a}^p$ and $\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})$ are the stochastic noise and polarisation-sensitive, directional electric field response of the element, $a$, respectively. $\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})$ denotes the contribution from polarisation state, $\alpha$, in $\mathbb{S}$ to polarisation state, $p$, in the measurement.
+
+% Thus, the measured electric field can be treated as a linear superposition of the electric fields emanating from astronomical sources with appropriate complex phases acquired on account of propagation and properties of the measuring instrument. Ignoring wide-field effects, this relation can be simplified as a two-dimensional Fourier transform of the electric fields in the sky coordinates \citep{TMS2017}. Using the convolution theorem of Fourier transform, Equation~(\ref{eqn:polarimetric-Efield-element-ideal}) can be expressed as the weighted integral of the propagated electric field over the region the element is responsive to in the aperture surface, $\mathbb{R}$, 
+% \begin{align}
+%     E_{a}^p &= \int_\mathbb{R} \sum_\alpha W_{a}^{p\alpha}(\boldsymbol{r}_{a} - \boldsymbol{r})\,E^\alpha(\boldsymbol{r}) \, \mathrm{d}^2 \boldsymbol{r}+ n_{a}^p \, , \label{eqn:polarimetric-Efield-element-ideal-aperture-continuous}
+% \end{align}
+% where, the weighting, denoted by $W_{a}^{p\alpha}(\boldsymbol{r})$, is the spatial Fourier transform of $\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})$,
+% \begin{align}
+%     W_{a}^{p\alpha}(\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \boldsymbol{r}} \,\mathrm{d}\Omega \, . \label{eqn:holographic-Efield-illumination}
+% \end{align}
+
+% Equation~(\ref{eqn:polarimetric-Efield-element-ideal-aperture-continuous}) involves a weighted integral of the propagated electric fields, where the weighting corresponds to the instrumental response, $W_{a}^{p\alpha}(\boldsymbol{r})$, centred at the location of the element, $a$, in the aperture plane, $\mathbb{R}$. Generally, $W_{a}^{p\alpha}(\boldsymbol{r})$ is physically interpretable as the holographic pattern of the element element in the aperture plane, which has support over the element's area of influence where it collects signals from. 
+% % However, in some cases such as for narrow dipoles, this relation is purely mathematical and a physical interpretation is not straightforward. 
+% % such as narrow dipoles, this relation is  encapsulates the aperture field illumination pattern of the element or the element's aperture distribution, 
+% $W_{a}^{p\alpha}(\boldsymbol{r})$ can also include other instrumental effects that influence the element behavior. 
+
+% Equations~(\ref{eqn:polarimetric-Efield-element-ideal}) and (\ref{eqn:polarimetric-Efield-element-ideal-aperture-continuous}) can be discretised as:
+% \begin{align}
+%     E_{a}^p &= \sum_k e^{-i\frac{2\pi}{\lambda}\hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a}} \, \sum_\alpha \left[\mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}}_k) \, \mathcal{E}^\alpha(\hat{\boldsymbol{s}}_k)\right] \, \delta\Omega_k + n_{a}^p \, , \label{eqn:Efield-element-img-discrete}
+% \end{align}
+% or
+% \begin{align}
+%     E_{a}^p &= \sum_j \sum_\alpha W_{a}^{p\alpha}(\boldsymbol{r}_{a}-\boldsymbol{r}_j)\, \delta^2\boldsymbol{r}_j \left(\sum_k e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j} \, \mathcal{E}^\alpha(\hat{\boldsymbol{s}}_k) \,\delta\Omega_k \right) \nonumber\\ 
+%     &\quad + n_{a}^p \, , \label{eqn:Efield-element-aperture-discrete}    
+% \end{align}
+% respectively. Equation~(\ref{eqn:Efield-element-aperture-discrete}) can be represented linear algebraically as
+% \begin{align}
+%     \mathbf{E}_{[p,\boldsymbol{r}_{a}]} &= \mathbf{W}_{[p,\boldsymbol{r}_{a}\leftarrow \alpha,\boldsymbol{r}]} \, \mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{E}}_{[\alpha,\hat{\boldsymbol{s}}]} + \mathbf{n}_{[p,\boldsymbol{r}_{a}]} \, .
+% \end{align}
+% The subscripted variables on either side of $\leftarrow$ indicate the transformation carried out by the associated matrix. For example, $\mathbf{F}_{[\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]}\coloneqq e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_j}$ denotes the Fourier matrix transforming variables defined on sky grid, $\hat{\boldsymbol{s}}_k$, to the aperture grid, $\boldsymbol{r}_j$. And, $\mathbf{W}_{[p,\boldsymbol{r}_{a}\leftarrow \alpha,\boldsymbol{r}]}\coloneqq \{W_{a}^{p\alpha}(\boldsymbol{r}_{a}-\boldsymbol{r}_j)\}$ is a matrix, where each row corresponds to the holographic pattern of an element, $W_{a}^{p\alpha}(\boldsymbol{r}_j)$, and the columns correspond to the aperture grid locations, $\boldsymbol{r}_j$. In each row, the holographic weights are shifted to the element location, $\boldsymbol{r}_{a}$. 
+
+% The theory of mutual coherence has established the relation between the intensity distribution of spatially incoherent quasi-monochromatic emission, $I^{\alpha\beta}(\hat{\boldsymbol{s}})\coloneqq \bigl\langle \mathcal{E}^\alpha(\hat{\boldsymbol{s}}) \mathcal{E}^{\beta *}(\hat{\boldsymbol{s}}) \bigr\rangle$ on $\mathbb{S}$ and mutual coherence, or visibility, $V^{\alpha\beta}(\Delta\boldsymbol{r})\coloneqq \bigl\langle E^\alpha(\boldsymbol{r})E^{\beta *}(\boldsymbol{r}+\Delta\boldsymbol{r})\bigr\rangle$, in the aperture plane, and is popularly known as the \textit{Van Cittert-Zernike} theorem \citep{VanCittert1934,Zernike1938,Born-Wolf,Goodman2000,TMS2017}:
+% \begin{align}
+%     V^{\alpha\beta}(\Delta\boldsymbol{r}) &= \int_\mathbb{S} \mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}} \,\mathrm{d}\Omega, \label{eqn:VCZ-theorem}
+% \end{align}
+% where, $\Delta\boldsymbol{r}$, denotes the displacement vector between any two locations\footnote{The dependence of spatial coherence on $\Delta\mathbb{R}$ (displacement vectors between the element pairs), rather than $\mathbb{R}$ (absolute positions), in Equation~(\ref{eqn:VCZ-theorem}) implies an assumption of wide-sense spatial stationarity for the electric fields measured on the aperture, which will hold true only when the spatial intensity distribution, $\mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})$, on $\mathbb{S}$ is spatially incoherent.} in the aperture domain $\mathbb{R}$, $\langle\cdot\rangle$ denotes an estimator of the ensemble average\footnote{This is typically obtained by assuming ergodicity and averaging over a coherence scale usually along temporal or spectral axes, and sometimes over redundant element spacings.}, and $*$ denotes complex conjugation. When the instrument's transfer function is included in the measurement process, the visibility measured by the interferometer elements $a$ and $b$ (with separation $\Delta\boldsymbol{r}_{ab}\coloneqq \boldsymbol{r}_{a}-\boldsymbol{r}_{b}$) will be:
+% \begin{align}
+%     V_{ab}^{pq} &= \int_\mathbb{S} \sum_{\alpha,\beta} \mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}})\,\mathcal{I}^{\alpha\beta}(\hat{\boldsymbol{s}})\, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot\Delta\boldsymbol{r}_{ab}} \,\mathrm{d}\Omega + n_{ab}^{pq} \, , \label{eqn:ideal-polarimetric-visibilities}
+% \end{align}
+% where, 
+% \begin{align}
+%     \mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}) &=  \mathcal{W}_{a}^{p\alpha}(\hat{\boldsymbol{s}}) \mathcal{W}_{b}^{{q\beta }^*}(\hat{\boldsymbol{s}}) \, ,
+% \end{align}
+% is the directional polarimetric cross-power pattern of an ideal two-element interferometer (made of elements $a$ and $b$) measuring two polarizations, $p$ and $q$. Equation~(\ref{eqn:ideal-polarimetric-visibilities}) is the polarimetric radio interferometric measurement equation (RIME).  
+% % In the absence of other non-ideal effects, $\mathcal{B}_{a_m b_m}(\hat{\boldsymbol{s}})$ corresponds to the directional cross-power pattern of the interferometer comprising of elements $a$ and $b$.
+
+% From the Fourier transform relations, the above equations can be expressed equivalently in the aperture plane. The cross-power illumination of the interferometer's aperture, $B_{ab}^{pq;\alpha\beta}(\Delta\boldsymbol{r})$, is the Fourier transform of the directional cross-power pattern, $\mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}})$,
+% \begin{align}
+%     B_{ab}^{pq;\alpha\beta}(\Delta\boldsymbol{r}) &= \frac{1}{\lambda^2}\int_\mathbb{S} \mathcal{B}_{ab}^{pq;\alpha\beta}(\hat{\boldsymbol{s}}) \, e^{-i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}\cdot \Delta\boldsymbol{r}_{ab}} \,\mathrm{d}\Omega \label{eqn:holographic-power-illumination} \\
+%     &= \int_\mathbb{R} W_{a}^{p\alpha}(\boldsymbol{r}) \, W_{b}^{q\beta *}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r} \, ,
+% \end{align}
+% % In the aperture (Fourier) domain, it is equivalent to
+% % \begin{align}
+% %     B_{a_m b_m}^{pq;\alpha\beta}(\Delta\boldsymbol{r}) &= \int_\mathbb{R} W_{a_m}(\boldsymbol{r}) W_{b_m}^{*}(\boldsymbol{r}+\Delta\boldsymbol{r})\,\mathrm{d}^2\boldsymbol{r} \, ,
+% % \end{align}
+% which is a correlation of the aperture-plane responses of the two individual elements of the interferometer. The RIME in Equation~(\ref{eqn:ideal-polarimetric-visibilities}) can be expressed alternatively in the aperture domain as:
+% \begin{align}
+%     V_{ab}^{pq} &= \bigl\langle E_{a}^p \, E_{b}^{q*}\bigr\rangle\\ 
+%     &= \int_{\Delta\mathbb{R}} \sum_{\alpha,\beta} B_{ab}^{pq;\alpha\beta}(\Delta\boldsymbol{r}_{ab}-\Delta\boldsymbol{r})\,V^{\alpha\beta}(\Delta\boldsymbol{r})\,\mathrm{d}^2\Delta\boldsymbol{r}  + n_{ab}^{pq} \, , \label{eqn:vis-degridding}
+% \end{align}
+% whose discrete linear algebraic representation is
+% \begin{align}
+%     \mathbf{V}_{[pq,\Delta\boldsymbol{r}_{ab}]} &= \mathbf{B}_{[pq,\Delta\boldsymbol{r}_{ab}\leftarrow \alpha\beta,\Delta\boldsymbol{r}]} \, \mathbf{F}_{[\Delta\boldsymbol{r}\leftarrow \hat{\boldsymbol{s}}]} \, \boldsymbol{\mathcal{I}}_{[\alpha\beta,\hat{\boldsymbol{s}}]} + \mathbf{n}_{[pq,\Delta\boldsymbol{r}_{ab}]} \, .
+% \end{align}
+% Equation~(\ref{eqn:vis-degridding}) represents a weighting of the true spatial coherence of the incident radiation by the interferometer's cross-power illumination pattern and integration over the region the interferometer has a response to, centered at $\Delta\boldsymbol{r}_{ab}$. $\Delta\mathbb{R}$ denotes the space of all possible displacement vectors between elements. 
 
 % \section{Mathematical Details of Architectures}
 
