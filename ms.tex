@@ -19,7 +19,7 @@
 \DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
 \DeclareMathOperator{\vect}{vec}
 
-\title{Comparison of Fast Imaging Architectures for Large, Multi-scale, Hierarchical Aperture Arrays}
+\title{Comparison of Fast, Hybird Imaging Architectures for Multi-scale, Hierarchical Aperture Arrays}
 
 \author{Nithyanandan Thyagarajan}
 \affiliation{CSIRO, Space \& Astronomy, P. O. Box 1130, Bentley, WA 6102, Australia}
@@ -145,7 +145,7 @@ The primary metric for computational cost used in this study is the number of re
 
 The cost estimates rely on the following floating point operations. A complex addition consists of two FLOPs, and a complex multiplication consists of four real multiplications and two real additions and therefore six FLOPs. A complex multiply-accumulate (CMAC) operation includes one complex multiplication and addition, therefore requiring eight FLOPs.
 
-Although alternate computational metrics that include additional components, such as memory bandwidth, could be justified from a practical standpoint, these metrics will vary significantly with real-life implementations and hardware components available during deployment. Therefore, we take a theoretical approach with the justification that the budget of floating point operations will form a lower bound immune to the details of any particular implementation. 
+Although alternate computational metrics that include additional components, such as memory bandwidth, could be justified from a practical standpoint, these metrics will vary significantly with real-life implementations and hardware components available during deployment. Therefore, we take a theoretical approach wherein the budget of floating point operations will form an irreducible requirement immune to the details of any particular implementation. 
 
 \section{Fast Imaging Architectures} \label{sec:img-archs}
 
@@ -164,7 +164,7 @@ Fast imaging involves processing data on multiple time scales. The channelisatio
 % \includegraphics[width=\linewidth]{figures/flops_calc.pdf}
 \includegraphics[width=\linewidth]{figures/flops_calc_abridged.pdf}
 % \includegraphics[width=\linewidth]{fig_01.pdf}
-\caption{
+\caption{A hybrid multi-stage architecture for aperture arrays consisting of stations each of which contain multiple elements. Black arrows indicate pathways where the data is in the form of electric fields with phase coherence. Gray arrows indicate pathways where the signal is a ``squared'' or a correlated quantity with no absolute but only relative phase information. At the top are intra-station architectures, namely, BF, correlator, and EPIC. The top box denotes intra-station imaging options. The bottom box denotes inter-station imaging architectures which take the coherent outputs from multiple stations with intra-station voltage beamformer and EPIC architectures dpeployed on each of them. 
 \label{fig:hybrid-architectures-cost-schematic}}
 \end{figure}
 
@@ -178,7 +178,7 @@ The calibrated electric fields recorded by individual elements within a station 
 \begin{align}
     \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, \widetilde{E}_{a_m}^p \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:intra-station-pol-hol-img-expl}
 \end{align}
-where, $\hat{\boldsymbol{s}}_k$ denotes the direction of beam, $k$, towards which the measurements are phase-coherently superposed, $\widetilde{E}_{a_m}^{p}$ represents the calibrated and potentially noise-weighted electric field measured by the station element $a_m$, and $\widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k)$ denotes a complex-valued directional weighting\footnote{One can choose $\widetilde{\mathcal{W}}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}}_k)=\mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}}_k)$, the directional electric field sensitivity, if the signal-to-noise ratio is to be optimised. But it can also be generically chosen depending on the property desired of the estimator \cite[][]{Morales2011}.} applied to the station element. This beamforming step has to be executed at a cadence of $\delta t$. 
+where, $\hat{\boldsymbol{s}}_k$ denotes the direction of beam, $k$, towards which the measurements are phase-coherently superposed, $\widetilde{E}_{a_m}^{p}$ represents the calibrated and potentially noise-weighted electric field measured by the station element $a_m$, and $\widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k)$ denotes a complex-valued directional weighting\footnote{One can choose $\widetilde{\mathcal{W}}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}}_k)=\mathcal{W}_{a_m}^{p\alpha}(\hat{\boldsymbol{s}}_k)$, the directional electric field sensitivity, if the signal-to-noise ratio is to be optimised. But it can also be generically chosen depending on the property desired of the estimator \cite[][]{Morales2011}.} applied to the station element. The solid angle of the beamformed pixel using the intra-station data is given by $\Omega_s \simeq (\lambda/D_\textrm{s})^2$. Beamforming can be applied to all independent beams ($n_\textrm{bs}$) filling the field of view, whose solid angle is $\Omega_a \simeq (\lambda/D_\textrm{a})^2$. Thus, $n_\textrm{bs} \simeq \Omega_\textrm{a}/\Omega_\textrm{s}=(D_\textrm{s}/D_\textrm{a})^2$. This beamforming step has to be executed at a cadence of $\delta t$. 
 
 The polarised intensity in a pixel is then obtained by
 \begin{align}
@@ -186,12 +186,10 @@ The polarised intensity in a pixel is then obtained by
 \end{align}
 where, the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$. Even though it is an outer product over the polarisation axis, we will refer to it as a ``squaring'' operation hereafter for convenience because of what it reduces to if only a single polarisation was measured. 
 
-The solid angle of the beamformed pixel using the intra-station data is given by $\Omega_s \simeq (\lambda/D_\textrm{s})^2$. Beamforming can be applied to all independent beams ($n_\textrm{bs}$) filling the field of view, whose solid angle is $\Omega_a \simeq (\lambda/D_\textrm{a})^2$. Thus, $n_\textrm{bs} \simeq \Omega_\textrm{a}/\Omega_\textrm{s}=(D_\textrm{s}/D_\textrm{a})^2$. 
+% The computational cost budget consists of the following components. Beamforming $N_\textrm{a/s}$ element polarised voltages (with $n_\textrm{p}$ polarisations) towards $n_\textrm{bs}$ beams on sky as per Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) requires $n_\textrm{p} n_\textrm{bs} N_\textrm{a/s}$ CMACs to get one polarised voltage on sky per station per channel. To get $n_\textrm{p}$ polarised voltages from beamforming, it requires $n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}$ CMACs amounting to $8 n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}/\delta t$ FLOPS per station per channel. 
 
-The computational cost budget consists of the following components. Beamforming $N_\textrm{a/s}$ element polarised voltages (with $n_\textrm{p}$ polarisations) towards $n_\textrm{bs}$ beams on sky as per Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) requires $n_\textrm{p} n_\textrm{bs} N_\textrm{a/s}$ CMACs to get one polarised voltage on sky per station per channel. To get $n_\textrm{p}$ polarised voltages from beamforming, it requires $n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}$ CMACs amounting to $8 n_\textrm{p}^2 n_\textrm{bs} N_\textrm{a/s}/\delta t$ FLOPS per station per channel. 
-
-Converting polarised beamformed voltages on the sky to Stokes intensities and temporally averaging them as per Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}) requires $n_\textrm{p}^2$ complex "squaring" (complex products) and subsequent complex additions for each of the complex polarised intesity beams, and therefore $n_\textrm{p}^2 n_\textrm{bs}$ CMACs per station channel, amounting to $8 n_\textrm{p}^2 n_\textrm{bs}$ FLOPS per station per channel. 
-% Hence, the net rate corresponding to beamforming, squaring, and averaging is $8 n_\textrm{p}^2 (D_\textrm{s}/D_\textrm{a})^2 (N_\textrm{a/s}+1)/\delta t$ FLOPS per station per channel. 
+% Converting polarised beamformed voltages on the sky to Stokes intensities and temporally averaging them as per Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}) requires $n_\textrm{p}^2$ complex "squaring" (complex products) and subsequent complex additions for each of the complex polarised intesity beams, and therefore $n_\textrm{p}^2 n_\textrm{bs}$ CMACs per station channel, amounting to $8 n_\textrm{p}^2 n_\textrm{bs}$ FLOPS per station per channel. 
+% % Hence, the net rate corresponding to beamforming, squaring, and averaging is $8 n_\textrm{p}^2 (D_\textrm{s}/D_\textrm{a})^2 (N_\textrm{a/s}+1)/\delta t$ FLOPS per station per channel. 
 
 % \begin{figure*}
 % \centering
@@ -267,7 +265,7 @@ is a per-element operation and depends only on $N_\textrm{a/s}$, it scales linea
 \label{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure}
 
-Figure~\ref{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I} shows the covariance of the total computational cost density per station per voxel for the EPIC architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines. The variation in the cost per voxel is dominated by the spatial FFT cost which is relatively constant in all these parameters and displays the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}, namely, constant in $N_\textrm{a/s}$, $D_\textrm{a}$ and $D_\textrm{s}$. Figure~\ref{fig:multidim-incoherent-relative-compcost-EPIC-LAMBDA-I} shows the ratio of the computational cost of the EPIC architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the EPIC architecture is significantly less than that of voltage beamforming for $N_\textrm{a/s} \gtrsim 100$ and continues to decrease with increasing $N_\textrm{a/s}$, implying that for full field of view imaging, EPIC has a clear and significant computational advantage over voltage beamforming as $N_\textrm{a/s}$ and packing density of elements in a station increase.
+Figure~\ref{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I} shows a covariant view of the total computational cost density per station per voxel for the EPIC architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines. The variation in the cost per voxel is dominated by the spatial FFT cost which is relatively constant in all these parameters and displays the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}, namely, constant in $N_\textrm{a/s}$, $D_\textrm{a}$ and $D_\textrm{s}$. Figure~\ref{fig:multidim-incoherent-relative-compcost-EPIC-LAMBDA-I} shows the ratio of the computational cost of the EPIC architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the EPIC architecture is significantly less than that of voltage beamforming for $N_\textrm{a/s} \gtrsim 100$ and continues to decrease with increasing $N_\textrm{a/s}$, implying that for full field of view imaging, EPIC has a clear and significant computational advantage over voltage beamforming as $N_\textrm{a/s}$ and packing density of elements in a station increase.
 
 \begin{figure*}
 \centering
@@ -433,7 +431,7 @@ Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I} shows the computational co
 \includegraphics[width=\linewidth]
 % {figures/1D_xcor_fft_cost_analysis_SKA1-low.pdf}
 {figures/1D_xcor_fft_per_pixel_cost_analysis_LAMBDA-I.pdf}
-\caption{
+\caption{A breakdown of the computational cost density function over the station parameters for the correlator FFT architecture (XFFT) at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations (cyan lines). The correlator / X-engine (double dot- dashed lines) and gridding (dotted lines) dominate the cost for the chosen \texttt{LAMBDA-I} parameters at an imaging cadence of $t_\textrm{acc}=1$~ms over the temporal averaging (dot dahsed lines) and two-dimensional FFT (dashed lines).
 \label{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}}
 \end{figure} 
 
