@@ -1,0 +1,138 @@
+#!/bin/bash
+
+rsync -havux --progress ../figures-v1/example_PointSource.pdf                                 example_PointSource.pdf                                 
+rsync -havux --progress ../figures-v1/example_Disc.pdf                                        example_Disc.pdf                                        
+rsync -havux --progress ../figures-v1/example_DoubleDisc.pdf                                  example_DoubleDisc.pdf                                  
+rsync -havux --progress ../figures-v1/example_Crescent.pdf                                    example_Crescent.pdf                                    
+rsync -havux --progress ../figures-v1/example_CrescentAccretion.pdf                           example_CrescentAccretion.pdf                           
+rsync -havux --progress ../figures-v1/example_CrescentJets.pdf                                example_CrescentJets.pdf                                
+rsync -havux --progress ../figures-v1/uv-layout.pdf                                           uv-layout.pdf                                           
+rsync -havux --progress ../figures-v1/closure-invariants-Fx2-Tx2.pdf                          closure-invariants-Fx2-Tx2.pdf                          
+rsync -havux --progress ../figures-v1/classification-percent-confusion-matrix-LR-Fx2-Tx2.pdf  classification-percent-confusion-matrix-LR-Fx2-Tx2.pdf  
+rsync -havux --progress ../figures-v1/classification-percent-confusion-matrix-MLP-Fx2-Tx2.pdf classification-percent-confusion-matrix-MLP-Fx2-Tx2.pdf 
+# rsync -havux --progress ../figures-v1/classification-percent-confusion-matrix-CNN-Fx2-Tx2.pdf classification-percent-confusion-matrix-CNN-Fx2-Tx2.pdf 
+rsync -havux --progress ../figures-v1/classification-percent-confusion-matrix-RF-Fx2-Tx2.pdf  classification-percent-confusion-matrix-RF-Fx2-Tx2.pdf  
+# rsync -havux --progress ../figures-v1/classification-F1.pdf                                   classification-F1.pdf
+rsync -havux --progress ../figures-v1/classification-F1-minus-CNN.pdf                         classification-F1-minus-CNN.pdf                                   
+rsync -havux --progress ../figures-v1/classification-noise-F1-score.pdf                          classification-noise-F1-score.pdf                          
+rsync -havux --progress ../figures-v1/mring-order-1-classification-Fx2-Tx2.pdf                   mring-order-1-classification-Fx2-Tx2.pdf      
+rsync -havux --progress ../figures-v1/disk_radius_prediction-Fx2-Tx2.pdf                      disk_radius_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/crescent_R1_prediction-Fx2-Tx2.pdf                      crescent_R1_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/crescent_R2_prediction-Fx2-Tx2.pdf                      crescent_R2_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/crescent_dX_prediction-Fx2-Tx2.pdf                      crescent_dX_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/crescent_dY_prediction-Fx2-Tx2.pdf                      crescent_dY_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/input_crescent-Fx2-Tx2.pdf                              input_crescent-Fx2-Tx2.pdf                              
+rsync -havux --progress ../figures-v1/predicted_crescent-Fx2-Tx2.pdf                          predicted_crescent-Fx2-Tx2.pdf                          
+rsync -havux --progress ../figures-v1/diff_crescent-Fx2-Tx2.pdf                               diff_crescent-Fx2-Tx2.pdf                               
+rsync -havux --progress ../figures-v1/dualdisk_R1_prediction-Fx2-Tx2.pdf                      dualdisk_R1_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/dualdisk_R2_prediction-Fx2-Tx2.pdf                      dualdisk_R2_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/dualdisk_Ir_prediction-Fx2-Tx2.pdf                      dualdisk_Ir_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/dualdisk_dX_prediction-Fx2-Tx2.pdf                      dualdisk_dX_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/dualdisk_dY_prediction-Fx2-Tx2.pdf                      dualdisk_dY_prediction-Fx2-Tx2.pdf                      
+rsync -havux --progress ../figures-v1/input_dualdisk-Fx2-Tx2.pdf                              input_dualdisk-Fx2-Tx2.pdf                              
+rsync -havux --progress ../figures-v1/predicted_dualdisk-Fx2-Tx2.pdf                          predicted_dualdisk-Fx2-Tx2.pdf                          
+rsync -havux --progress ../figures-v1/diff_dualdisk-Fx2-Tx2.pdf                               diff_dualdisk-Fx2-Tx2.pdf                               
+rsync -havux --progress ../figures-v1/dualdisk-jacobian-rank-distribution-Fx2-Tx2.pdf         dualdisk-jacobian-rank-distribution-Fx2-Tx2.pdf
+rsync -havux --progress ../figures-v1/LR-graph-Fx2-Tx2.pdf                                    LR-graph-Fx2-Tx2.pdf                                    
+rsync -havux --progress ../figures-v1/MLP-graph-Fx2-Tx2.pdf                                   MLP-graph-Fx2-Tx2.pdf                                   
+# rsync -havux --progress ../figures-v1/CNN-graph-Fx2-Tx2.pdf                                   CNN-graph-Fx2-Tx2.pdf                                   
+rsync -havux --progress ../figures-v1/Disk_MLP-graph-Fx2-Tx2.pdf                              Disk_MLP-graph-Fx2-Tx2.pdf                              
+rsync -havux --progress ../figures-v1/Crescent_MLP-graph-Fx2-Tx2.pdf                          Crescent_MLP-graph-Fx2-Tx2.pdf                          
+rsync -havux --progress ../figures-v1/DualDisk_MLP-graph-Fx2-Tx2.pdf                          DualDisk_MLP-graph-Fx2-Tx2.pdf                          
+
+mv example_PointSource.pdf                                 fig_01a.pdf
+mv example_Disc.pdf                                        fig_01b.pdf
+mv example_DoubleDisc.pdf                                  fig_01c.pdf
+mv example_Crescent.pdf                                    fig_01d.pdf
+mv example_CrescentAccretion.pdf                           fig_01e.pdf
+mv example_CrescentJets.pdf                                fig_01f.pdf
+mv uv-layout.pdf                                           fig_02a.pdf
+mv closure-invariants-Fx2-Tx2.pdf                          fig_02b.pdf
+mv classification-percent-confusion-matrix-LR-Fx2-Tx2.pdf  fig_03a.pdf
+mv classification-percent-confusion-matrix-MLP-Fx2-Tx2.pdf fig_03b.pdf
+# mv classification-percent-confusion-matrix-CNN-Fx2-Tx2.pdf fig_03c.pdf
+# mv classification-percent-confusion-matrix-RF-Fx2-Tx2.pdf  fig_03d.pdf
+mv classification-percent-confusion-matrix-RF-Fx2-Tx2.pdf  fig_03c.pdf
+# mv classification-F1.pdf                                   fig_03e.pdf
+mv classification-F1-minus-CNN.pdf                         fig_04.pdf
+mv classification-noise-F1-score.pdf                       fig_05.pdf 
+mv mring-order-1-classification-Fx2-Tx2.pdf                fig_06.pdf
+# mv disk_radius_prediction-Fx2-Tx2.pdf                      fig_04.pdf
+mv disk_radius_prediction-Fx2-Tx2.pdf                      fig_07.pdf 
+# mv crescent_R1_prediction-Fx2-Tx2.pdf                      fig_05a.pdf
+# mv crescent_R2_prediction-Fx2-Tx2.pdf                      fig_05b.pdf
+# mv crescent_dX_prediction-Fx2-Tx2.pdf                      fig_05c.pdf
+# mv crescent_dY_prediction-Fx2-Tx2.pdf                      fig_05d.pdf
+# mv input_crescent-Fx2-Tx2.pdf                              fig_05e.pdf
+# mv predicted_crescent-Fx2-Tx2.pdf                          fig_05f.pdf
+# mv diff_crescent-Fx2-Tx2.pdf                               fig_05g.pdf
+mv crescent_R1_prediction-Fx2-Tx2.pdf                      fig_08a.pdf
+mv crescent_R2_prediction-Fx2-Tx2.pdf                      fig_08b.pdf
+mv crescent_dX_prediction-Fx2-Tx2.pdf                      fig_08c.pdf
+mv crescent_dY_prediction-Fx2-Tx2.pdf                      fig_08d.pdf
+mv input_crescent-Fx2-Tx2.pdf                              fig_08e.pdf
+mv predicted_crescent-Fx2-Tx2.pdf                          fig_08f.pdf
+mv diff_crescent-Fx2-Tx2.pdf                               fig_08g.pdf
+# mv dualdisk_R1_prediction-Fx2-Tx2.pdf                      fig_06a.pdf
+# mv dualdisk_R2_prediction-Fx2-Tx2.pdf                      fig_06b.pdf
+# mv dualdisk_Ir_prediction-Fx2-Tx2.pdf                      fig_06c.pdf
+# mv dualdisk_dX_prediction-Fx2-Tx2.pdf                      fig_06d.pdf
+# mv dualdisk_dY_prediction-Fx2-Tx2.pdf                      fig_06e.pdf
+# mv input_dualdisk-Fx2-Tx2.pdf                              fig_06f.pdf
+# mv predicted_dualdisk-Fx2-Tx2.pdf                          fig_06g.pdf
+# mv diff_dualdisk-Fx2-Tx2.pdf                               fig_06h.pdf
+mv dualdisk_R1_prediction-Fx2-Tx2.pdf                      fig_09a.pdf
+mv dualdisk_R2_prediction-Fx2-Tx2.pdf                      fig_09b.pdf
+mv dualdisk_Ir_prediction-Fx2-Tx2.pdf                      fig_09c.pdf
+mv dualdisk_dX_prediction-Fx2-Tx2.pdf                      fig_09d.pdf
+mv dualdisk_dY_prediction-Fx2-Tx2.pdf                      fig_09e.pdf
+mv input_dualdisk-Fx2-Tx2.pdf                              fig_09f.pdf
+mv predicted_dualdisk-Fx2-Tx2.pdf                          fig_09g.pdf
+mv diff_dualdisk-Fx2-Tx2.pdf                               fig_09h.pdf
+mv dualdisk-jacobian-rank-distribution-Fx2-Tx2.pdf         fig_10.pdf
+mv LR-graph-Fx2-Tx2.pdf                                    fig_A1a.pdf
+mv MLP-graph-Fx2-Tx2.pdf                                   fig_A1b.pdf
+# mv CNN-graph-Fx2-Tx2.pdf                                   fig_A1c.pdf
+mv Disk_MLP-graph-Fx2-Tx2.pdf                              fig_A2a.pdf
+mv Crescent_MLP-graph-Fx2-Tx2.pdf                          fig_A2b.pdf
+mv DualDisk_MLP-graph-Fx2-Tx2.pdf                          fig_A2c.pdf
+
+
+
+# rsync -havux --progress ../figures-v1/antenna_positions_wavelengths.pdf             ../antenna_positions_wavelengths.pdf            
+
+# git mv figures/example_PointSource.pdf                                 fig_01a.pdf
+# git mv figures/example_Disc.pdf                                        fig_01b.pdf
+# git mv figures/example_DoubleDisc.pdf                                  fig_01c.pdf
+# git mv figures/example_Crescent.pdf                                    fig_01d.pdf
+# git mv figures/example_CrescentAccretion.pdf                           fig_01e.pdf
+# git mv figures/example_CrescentJets.pdf                                fig_01f.pdf
+# git mv figures/uv-layout.pdf                                           fig_02a.pdf
+# git mv figures/closure-invariants-Fx2-Tx2.pdf                          fig_02b.pdf
+# git mv figures/classification-percent-confusion-matrix-LR-Fx2-Tx2.pdf  fig_03a.pdf
+# git mv figures/classification-percent-confusion-matrix-MLP-Fx2-Tx2.pdf fig_03b.pdf
+# git mv figures/classification-percent-confusion-matrix-CNN-Fx2-Tx2.pdf fig_03c.pdf
+# git mv figures/classification-percent-confusion-matrix-RF-Fx2-Tx2.pdf  fig_03d.pdf
+# git mv figures/classification-F1.pdf                                   fig_03e.pdf
+# git mv figures/disk_radius_prediction-Fx2-Tx2.pdf                      fig_04.pdf 
+# git mv figures/crescent_R1_prediction-Fx2-Tx2.pdf                      fig_05a.pdf
+# git mv figures/crescent_R2_prediction-Fx2-Tx2.pdf                      fig_05b.pdf
+# git mv figures/crescent_dX_prediction-Fx2-Tx2.pdf                      fig_05c.pdf
+# git mv figures/crescent_dY_prediction-Fx2-Tx2.pdf                      fig_05d.pdf
+# git mv figures/input_crescent-Fx2-Tx2.pdf                              fig_05e.pdf
+# git mv figures/predicted_crescent-Fx2-Tx2.pdf                          fig_05f.pdf
+# git mv figures/diff_crescent-Fx2-Tx2.pdf                               fig_05g.pdf
+# git mv figures/dualdisk_R1_prediction-Fx2-Tx2.pdf                      fig_06a.pdf
+# git mv figures/dualdisk_R2_prediction-Fx2-Tx2.pdf                      fig_06b.pdf
+# git mv figures/dualdisk_Ir_prediction-Fx2-Tx2.pdf                      fig_06c.pdf
+# git mv figures/dualdisk_dX_prediction-Fx2-Tx2.pdf                      fig_06d.pdf
+# git mv figures/dualdisk_dY_prediction-Fx2-Tx2.pdf                      fig_06e.pdf
+# git mv figures/input_dualdisk-Fx2-Tx2.pdf                              fig_06f.pdf
+# git mv figures/predicted_dualdisk-Fx2-Tx2.pdf                          fig_06g.pdf
+# git mv figures/diff_dualdisk-Fx2-Tx2.pdf                               fig_06h.pdf
+# git mv figures/LR-graph-Fx2-Tx2.pdf                                    fig_A1a.pdf
+# git mv figures/MLP-graph-Fx2-Tx2.pdf                                   fig_A1b.pdf
+# git mv figures/CNN-graph-Fx2-Tx2.pdf                                   fig_A1c.pdf
+# git mv figures/Disk_MLP-graph-Fx2-Tx2.pdf                              fig_A2a.pdf
+# git mv figures/Crescent_MLP-graph-Fx2-Tx2.pdf                          fig_A2b.pdf
+# git mv figures/DualDisk_MLP-graph-Fx2-Tx2.pdf                          fig_A2c.pdf

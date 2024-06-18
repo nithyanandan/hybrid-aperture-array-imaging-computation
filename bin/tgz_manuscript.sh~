@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tar -czvf manuscript.tar.gz ms.tex ms.bbl ms.pdf refs.bib rasti.bst rasti.cls fig_01a.pdf fig_01b.pdf fig_01c.pdf fig_01d.pdf fig_01e.pdf fig_01f.pdf fig_02a.pdf fig_02b.pdf fig_03a.pdf fig_03b.pdf fig_03c.pdf fig_04.pdf fig_05.pdf fig_06.pdf fig_07.pdf fig_08a.pdf fig_08b.pdf fig_08c.pdf fig_08d.pdf fig_08e.pdf fig_08f.pdf fig_08g.pdf fig_09a.pdf fig_09b.pdf fig_09c.pdf fig_09d.pdf fig_09e.pdf fig_09f.pdf fig_09g.pdf fig_09h.pdf fig_10.pdf fig_A1a.pdf fig_A1b.pdf fig_A2a.pdf fig_A2b.pdf fig_A2c.pdf
