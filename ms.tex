@@ -1023,72 +1023,12 @@ Explosive transient phenomena and observational cosmology are two high impact sc
 
 This paper explores hybrid architecture solutions for existing and planned multi-scale aperture arrays (\texttt{SKA1-low-core}, \texttt{SKA1-low}, \texttt{LAMBDA-I}, \texttt{CASPA}, and \texttt{FarView}) on a wide range of cadence intervals, 0.1~ms$\le t_\textrm{acc} \le 10$~s over the full field of view, using the metric of computational cost density evaluated over the discovery parameter space. The interferometric data processing architectures considered here are pre-correlation voltage beamformer (BF), a generic FFT-based direct imager (EPIC), beamforming from correlations (XBF), and FFT-based imaging of correlations (XFFT). The computational cost budget for various architecture combinations for these different arrays are broken down into their detailed components. 
 
-For densely packed layout with large numbers of elements, EPIC is computationally most efficient regardless of processing cadence. This was the case for the station layouts of all the arrays considered, and hence EPIC emerges as the computationally most efficient architecture for full field of view, station level data processing on all cadence intervals except for \texttt{CASPA} on $t_\textrm{acc}\gtrsim 100$~ms, when XFFT becomes more efficient. Thus, in almost cases of station layouts considered here, EPIC appears to hold a clear advantage for full field of view, intra-station processing. 
+For densely packed layout with large numbers of elements, EPIC is computationally most efficient regardless of processing cadence. This was the case for the station layouts of all the arrays considered, and hence EPIC emerges as the computationally most efficient architecture for full field of view, station level data processing on all cadence intervals except for \texttt{CASPA} on $t_\textrm{acc}\gtrsim 100$~ms, when XFFT becomes more efficient. 
+% Thus, in almost cases of station layouts considered here, EPIC appears to hold a clear advantage for full field of view, intra-station processing. 
 
 The inter-station array layout has a wider range in the number of stations and sparsity of their distribution. In such cases, the cadence interval plays a significant role in determining the computationally most efficient architecture. For inter-station data processing in \texttt{LAMBDA-I} and \texttt{CASPA}, we find XBF to be the most suitable option for all cadence intervals, while for \texttt{SKA1-low-core} it is EPIC that holds the advantage on all cadence intervals. For \texttt{SKA1-low}, XFFT appears most efficient for $t_\textrm{acc}\gtrsim 1$~ms while EPIC and XFFT become comparable for $t_\textrm{acc}\lesssim 0.1$~ms. Thus, a multi-scale aperture array requires an optimal hybrid architecture strategy depending on the processing cadence. This study provides a guide for designing strategic data processing architecture for multi-scale aperture arrays, and conversely, can be used to design array parameters for specified computational complexity. 
 
 We have considered only computational cost density over the discovery parameter space as a metric for finding the most efficient combination of processing architectures for multi-scale aperture arrays. Additional computing will be required for post-processing steps such as de-dispersion, deconvolution, etc. depending on the application. Actual deployment will have to take other significant practical factors into account such as power consumption, memory bandwidth, data rate, cost and capabilities of current hardware.
-
-% \section{Equations}
-
-% Sample equations. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur\endnote{Another footnote/endnote} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-
-
-% %%% Numbered equation
-% \begin{equation}
-% \begin{aligned}\label{eq:first}
-% \frac{\partial u(t,x)}{\partial t} = Au(t,x) \left(1-\frac{u(t,x)}{K}\right)
-%  -B\frac{u(t-\tau,x) w(t,x)}{1+Eu(t-\tau,x)},\\
-% \frac{\partial w(t,x)}{\partial t} =\delta \frac{\partial^2w(t,x)}{\partial x^2}-Cw(t,x)
-% +D\frac{u(t-\tau,x)w(t,x)}{1+Eu(t-\tau,x)},
-% \end{aligned}
-% \end{equation}
-
-%  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-
-% \begin{align}\label{eq:another}
-% \begin{split}
-% \frac{dU}{dt} &=\alpha U(t)(\gamma -U(t))-\frac{U(t-\tau)W(t)}{1+U(t-\tau)},\\
-% \frac{dW}{dt} &=-W(t)+\beta\frac{U(t-\tau)W(t)}{1+U(t-\tau)}.
-% \end{split}
-% \end{align}
-
-
-% %%%% Unnumbered equation
-% \begin{align*}
-% &\frac{\partial(F_1,F_2)}{\partial(c,\omega)}_{(c_0,\omega_0)} = \left|
-% \begin{array}{ll}
-% \frac{\partial F_1}{\partial c} &\frac{\partial F_1}{\partial \omega} \\\noalign{\vskip3pt}
-% \frac{\partial F_2}{\partial c}&\frac{\partial F_2}{\partial \omega}
-% \end{array}\right|_{(c_0,\omega_0)}\\
-% &\quad=-4c_0q\omega_0 -4c_0\omega_0p^2 =-4c_0\omega_0(q+p^2)>0.
-% \end{align*}
-
-
-% \section{Figures \& Tables}
-
-% The output for a single-column figure is in Figure~\ref{fig_sim}.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-
-% Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-
-% %See Figure~\ref{fig_wide} for a double-column figure; this is always at the top of a following page.
-
-
-% \begin{figure}[hbt!]
-% \centering
-% \includegraphics[width=0.75\linewidth]{example-image-16x10.pdf}
-% \caption{Insert figure caption here}
-% \label{fig_sim}
-% \end{figure}
-
-
-% \begin{figure*}
-% \centering
-% \includegraphics[width=0.8\linewidth]{example-image-16x10.pdf}
-% \caption{Insert figure caption here}
-% \label{fig_wide}
-% \end{figure*}
-
 
 % See example table in Table~\ref{table_example}.
 
