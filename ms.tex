@@ -43,7 +43,7 @@
 \begin{document}
 
 \begin{abstract}
-Two major areas of modern radio astronomy, namely, explosive astrophysical transient phenomena and observational cosmology, are driving aperture arrays towards large-$N$, low-cost element design consisting of multiple spatial scales. Multi-scale, hierarchical aperture arrays require a combination of data processing architectures-- pre-correlation beamformer, generic version of FFT-based direct imager, post-correlation beamformer, and post-correlation FFT imager-- operating on different spatial scales to obtain optimal performance in imaging the entire field of view. We use the metric of computational cost density defined over the dimensions of discovery space, namely, field of view, angular resolution, polarisation, frequency, and time to determine the most efficient hybrid architecture for aperture arrays spanning multiple spatial scales like the element size, stations (a collection of elements), and the array (a collection of stations) over a range of number of elements per station and number of stations. We use nominal parameters of specific upcoming and planned arrays-- Square Kilometre Array (SKA) at low frequencies (\texttt{SKA-low}), \texttt{SKA-low-core}, a long baseline extension to SKA-low (\texttt{LAMBDA-I}), compact all-sky phased array (\texttt{CASPA}), and a lunar array (\texttt{FarView})-- to determine the most optimal architectural hierarchy for each from a computational standpoint, and provide a guide for designing hybrid architectures for multi-scale aperture arrays. For large-$N$, dense-packed layouts, a FFT-based direct imager is most efficient for most cadence intervals, and for other layouts that have relatively lesser number of elements or greater sparsity in distribution, the best architecture is more sensitive to the cadence interval.
+Two major areas of modern radio astronomy, namely, explosive astrophysical transient phenomena and observational cosmology, are driving aperture arrays towards large-$N$, low-cost element design consisting of multiple spatial scales. Multi-scale, hierarchical aperture arrays require a combination of data processing architectures-- pre-correlation beamformer, generic version of FFT-based direct imager, post-correlation beamformer, and post-correlation FFT imager-- operating on different spatial scales to obtain optimal performance in imaging the entire field of view. We use the metric of computational cost density defined over the dimensions of discovery space, namely, field of view, angular resolution, polarisation, frequency, and time to determine the most efficient hybrid architecture for aperture arrays spanning multiple spatial scales like the element size, stations (a collection of elements), and the array (a collection of stations) over a range of number of elements per station and number of stations. We use nominal parameters of specific upcoming and planned arrays-- Square Kilometre Array (SKA) at low frequencies (\texttt{SKA-low}), \texttt{SKA-low-core}, a long baseline extension to SKA-low (\texttt{LAMBDA-I}), compact all-sky phased array (\texttt{CASPA}), and a lunar array (\texttt{FarView-core})-- to determine the most optimal architectural hierarchy for each from a computational standpoint, and provide a guide for designing hybrid architectures for multi-scale aperture arrays. For large-$N$, dense-packed layouts, a FFT-based direct imager is most efficient for most cadence intervals, and for other layouts that have relatively lesser number of elements or greater sparsity in distribution, the best architecture is more sensitive to the cadence interval.
 \end{abstract}
 
 \section{Introduction}
@@ -75,7 +75,7 @@ The paper is organised as follows.
 The hierarchical, multi-scale aperture array scenario we consider involves spatial scales corresponding to the dimensions of the collecting element, station (a grouping of elements), and the array (a grouping of stations), denoted by $D_\textrm{a}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The number of stations in the array and the number of elements in a station (indexed by $m$) are denoted by $N_\textrm{s}$ and $N_{\textrm{a/s}_m}$, respectively. 
 % Although $N_\textrm{a/s_m}$ could vary with each station, we assume it remains the same for each station for simplicity. 
 
-The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), \texttt{LAMBDA-I}, \texttt{CASPA} \citep{Luo+2024}, and \texttt{FarView} \citep{Polidan+2024}. The last three are hypothetical interferometers that are being planned for the future. 
+The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), \texttt{LAMBDA-I}, \texttt{CASPA} \citep{Luo+2024}, and \texttt{FarView-core} \citep{Polidan+2024}. The last three are hypothetical interferometers that are being planned for the future. 
 % It is assumed that $N_{\textrm{a/s}_m}=N_\textrm{a/s}=256$ (same for each station), $D_\textrm{a}/\lambda=1$, and $D_\textrm{s}/\lambda=17.5$ for each of these arrays, where, the nominal wavelength chosen here is $\lambda=2$~m. The corresponding station filling factor, $f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$, is 0.836 for all the arrays. ~\texttt{SKA-low-core}, ~\texttt{SKA-low}, ~\texttt{Aus-VLBA-low}, and ~\texttt{IC-VLBA-low} are taken to consist of $N_\textrm{s}=256, 512, 512,$ and 512 stations in an array diameter of $D_\textrm{A}/\lambda=525, 3.25\times 10^4, 1.95\times 10^6$, and $3.9\times 10^6$, respectively. The corresponding array filling factors, defined as $f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$, are 0.284, $1.48\times 10^{-4}$, $4.12\times 10^{-8}$, and $1.03\times 10^{-8}$, respectively. 
 These parameters for the chosen examples are summarised in Table~\ref{tab:array_params}. 
 
@@ -124,7 +124,7 @@ These parameters for the chosen examples are summarised in Table~\ref{tab:array_
 \texttt{SKA-low-core} & $5.25\times 10^{2}$ & 256 & 17.5 & 256 & 1 & 0.284 & 0.836 \\ 
 \texttt{SKA-low} & $3.5\times 10^4$ & 512 & 17.5 & 256 & 1 & $1.28\times 10^{-4}$ & 0.836 \\ 
 \texttt{CASPA} & $4.6\times 10^4$ & 3 & 8.08 & 65 & 0.5 & $9.2\times 10^{-8}$ & 0.996 \\ 
-\texttt{FarView}\tnote{c} & $6.77\times 10^2$ & 81 & 38.5 & 625 & 1 & 0.262 & 0.422 \\ 
+\texttt{FarView-core}\tnote{c} & $6.77\times 10^2$ & 81 & 38.5 & 625 & 1 & 0.262 & 0.422 \\ 
 % \texttt{LAMBDA-II} & $1.95\times 10^6$ & 32 & 17.5 & 256 & 1 & $2.58\times 10^{-9}$ & 0.836 \\ 
 % \texttt{Aus-VLBA-low} & $1.95\times 10^{6}$ & 512 & 17.5 & 256 & 1 & $4.12\times 10^{-8}$ & 0.836 \\
 % \texttt{IC-VLBA-low} & $3.9\times 10^{6}$ & 512 & 17.5 & 256 & 1 & $1.03\times 10^{-8}$ & 0.836 \\ 
@@ -887,7 +887,7 @@ Below, we provide a comparative view of the various architectures from the point
 
 \subsection{Station-scale Imaging Architectures}\label{sec:station-scale-imaging}
 
-Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational cost densities of different imaging architectures discussed in section~\ref{sec:intra-station-arch} for varying parameters of the arrays in Table~\ref{tab:array_params}. The station layout parameters for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low} are identical, and thus so are their station level computing costs. For these station parameters, EPIC holds a clear computational advantage. For \texttt{CASPA}, EPIC and XFFT hold the advantage for imaging cadence faster and slower than $t_\textrm{acc}\simeq 5$~ms, respectively, while for \texttt{FarView}, a similar tipping point between EPIC and XFFT occurs at the cadence of $t_\textrm{acc}\simeq 1$~ms.
+Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational cost densities of different imaging architectures discussed in section~\ref{sec:intra-station-arch} for varying parameters of the arrays in Table~\ref{tab:array_params}. The station layout parameters for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low} are identical, and thus so are their station level computing costs. For these station parameters, EPIC holds a clear computational advantage. For \texttt{CASPA}, EPIC and XFFT hold the advantage for imaging cadence faster and slower than $t_\textrm{acc}\simeq 5$~ms, respectively, while for \texttt{FarView-core}, a similar tipping point between EPIC and XFFT occurs at the cadence of $t_\textrm{acc}\simeq 1$~ms.
 
 \begin{figure}
 \centering
@@ -901,12 +901,12 @@ Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational 
 % {figures/1D_per_pixel_compcost_analysis_CASPA.pdf}
 {fig_10b.pdf}
 } \\
-\subfloat[][Station imaging compute cost densities for \texttt{FarView}. \label{fig:1D-incoherent-compcost-FarView}]
+\subfloat[][Station imaging compute cost densities for \texttt{FarView-core}. \label{fig:1D-incoherent-compcost-FarView}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_per_pixel_compcost_analysis_FarView.pdf}
 {fig_10c.pdf}
 }
-\caption{Computational cost densities of different station level imaging architectures for (a) \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, (b) \texttt{CASPA}, and (c) \texttt{FarView}. In each subpanel, all parameters are fixed at the array's nominal value (cyan line) except the parameter shown on the $x$-axis. For \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, the EPIC architecture is found to be most efficient computationally. For \texttt{CASPA}, EPIC is more efficient than other architectures when imaging cadence is $t_\textrm{acc}\lesssim 1-5$~ms, while XFFT is more efficient for $t_\textrm{acc}\gtrsim 5-10$~ms. For \texttt{FarView}, EPIC and XFFT are equally efficient when the cadence is $t_\textrm{acc}\approx 1$~ms, while EPIC and XFFT are advantageous for cadences faster and slower, respectively, than 1~ms.  \label{fig:1D-incoherent-compcost}}
+\caption{Computational cost densities of different station level imaging architectures for (a) \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, (b) \texttt{CASPA}, and (c) \texttt{FarView-core}. In each subpanel, all parameters are fixed at the array's nominal value (cyan line) except the parameter shown on the $x$-axis. For \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, the EPIC architecture is found to be most efficient computationally. For \texttt{CASPA}, EPIC is more efficient than other architectures when imaging cadence is $t_\textrm{acc}\lesssim 1-5$~ms, while XFFT is more efficient for $t_\textrm{acc}\gtrsim 5-10$~ms. For \texttt{FarView-core}, EPIC and XFFT are equally efficient when the cadence is $t_\textrm{acc}\approx 1$~ms, while EPIC and XFFT are advantageous for cadences faster and slower, respectively, than 1~ms.  \label{fig:1D-incoherent-compcost}}
 \end{figure}
 
 \subsection{Multi-scale Imaging Architectures}\label{sec:multi-scale-imaging}
@@ -939,12 +939,12 @@ Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost d
 % {figures/1D_coherent_per_pixel_compcost_analysis_CASPA.pdf}
 {fig_11d.pdf}
 } \\
-\subfloat[][\texttt{FarView} \label{fig:1D-coherent-compcost-FarView}]
+\subfloat[][\texttt{FarView-core} \label{fig:1D-coherent-compcost-FarView}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_coherent_per_pixel_compcost_analysis_FarView.pdf}
 {fig_11e.pdf}
 }
-\caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView} \label{fig:1D-coherent-compcost-b}}
+\caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView-core} \label{fig:1D-coherent-compcost-b}}
 \end{figure*}
 
 In all cases, the intra-station full field of view data processing (first stage) is most efficiently achieved using EPIC (black lines) rather than VBF (gray lines). This is because of the relatively large number of elements densely packed in stations and due to the capability of simultaneous full field of view beamforming by the EPIC architecture powered by the FFT's efficiency. 
@@ -955,7 +955,7 @@ The inter-station processing, however, varies significantly due to the diversity
     \item \texttt{SKA1-low-core} will benefit from EPIC for the chosen parameters. However, if the number of stations, $N_\textrm{s}$, decreases,  the array diameter, $D_\textrm{A}$, increases or if the imaging cadence interval is slowed to $t_\textrm{acc} \gtrsim 5$~ms, the XFFT architecture starts to have an advantage over EPIC on the inter-station scale of data processing. 
     \item \texttt{SKA1-low} will benefit from the XFFT architecture for inter-station processing.
     \item \texttt{CASPA} will benefit from using the XBF architecture for inter-station processing due to significantly small number of stations.
-    \item \texttt{FarView} appears to have an advantage in using XFFT for inter-station processing for the chosen parameters. If $N_\textrm{s}$ increases or if the cadence interval decreases to $t_\textrm{acc}\lesssim 1$~ms, then EPIC becomes more efficient. 
+    \item \texttt{FarView-core} appears to have an advantage in using XFFT for inter-station processing for the chosen parameters. If $N_\textrm{s}$ increases or if the cadence interval decreases to $t_\textrm{acc}\lesssim 1$~ms, then EPIC becomes more efficient. 
 \end{itemize}
 
 \subsection{Effect of Imaging Cadence}\label{sec:cadence}
@@ -984,7 +984,7 @@ Array & \multicolumn{3}{c|}{Intra-station architecture} & \multicolumn{3}{c}{Int
 \midrule
 \texttt{CASPA} & EPIC & EPIC & XFFT & XBF & XBF & XBF \\
 \midrule
-\texttt{FarView} & EPIC & EPIC & EPIC & EPIC & XFFT & XBF/XFFT \\
+\texttt{FarView-core} & EPIC & EPIC & EPIC & EPIC & XFFT & XBF/XFFT \\
 % \midrule
 % Three & Four&three three\tnote{b} &four & & \\
 \bottomrule
@@ -1000,7 +1000,7 @@ Array & \multicolumn{3}{c|}{Intra-station architecture} & \multicolumn{3}{c}{Int
 
 For intra-station processing, EPIC emerges as the most viable among various architectures for all arrays considered on all timescales, except for \texttt{CASPA} when $t_\textrm{acc}\gtrsim 100$~ms where the XFFT architecture emerges to be more efficient than EPIC. This is because the stations having a sufficiently large number of elements packed densely is a predominant aspect of all these arrays (see Table~\ref{tab:array_params}. For arrays like \texttt{CASPA} that have lesser number of elements and/or are not as densely packed, the cadence interval becomes an important factor. For cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, the XFFT architecture becomes advantageous.
 
-The same reasoning can be extended for inter-station processing, where there is significant diversity. There is a large range in the number of stations and in the array filling factor. As a result, both the layout and cadence interval play significant roles in determining the efficiency of architectures. For arrays with small numbers of stations such as \texttt{LAMBDA-I} and \texttt{CASPA}, the XBF architecture holds an advantage on all timescales. For arrays with large numbers of stations such as \texttt{SKA1-low-core} with a reasonably high packing density, EPIC holds the advantage on all timescales, but with slower cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, XBF and XFFT also have comparable efficiency. Although the \texttt{SKA1-low} has a large number of stations, they are not as densely packed as in the core, and therefore, the role of $t_\textrm{acc}$ is more significant. XFFT and EPIC are comparable at $t_\textrm{acc}\lesssim 1$~ms, but for $t_\textrm{acc}\gtrsim 100$~ms, XFFT is clearly advantageous. Similarly, \texttt{FarView} has a comparable array filling factor as \texttt{SKA1-low-core}, but has far fewer stations. Hence, EPIC is only advantageous for $t_\textrm{acc}\lesssim 0.1$~ms, whereas XFFT becomes more efficient for $t_\textrm{acc}\gtrsim 1$~ms. 
+The same reasoning can be extended for inter-station processing, where there is significant diversity. There is a large range in the number of stations and in the array filling factor. As a result, both the layout and cadence interval play significant roles in determining the efficiency of architectures. For arrays with small numbers of stations such as \texttt{LAMBDA-I} and \texttt{CASPA}, the XBF architecture holds an advantage on all timescales. For arrays with large numbers of stations such as \texttt{SKA1-low-core} with a reasonably high packing density, EPIC holds the advantage on all timescales, but with slower cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, XBF and XFFT also have comparable efficiency. Although the \texttt{SKA1-low} has a large number of stations, they are not as densely packed as in the core, and therefore, the role of $t_\textrm{acc}$ is more significant. XFFT and EPIC are comparable at $t_\textrm{acc}\lesssim 1$~ms, but for $t_\textrm{acc}\gtrsim 100$~ms, XFFT is clearly advantageous. Similarly, \texttt{FarView-core} has a comparable array filling factor as \texttt{SKA1-low-core}, but has far fewer stations. Hence, EPIC is only advantageous for $t_\textrm{acc}\lesssim 0.1$~ms, whereas XFFT becomes more efficient for $t_\textrm{acc}\gtrsim 1$~ms. 
 
 \subsection{Other considerations}\label{sec:other-metrics}
 
@@ -1024,7 +1024,7 @@ Besides computational costs, there are other practical considerations in the dep
 
 Explosive transient phenomena and observational cosmology are two high impact science drivers in radio astronomy. The paradigm of aperture arrays used in radio astronomy is undergoing a transformation towards large numbers of low-cost elements grouped together in a hierarchy of spatial scales to achieve the desired science outcomes. Such a paradigm comes along with enormous challenges in computing and throughput because of the large numbers of elements spanning a multiplicity of spatial scales, and range of cadence intervals, real-time processing, and continuous operation. Different processing architectures are known to be optimal for specific layouts and processing cadences. However, a single architectural may not be optimal for a hierarchical spatial layout.
 
-This paper explores hybrid architecture solutions for existing and planned multi-scale aperture arrays (\texttt{SKA1-low-core}, \texttt{SKA1-low}, \texttt{LAMBDA-I}, \texttt{CASPA}, and \texttt{FarView}) on a wide range of cadence intervals, 0.1~ms$\le t_\textrm{acc} \le 10$~s over the full field of view, using the metric of computational cost density evaluated over the discovery parameter space. The interferometric data processing architectures considered here are pre-correlation voltage beamformer (BF), a generic FFT-based direct imager (EPIC), beamforming from correlations (XBF), and FFT-based imaging of correlations (XFFT). The computational cost budget for various architecture combinations for these different arrays are broken down into their detailed components. 
+This paper explores hybrid architecture solutions for existing and planned multi-scale aperture arrays (\texttt{SKA1-low-core}, \texttt{SKA1-low}, \texttt{LAMBDA-I}, \texttt{CASPA}, and \texttt{FarView-core}) on a wide range of cadence intervals, 0.1~ms$\le t_\textrm{acc} \le 10$~s over the full field of view, using the metric of computational cost density evaluated over the discovery parameter space. The interferometric data processing architectures considered here are pre-correlation voltage beamformer (BF), a generic FFT-based direct imager (EPIC), beamforming from correlations (XBF), and FFT-based imaging of correlations (XFFT). The computational cost budget for various architecture combinations for these different arrays are broken down into their detailed components. 
 
 For densely packed layout with large numbers of elements, EPIC is computationally most efficient regardless of processing cadence. This was the case for the station layouts of all the arrays considered, and hence EPIC emerges as the computationally most efficient architecture for full field of view, station level data processing on all cadence intervals except for \texttt{CASPA} on $t_\textrm{acc}\gtrsim 100$~ms, when XFFT becomes more efficient. 
 % Thus, in almost cases of station layouts considered here, EPIC appears to hold a clear advantage for full field of view, intra-station processing. 
