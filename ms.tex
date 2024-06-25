@@ -43,7 +43,7 @@
 \begin{document}
 
 \begin{abstract}
-Two major areas of modern radio astronomy, namely, explosive astrophysical transient phenomena and observational cosmology, are driving aperture arrays towards large-$N$, low-cost element design consisting of multiple spatial scales. Multi-scale, hierarchical aperture arrays require a combination of data processing architectures-- pre-correlation beamformer, generic version of FFT-based direct imager, post-correlation beamformer, and post-correlation FFT imager-- operating on different spatial scales to obtain optimal performance in imaging the entire field of view. We use the metric of computational cost density defined over the dimensions of discovery space, namely, field of view, angular resolution, polarisation, frequency, and time to determine the most efficient hybrid architecture for aperture arrays spanning multiple spatial scales like the element size, stations (a collection of elements), and the array (a collection of stations) over a range of number of elements per station and number of stations. We use nominal parameters of specific upcoming and planned arrays-- Square Kilometre Array (SKA) at low frequencies (\texttt{SKA-low}), \texttt{SKA-low-core}, a long baseline extension to SKA-low (\texttt{LAMBDA-I}), compact all-sky phased array (\texttt{CASPA}), and a lunar array (\texttt{FarView-core})-- to determine the most optimal architectural hierarchy for each from a computational standpoint, and provide a guide for designing hybrid architectures for multi-scale aperture arrays. For large-$N$, dense-packed layouts, a FFT-based direct imager is most efficient for most cadence intervals, and for other layouts that have relatively lesser number of elements or greater sparsity in distribution, the best architecture is more sensitive to the cadence interval.
+Two major areas of modern radio astronomy, namely, explosive astrophysical transient phenomena and observational cosmology, are driving aperture arrays towards large-$N$, low-cost element design consisting of multiple spatial scales. Multi-scale, hierarchical aperture arrays require a combination of data processing architectures-- pre-correlation beamformer, generic version of FFT-based direct imager, post-correlation beamformer, and post-correlation FFT imager-- operating on different spatial scales to obtain optimal performance in imaging the entire field of view. We use the metric of computationalﬁ cost density defined over the dimensions of discovery space, namely, field of view, angular resolution, polarisation, frequency, and time to determine the most efficient hybrid architecture for aperture arrays spanning multiple spatial scales like the element size, stations (a collection of elements), and the array (a collection of stations) over a range of number of elements per station and number of stations. We use nominal parameters of specific upcoming and planned arrays-- Square Kilometre Array (SKA) at low frequencies (\texttt{SKA-low}), \texttt{SKA-low-core}, a long baseline extension to SKA-low (\texttt{LAMBDA-I}), compact all-sky phased array (\texttt{CASPA}), and a lunar array (\texttt{FarView-core})-- to determine the most optimal architectural hierarchy for each from a computational standpoint, and provide a guide for designing hybrid architectures for multi-scale aperture arrays. For large-$N$, dense-packed layouts, a FFT-based direct imager is most efficient for most cadence intervals, and for other layouts that have relatively lesser number of elements or greater sparsity in distribution, the best architecture is more sensitive to the cadence interval.
 \end{abstract}
 
 \section{Introduction}
@@ -72,7 +72,7 @@ The paper is organised as follows.
 
 \section{Multi-scale, Hierarchical Aperture Arrays} \label{sec:multi-scale-arrays}
 
-The hierarchical, multi-scale aperture array scenario we consider involves spatial scales corresponding to the dimensions of the collecting element, station (a grouping of elements), and the array (a grouping of stations), denoted by $D_\textrm{a}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The number of stations in the array and the number of elements in a station (indexed by $m$) are denoted by $N_\textrm{s}$ and $N_{\textrm{a/s}_m}$, respectively. 
+The hierarchical, multi-scale aperture array scenario we consider involves spatial scales corresponding to the dimensions of the collecting element, station (a grouping of elements), and the array (a grouping of stations), denoted by $D_\textrm{a}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The number of stations in the array and the number of elements in a station (indexed by $m$) are denoted by $N_\textrm{s}$ and $N_{\textrm{a/s}_m}$, respectively. We assume that the number of elements in all stations are equal, $N_{\textrm{a/s}_m} = N_\textrm{a/s}$, for convenience. 
 % Although $N_\textrm{a/s_m}$ could vary with each station, we assume it remains the same for each station for simplicity. 
 
 The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), \texttt{LAMBDA-I}, \texttt{CASPA} \citep{Luo+2024}, and \texttt{FarView-core} \citep{Polidan+2024}. The last three are hypothetical interferometers that are being planned for the future. 
@@ -168,17 +168,17 @@ Fast imaging involves processing data on multiple time scales. The channelisatio
 \includegraphics[width=\linewidth]
   % {figures/flops_calc_abridged.pdf}
 {fig_01.pdf}
-\caption{A hybrid multi-stage architecture for aperture arrays consisting of stations each of which contain multiple elements. Black arrows indicate pathways where the data is in the form of electric fields with phase coherence. Gray arrows indicate pathways where the signal is a ``squared'' or a correlated quantity with no absolute but only relative phase information. At the top are intra-station architectures, namely, BF, correlator, and EPIC. The top box denotes intra-station imaging options. The bottom box denotes inter-station imaging architectures which take the coherent outputs from multiple stations with intra-station voltage beamformer and EPIC architectures dpeployed on each of them. 
+\caption{A hybrid multi-stage architecture for aperture arrays consisting of stations each of which contain multiple elements. Black arrows indicate pathways where the data is in the form of electric fields with phase coherence. Gray arrows indicate pathways where the signal is a ``squared'' or a correlated quantity with no absolute but only relative phase information. At the top are intra-station architectures, namely, BF, correlator, and EPIC. The top box denotes intra-station imaging options. The bottom box denotes inter-station imaging architectures which take the coherent outputs from multiple stations with intra-station voltage beamformer and EPIC architectures deployed on each of them. 
 \label{fig:hybrid-architectures-cost-schematic}}
 \end{figure}
 
 \section{Intra-station Imaging Architectures} \label{sec:intra-station-arch}
 
-We first describe the first stage, namely, intra-station architectures that form the basis for both approaches. This first stage essentially synthesises station-scale apertures with simultaneous, multiple virtual pointings. These station-scale apertures from the first stage will act as fundamental elements for the second stage of inter-station processing. We will use $a_m$ to denote element, $a$, in station, $m$.
+Here we describe the first stage, namely, intra-station architectures that form the basis for both approaches. This first stage essentially synthesises station-scale apertures with simultaneous, multiple virtual pointings. These station-scale synthesised apertures from the first stage will act as building blocks for the second stage of inter-station processing. We will use $a_m$ to denote element, $a$, in station, $m$.
 
 \subsection{Voltage Beamforming (BF)}
 
-The calibrated electric fields recorded by individual elements within a station can be phase-coherently superposed towards any desired direction as
+The calibrated electric fields recorded by individual elements within a station, $m$, can be phase-coherently superposed towards any desired direction as
 \begin{align}
     \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{{p\alpha}^*}(\hat{\boldsymbol{s}}_k) \, \widetilde{E}_{a_m}^p \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:intra-station-pol-hol-img-expl}
 \end{align}
@@ -275,7 +275,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I} shows a covariant vi
 % {figures/multidim_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
 {fig_05a.pdf}  
 }
-\subfloat[][Covariant cost of EPIC architecture relative to VBF architecture \label{fig:multidim-incoherent-relative-compcost-EPIC-LAMBDA-I}]{\includegraphics[width=0.48\textwidth]
+\subfloat[][Covariant cost of EPIC architecture relative to BF architecture \label{fig:multidim-incoherent-relative-compcost-EPIC-LAMBDA-I}]{\includegraphics[width=0.48\textwidth]
 % {figures/multidim_epic_relative_cost_analysis_LAMBDA-I.pdf}
 {fig_05b.pdf}
 } 
@@ -323,7 +323,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-XBF-LAMBDA-I} shows the covariant v
 % {figures/multidim_xcor_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 {fig_07a.pdf}
 }
-\subfloat[][Covariant cost of XBF architecture relative to VBF architecture \label{fig:multidim-incoherent-relative-compcost-XBF-LAMBDA-I}]
+\subfloat[][Covariant cost of XBF architecture relative to BF architecture \label{fig:multidim-incoherent-relative-compcost-XBF-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_dft_relative_cost_analysis_LAMBDA-I.pdf}
 {fig_07b.pdf}
@@ -376,7 +376,7 @@ Mathematically, this is the counterpart to the operations performed on calibrate
 % \headrow Intra-station & Components & Equation & FLOP count & Timescale \\
 % architecture & & & (per station per channel) & \\ 
 % \midrule\midrule
-% VBF & Beamforming & \ref{eqn:intra-station-pol-hol-img-expl} & $8 n_\textrm{p}^2 N_\textrm{a/s} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
+% BF & Beamforming & \ref{eqn:intra-station-pol-hol-img-expl} & $8 n_\textrm{p}^2 N_\textrm{a/s} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
 % & Squaring & \ref{eqn:intra-station-opt-pol-img-outprod} & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
 % & Accumulation & \ref{eqn:intra-station-opt-pol-img-outprod} & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
 % \midrule
@@ -443,7 +443,7 @@ Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I} shows the computational co
 % {figures/multidim_xcor_fft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 {fig_09a.pdf}
 }
-\subfloat[][Covariant cost of XFFT architecture relative to VBF architecture \label{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I}]
+\subfloat[][Covariant cost of XFFT architecture relative to BF architecture \label{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_fft_relative_cost_analysis_LAMBDA-I.pdf}
 {fig_09b.pdf}
@@ -453,7 +453,7 @@ Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I} shows the computational co
 
 Figure~\ref{fig:multidim-incoherent-compcost-XFFT-LAMBDA-I} shows a covariant view of the total computational cost density per station per voxel for the correlator FFT architecture taken two station parameters at a time while keeping the rest fixed at the nominal values of a \texttt{LAMBDA-I} station denoted by grey dashed lines.
 
-The variation in the cost per voxel for $t_\textrm{acc}=1$~ms is dominated by the gridding cost, displaying the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}. Figure~\ref{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I} shows the ratio of the computational cost of the XFFT architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the XFFT architecture is less expensive than the VBF in most of the parameter space, particularly for larger $D_\textrm{s}/D_\textrm{a}$. For the chosen \texttt{LAMBDA-I} parameters (gray dashed lines), the XFFT cost is roughly equal to that of voltage beamforming. 
+The variation in the cost per voxel for $t_\textrm{acc}=1$~ms is dominated by the gridding cost, displaying the same trends observed in Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}. Figure~\ref{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I} shows the ratio of the computational cost of the XFFT architecture relative to the voltage beamforming architecture in Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I}. It is clearly noted that the cost of the XFFT architecture is less expensive than the BF in most of the parameter space, particularly for larger $D_\textrm{s}/D_\textrm{a}$. For the chosen \texttt{LAMBDA-I} parameters (gray dashed lines), the XFFT cost is roughly equal to that of voltage beamforming. 
 
 \section{Inter-station Imaging Architectures} \label{sec:inter-station-arch}
 
@@ -469,7 +469,7 @@ where, $w_{m}^{\alpha\beta}(\hat{\boldsymbol{s}}_k)$ represents station weights 
 
 \subsection{Coherent Architectures} \label{sec:coherent}
 
-A coherent combination of data between stations requires electric field data products with phase information from the first stage of processing on individual stations. Thus, intra-station visibilities in which only phase differences remain and from which the original absolute phases have been removed, as well as the image intensity outputs of XBF and XFFT, are unusable for coherent processing at the inter-station level. Hence, we consider two possibilities, namely, the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, from VBF and EPIC from equations~\ref{eqn:intra-station-pol-hol-img-expl} and \ref{eqn:intra-station-pol-hol-img-epic},
+A coherent combination of data between stations requires electric field data products with phase information from the first stage of processing on individual stations. Thus, intra-station visibilities in which only phase differences remain and from which the original absolute phases have been removed, as well as the image intensity outputs of XBF and XFFT, are unusable for coherent processing at the inter-station level. Hence, we consider two possibilities, namely, the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, from BF and EPIC from equations~\ref{eqn:intra-station-pol-hol-img-expl} and \ref{eqn:intra-station-pol-hol-img-epic},
 % {eqn:intra-station-pol-hol-img-epic-LA},
 respectively. 
 
@@ -493,7 +493,7 @@ The corresponding polarised intensity at $\boldsymbol{\sigma}_l$ within the stat
 \end{align}
 where, the angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$. The angular resolution of the inter-station beamforming will correspond to the dimensions of the layout of stations within the array.
 
-% The computational budget, $C_\textrm{1VBF+2VBF}$, of coherent inter-station imaging on all independent pixels filling all station resolution elements preceded by intra-station beamforming which fill the entire station field of view can be expressed as
+% The computational budget, $C_\textrm{1BF+2BF}$, of coherent inter-station imaging on all independent pixels filling all station resolution elements preceded by intra-station beamforming which fill the entire station field of view can be expressed as
 % \begin{align}
 %     C_\textrm{1BF+2BF} &= \frac{8 n_\textrm{p}^2}{\delta t} \, \biggl[N_\textrm{a/s} N_\textrm{s}\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 + N_\textrm{s}\left(\frac{D_\textrm{A}}{D_\textrm{a}}\right)^2 + \left(\frac{D_\textrm{A}}{D_\textrm{a}}\right)^2 \biggr] \, . \label{eqn:cost-1BF-2BF}
 % \end{align}
@@ -569,8 +569,8 @@ where, $\widetilde{B}_{mn}^{\alpha\beta;pq*}(\Delta\boldsymbol{r}_j-\Delta\bolds
  & & (per station & (per voxel) & & \\
  & & per voxel) & & & \\
 \midrule\midrule
-VBF & Beamforming & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
-% \multirow{3}{*}{VBF} & Beamforming & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
+BF & Beamforming & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
+% \multirow{3}{*}{BF} & Beamforming & $8 n_\textrm{p}^2 N_\textrm{a/s}$ & $8 n_\textrm{p}^2 N_\textrm{s}$ & $\delta t$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
 & Squaring & $6 n_\textrm{p}^2$ & $6 n_\textrm{p}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod}  \\
 & Accumulation & $2 n_\textrm{p}^2$ & $2 n_\textrm{p}^2$ & $\delta t$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
 \midrule
@@ -613,7 +613,7 @@ XFFT & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}
 %  & & (per station & (per station beam  & \\
 %  & & per channel) & per channel) & \\
 % \midrule\midrule
-% VBF & Beamforming ($\delta t$) & $8 n_\textrm{p}^2 N_\textrm{a/s} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 N_\textrm{s}\left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
+% BF & Beamforming ($\delta t$) & $8 n_\textrm{p}^2 N_\textrm{a/s} \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $8 n_\textrm{p}^2 N_\textrm{s}\left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-pol-hol-img-expl}, \ref{eqn:inter-station-pol-hol-img-expl} \\
 % & Squaring ($\delta t$) & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-pol-img-outprod} , \ref{eqn:inter-station-opt-pol-img-outprod}  \\
 % & Accumulation ($\delta t$ ) & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2$ & \ref{eqn:intra-station-opt-pol-img-outprod}, \ref{eqn:inter-station-opt-pol-img-outprod} \\
 % \midrule
@@ -656,7 +656,7 @@ XFFT & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}
 % \headrow Inter-station & Components & Equation & FLOP count & Timescale \\
 % architecture & & & (per channel) & \\ 
 % \midrule\midrule
-% VBF & Beamforming & \ref{eqn:inter-station-pol-hol-img-expl} & $8 n_\textrm{p}^2 N_\textrm{s}\left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
+% BF & Beamforming & \ref{eqn:inter-station-pol-hol-img-expl} & $8 n_\textrm{p}^2 N_\textrm{s}\left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
 % & Squaring & \ref{eqn:inter-station-opt-pol-img-outprod} & $6 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
 % & Accumulation & \ref{eqn:inter-station-opt-pol-img-outprod} & $2 n_\textrm{p}^2 \left(\frac{D_\textrm{A}}{D_\textrm{s}}\right)^2\left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2$ & $\delta t$ \\
 % \midrule
@@ -710,7 +710,7 @@ XFFT & Correlator & $\frac{6 n_\textrm{p}^2 N_\textrm{a/s} (N_\textrm{a/s}-1)/2}
 
 % Converting polarised beamformed voltages on the sky to Stokes intensities and temporally averaging them as per Equation~(\ref{eqn:opt-pol-corr-img-outprod}) requires $n_\textrm{p}^2$ complex "squaring" (complex products) and subsequent complex additions for each of the complex polarised intensity beams, and therefore $n_\textrm{p}^2 n_\textrm{bs}$ CMACs per station per channel, amounting to $8 n_\textrm{p}^2 n_\textrm{bs}$ FLOPS per station per channel. Hence, the net rate corresponding to beamforming, squaring, and averaging is
 % \begin{align}
-%     C_\textrm{VBF} &= 8 n_\textrm{p}^2 \, \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 \, (N_\textrm{a/s}+1) \, \frac{1}{\delta t} \, . \label{eqn:cost-VBF}
+%     C_\textrm{BF} &= 8 n_\textrm{p}^2 \, \left(\frac{D_\textrm{s}}{D_\textrm{a}}\right)^2 \, (N_\textrm{a/s}+1) \, \frac{1}{\delta t} \, . \label{eqn:cost-BF}
 % \end{align}
 
 
@@ -911,7 +911,7 @@ Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational 
 
 \subsection{Multi-scale Imaging Architectures}\label{sec:multi-scale-imaging}
 
-Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost densities in the discovery phase space of different multi-scale imaging architectures combining four options -- VBF, EPIC, XBF, and XFFT -- on the inter-station data with two options -- VBF and EPIC -- on the intra-station data for various array parameters and imaging cadences.  
+Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost densities in the discovery phase space of different multi-scale imaging architectures combining four options -- BF, EPIC, XBF, and XFFT -- on the inter-station data with two options -- BF and EPIC -- on the intra-station data for various array parameters and imaging cadences.  
 
 \begin{figure*}
 \centering
@@ -930,7 +930,7 @@ Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost d
 % {figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
 {fig_11c.pdf}
 } 
-\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via VBF (gray) and EPIC (black) for intra-station processing, and VBF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data. \label{fig:1D-coherent-compcost-a}}
+\caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using  coherent imaging at intra- and inter-station levels via BF (gray) and EPIC (black) for intra-station processing, and BF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed) for inter-station processing of data. \label{fig:1D-coherent-compcost-a}}
 \end{figure*}
 
 \begin{figure*}\ContinuedFloat
@@ -947,7 +947,7 @@ Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost d
 \caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView-core} \label{fig:1D-coherent-compcost-b}}
 \end{figure*}
 
-In all cases, the intra-station full field of view data processing (first stage) is most efficiently achieved using EPIC (black lines) rather than VBF (gray lines). This is because of the relatively large number of elements densely packed in stations and due to the capability of simultaneous full field of view beamforming by the EPIC architecture powered by the FFT's efficiency. 
+In all cases, the intra-station full field of view data processing (first stage) is most efficiently achieved using EPIC (black lines) rather than BF (gray lines). This is because of the relatively large number of elements densely packed in stations and due to the capability of simultaneous full field of view beamforming by the EPIC architecture powered by the FFT's efficiency. 
 
 The inter-station processing, however, varies significantly due to the diversity in the various inter-station array parameters and imaging cadence considered. For example, 
 \begin{itemize}
