@@ -26,15 +26,15 @@
 \affiliation{CSIRO, Space \& Astronomy, P. O. Box 1130, Bentley, WA 6102, Australia}
 \email[Nithyanandan Thyagarajan]{Nithyanandan.Thyagarajan@csiro.au}
 
-\author{S. Author}
-\affiliation{Second Division, Organization, City, Pincode, State, Country}
-% \alsoaffiliation{Joint first authors}
+% \author{S. Author}
+% \affiliation{Second Division, Organization, City, Pincode, State, Country}
+% % \alsoaffiliation{Joint first authors}
 
-\author{T. Author}
-\affiliation{Second Division, Organization, City, Pincode, State, Country}
+% \author{T. Author}
+% \affiliation{Second Division, Organization, City, Pincode, State, Country}
 
-\author{F.T. Author}
-\affiliation{Fourth Division, Organization, City, Pincode, State, Country}
+% \author{F.T. Author}
+% \affiliation{Fourth Division, Organization, City, Pincode, State, Country}
 
 % \addbibresource{example.bib}
 
@@ -43,18 +43,24 @@
 \begin{document}
 
 \begin{abstract}
-Two major areas of modern radio astronomy, namely, explosive astrophysical transient phenomena and observational cosmology, are driving aperture arrays towards large-$N$, low-cost element design consisting of multiple spatial scales. Multi-scale, hierarchical aperture arrays require a combination of data processing architectures-- pre-correlation beamformer, generic version of FFT-based direct imager, post-correlation beamformer, and post-correlation FFT imager-- operating on different spatial scales to obtain optimal performance in imaging the entire field of view. We use the metric of computational cost density defined over the dimensions of discovery space, namely, field of view, angular resolution, polarisation, frequency, and time to determine the most efficient hybrid architecture for aperture arrays spanning multiple spatial scales like the element size, stations (a collection of elements), and the array (a collection of stations) over a range of number of elements per station and number of stations. We use nominal parameters of specific upcoming and planned arrays-- Square Kilometre Array (SKA) at low frequencies (\texttt{SKA-low}), \texttt{SKA-low-core}, a long baseline extension to SKA-low (\texttt{LAMBDA-I}), compact all-sky phased array (\texttt{CASPA}), and a lunar array (\texttt{FarView-core})-- to determine the most optimal architectural hierarchy for each from a computational standpoint, and provide a guide for designing hybrid architectures for multi-scale aperture arrays. For large-$N$, dense-packed layouts, a FFT-based direct imager is most efficient for most cadence intervals, and for other layouts that have relatively lesser number of elements or greater sparsity in distribution, the best architecture is more sensitive to the cadence interval.
+Two major areas of modern radio astronomy, namely, explosive astrophysical transient phenomena and observational cosmology, are driving aperture arrays towards large-$N$, low-cost element design consisting of multiple spatial scales. Multi-scale, hierarchical aperture arrays require a combination of data processing architectures-- pre-correlation beamformer, generic version of FFT-based direct imager, post-correlation beamformer, and post-correlation FFT imager-- operating on different spatial scales to obtain optimal performance in imaging the entire field of view. 
+% We use the metric of computational cost density defined over the 
+We estimate computational cost based on number of floating point operations and see how this cost is distributed over the 
+dimensions of discovery space, namely, field of view, angular resolution, polarisation, frequency, and time to determine the most efficient hybrid architecture for aperture arrays spanning multiple spatial scales like the element size, stations (a collection of elements), and the array (a collection of stations) over a range of number of elements per station and number of stations. We use nominal parameters of specific upcoming and planned arrays-- Square Kilometre Array (SKA) at low frequencies (\texttt{SKA-low}), \texttt{SKA-low-core}, a long baseline extension to SKA-low (\texttt{LAMBDA-I}), compact all-sky phased array (\texttt{CASPA}), and a lunar array (\texttt{FarView-core})-- to determine the most optimal architecture hierarchy for each from a computational standpoint, and provide a guide for designing hybrid architectures for multi-scale aperture arrays. For large-$N$, dense-packed layouts, a FFT-based direct imager is most efficient for most cadence intervals, and for other layouts that have relatively lesser number of elements or greater sparsity in distribution, the best architecture is more sensitive to the cadence interval.
 \end{abstract}
 
 \section{Introduction}
 
 The variable and transient radio sky encompasses a variety of intriguing astrophysical phenomena with a range of timescales spanning orders of magnitude, wide frequency ranges, and polarizations \citep[][and references therein]{Pietka+2015,Chandra+2016}. Notable examples include pulsars and their giant radio pulses, magnetars, fast radio bursts (FRBs), rotating radio transients (RRATs), Jovian and solar bursts, flare stars, cataclysmic variables (CVs), exoplanet and stellar outbursts, X-ray binaries, novae, supernovae, gamma-ray bursts (GRBs) and their afterglows, active galactic nuclei (AGNs) and blazars, tidal disruption events, both the prompt and afterglow counterparts to gravitational wave (GW) merger events, as well as many phenomena yet to be understood \citep{Lorimer+2007,Thyagarajan+2011,Keane2013,Thornton+2013,Bochenek+2020}. The effectiveness of discovering these transients depends on an instrument's field of view and the duration of on-sky observation \citep{Cordes2007}. Ideally, instruments should operate continuously and in real time, covering a wide range of timescales from microseconds to days, with a large instantaneous field of view. 
 
-Another significant goal of modern radio astronomy is the exploration of structure formation and constraining cosmological parameters in the early Universe using redshifted 21~cm line of neutral Hydrogen as a tracer of large-scale structures \citep[][and references therein]{Morales+2010,Pritchard+2012}. One prominent example includes probing the Cosmic Dawn and the Epoch of Reionisation signifying the appearance of first luminous objects in the Universe and their impact on structure formation in the Universe at $z\gtrsim 6$. Another example is to probe the Dark Energy and acceleration of the Universe at $1\lesssim z\lesssim 4$ using intensity mapping of redshifted 21~cm from H{\sc i} bound to galaxies \citep{CosmicVisions+2018}. Such cosmological radio observations require large fields of view, dense sampling of the large-scale spatial modes, and high sensitivity. 
+Another significant goal of modern radio astronomy is the exploration of structure formation and constraining cosmological parameters in the early Universe using redshifted 21~cm line of neutral Hydrogen as a tracer of large-scale structures \citep[][and references therein]{Morales+2010,Pritchard+2012}. One prominent example includes probing the Cosmic Dawn and the Epoch of Reionisation signifying the appearance of first luminous objects in the Universe and their impact on structure formation in the Universe at $z\gtrsim 6$. Another example is to probe the Dark Energy and acceleration of the Universe at $1\lesssim z\lesssim 4$ using intensity mapping of redshifted 21~cm from H{\sc i} bound to galaxies \citep{CosmicVisions+2018}. Such cosmological radio observations probing the large scale structures through spatial power spectrum or imaging require interferometer arrays of large fields of view, dense sampling of the large-scale spatial modes, and high sensitivity. 
 
 Based on the requirements for transients and observational cosmology, radio interferometers are witnessing a paradigm shift towards packing a large number of relatively small-sized collecting elements densely in a compact region. 
 % providing a large field of view. 
-Modern radio arrays tend to be aperture arrays that operate interferometrically and hierarchically on multiple spatial scales. Examples of multi-scale, hierarchical aperture arrays include the Murchison Widefield Array \cite[MWA;][]{Tingay+2013}, the Hydrogen Epoch of Reionization Array \citep[HERA;][]{HERA+2017}, the Low Frequency Array \cite[LOFAR;][]{vanHaarlem+2013}, the swarm of Long Wavelength Arrays \cite[LWA Swarm;][]{Dowell+2018}, the Canadian Hydrogen Intensity Mapping Experiment \citep[CHIME;][]{CHIME+2022}, the Hydrogen Intensity and Real-time Analysis Experiment \citep[HIRAX;][]{HIRAX+2022}, and the Square Kilometre Array low \cite[SKA-low;][]{Dewdney+2009,SKA1+2019}. 
+Modern radio arrays tend to be aperture arrays that operate interferometrically and hierarchically on multiple spatial scales, involving spatial dimensions of the collecting element, a spatial grouping of elements forming a virtual telescope typically referred to as a station or a tile, and a spatial grouping of stations comprising the full array.
+Examples of multi-scale, hierarchical aperture arrays include the Murchison Widefield Array \cite[MWA;][]{Tingay+2013}, the Hydrogen Epoch of Reionization Array \citep[HERA;][]{HERA+2017}, the Low Frequency Array \cite[LOFAR;][]{vanHaarlem+2013}, the swarm of Long Wavelength Arrays \cite[LWA Swarm;][]{Dowell+2018}, 
+% the Canadian Hydrogen Intensity Mapping Experiment \citep[CHIME;][]{CHIME+2022}, 
+the Hydrogen Intensity and Real-time Analysis Experiment \citep[HIRAX;][]{HIRAX+2022}, and the Square Kilometre Array low \cite[SKA-low;][]{Dewdney+2009,SKA1+2019}. 
 
 This new paradigm poses severe computational and data rate challenges necessitated by the processing of large numbers of data streams in short cadence intervals. The choice of data processing architecture is usually sensitive to the array layout, cadence, angular resolution, and field of view coverage. For example, a correlator-based architecture is generally more suited for relatively smaller number of interferometer elements sparsely distributed over a large area and processing on a slower cadence, whereas a direct imaging architecture based on Fast Fourier Transform (FFT) have far greater efficiency for regularly arranged elements \citep{Daishido+1991,Otobe+1994,Tegmark+2009,Tegmark+2010,Foster+2014,Masui+2019}. A generalised version of FFT-based direct imaging like the E-field Parallel Imaging ``Correlator'' \citep[EPIC;][]{Thyagarajan+2017,Thyagarajan+2019,Krishnan+2023} is expected to be highly efficient for large-$N$, densely packed arrays with or without regularly placed elements from computational and data rate standpoints. Pre- or post-correlation beamforming is expected to be efficient when the number of elements and the number of locations where the image is sought are few in number. Thus, the choice of an optimal imaging architecture is critical for maximising the discovery potential. When the chosen architecture is insufficient, one or more discovery parameters such as time resolution, on-sky observing time, bandwidth, field of view, or angular resolution must be limited to obtain a compromised optimum \citep[for example,][]{Price2024}. When considering multi-scale arrays that involve hierarchical data processing, there may not a single architecture that is optimal on all scales. A hybrid processing architecture that is optimal at various levels of data processing hierarchy is required. 
 
@@ -75,9 +81,9 @@ The paper is organised as follows.
 The hierarchical, multi-scale aperture array scenario we consider involves spatial scales corresponding to the dimensions of the collecting element, station (a grouping of elements), and the array (a grouping of stations), denoted by $D_\textrm{a}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The number of stations in the array and the number of elements in a station (indexed by $m$) are denoted by $N_\textrm{s}$ and $N_{\textrm{a/s}_m}$, respectively. We assume that the number of elements in all stations are equal, $N_{\textrm{a/s}_m} = N_\textrm{a/s}$, for convenience. 
 % Although $N_\textrm{a/s_m}$ could vary with each station, we assume it remains the same for each station for simplicity. 
 
-The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), \texttt{LAMBDA-I}, \texttt{CASPA} \citep{Luo+2024}, and \texttt{FarView-core} \citep{Polidan+2024}. The last three are hypothetical interferometers that are being planned for the future. 
+The specific aperture array examples we consider are the \texttt{SKA-low}, core of the SKA-low (\texttt{SKA-low-core}), \texttt{LAMBDA-I}, \texttt{CASPA}\footnote{CASPA's stations are intnded for localisation and astrometry, rather than for aperture synthesis.} \citep{Luo+2024}, and \texttt{FarView-core} \citep{Polidan+2024}. The last three are hypothetical interferometers that are being planned for the future. 
 % It is assumed that $N_{\textrm{a/s}_m}=N_\textrm{a/s}=256$ (same for each station), $D_\textrm{a}/\lambda=1$, and $D_\textrm{s}/\lambda=17.5$ for each of these arrays, where, the nominal wavelength chosen here is $\lambda=2$~m. The corresponding station filling factor, $f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$, is 0.836 for all the arrays. ~\texttt{SKA-low-core}, ~\texttt{SKA-low}, ~\texttt{Aus-VLBA-low}, and ~\texttt{IC-VLBA-low} are taken to consist of $N_\textrm{s}=256, 512, 512,$ and 512 stations in an array diameter of $D_\textrm{A}/\lambda=525, 3.25\times 10^4, 1.95\times 10^6$, and $3.9\times 10^6$, respectively. The corresponding array filling factors, defined as $f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$, are 0.284, $1.48\times 10^{-4}$, $4.12\times 10^{-8}$, and $1.03\times 10^{-8}$, respectively. 
-These parameters for the chosen examples are summarised in Table~\ref{tab:array_params}. 
+The parameters for the chosen examples are summarised in Table~\ref{tab:array_params}. 
 
 % \begin{figure}
 % \includegraphics[width=\linewidth]
@@ -116,15 +122,15 @@ These parameters for the chosen examples are summarised in Table~\ref{tab:array_
 \begin{threeparttable}
 \caption{Table of multi-scale interferometer array parameters.}
 \label{tab:array_params}
-\begin{tabular}{cccccc|cc}
+\begin{tabular}{ccccccc|cc}
 \toprule
-\headrow Array name & $D_\textrm{A}/\lambda$ & $N_\textrm{s}$ & $D_\textrm{s}/\lambda$ & $N_\textrm{a/s}$ & $D_\textrm{a}/\lambda$ & $f_\textrm{A}$\tnote{a} & $f_\textrm{s}$\tnote{b} \\
+\headrow Array name & $\lambda$ (m)\tnote{a} & $D_\textrm{A}/\lambda$ & $N_\textrm{s}$ & $D_\textrm{s}/\lambda$ & $N_\textrm{a/s}$ & $D_\textrm{a}/\lambda$ & $f_\textrm{A}$\tnote{b} & $f_\textrm{s}$\tnote{c} \\
 \midrule
-\texttt{LAMBDA-I} & $3.9\times 10^6$ & 4 & 17.5 & 256 & 1 & $1.61\times 10^{-10}$ & 0.836 \\ 
-\texttt{SKA-low-core} & $5.25\times 10^{2}$ & 256 & 17.5 & 256 & 1 & 0.284 & 0.836 \\ 
-\texttt{SKA-low} & $3.5\times 10^4$ & 512 & 17.5 & 256 & 1 & $1.28\times 10^{-4}$ & 0.836 \\ 
-\texttt{CASPA} & $4.6\times 10^4$ & 3 & 8.08 & 65 & 0.5 & $9.2\times 10^{-8}$ & 0.996 \\ 
-\texttt{FarView-core}\tnote{c} & $6.77\times 10^2$ & 81 & 38.5 & 625 & 1 & 0.262 & 0.422 \\ 
+\texttt{LAMBDA-I} & 2 & $3.9\times 10^6$ & 4 & 17.5 & 256 & 1 &  $1.61\times 10^{-10}$ & 0.836 \\ 
+\texttt{SKA-low-core} & 2 & $5.25\times 10^{2}$ & 256 & 17.5 & 256 & 1 & 0.284 & 0.836 \\ 
+\texttt{SKA-low} & 2 & $3.5\times 10^4$ & 512 & 17.5 & 256 & 1 &  $1.28\times 10^{-4}$ & 0.836 \\ 
+\texttt{CASPA} & 0.25 & $4.6\times 10^4$ & 3 & 8.08 & 65 & 0.5 &  $9.2\times 10^{-8}$ & 0.996 \\ 
+\texttt{FarView-core}\tnote{d} & 10 & $6.77\times 10^2$ & 81 & 38.5 & 625 & 1 & 0.262 & 0.422 \\ 
 % \texttt{LAMBDA-II} & $1.95\times 10^6$ & 32 & 17.5 & 256 & 1 & $2.58\times 10^{-9}$ & 0.836 \\ 
 % \texttt{Aus-VLBA-low} & $1.95\times 10^{6}$ & 512 & 17.5 & 256 & 1 & $4.12\times 10^{-8}$ & 0.836 \\
 % \texttt{IC-VLBA-low} & $3.9\times 10^{6}$ & 512 & 17.5 & 256 & 1 & $1.03\times 10^{-8}$ & 0.836 \\ 
@@ -134,14 +140,15 @@ These parameters for the chosen examples are summarised in Table~\ref{tab:array_
 \end{tabular}
 \begin{tablenotes}[hang]
 % \item[]Table note
-\item[a]Array filling factor, $\,f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$
-\item[b]Station filling factor, $\,f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$
-\item[c]Only 6~km core of the proposed array \citep{Polidan+2024} is considered here.
+\item[a]Nominal operating wavelength of the array. Results may differ at other wavelengths depending on aperture efficiency, filling factor, etc. 
+\item[b]Array filling factor, $\,f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$
+\item[c]Station filling factor, $\,f_\textrm{s}=N_\textrm{a/s}\,(D_\textrm{a}/D_\textrm{s})^2$
+\item[d]Only 6~km core of the proposed array \citep{Polidan+2024} is considered here.
 \end{tablenotes}
 \end{threeparttable}
 \end{table*}
 
-Although we have considered aperture arrays consisting of three spatial scales, the analysis can be extended without loss of generality to arrays consisting of even larger levels of spatial hierarchy. 
+Nominal wavelengths at which the arrays are planned to operate are shown. The computational costs are typically independent of the wavelength and only depend on the spatial frequencies as shown in Table~\ref{tab:array_params}. However, the aperture efficiencies can, in general, vary with wavelength. Here, we assume that the apertures are 100\% efficient at the nominal wavelengths chosen and they are all used for real-time imaging for a fair comparison. Although we have considered aperture arrays consisting of three spatial scales, the analysis can be extended without loss of generality to arrays consisting of even larger levels of spatial hierarchy. 
 
 \section{Cost Metric} \label{sec:computational-cost}
 
@@ -149,7 +156,9 @@ The primary metric for computational cost used in this study is the number of re
 
 The cost estimates rely on the following floating point operations. A complex addition consists of two FLOPs, and a complex multiplication consists of four real multiplications and two real additions and therefore six FLOPs. A complex multiply-accumulate (CMAC) operation includes one complex multiplication and addition, therefore requiring eight FLOPs.
 
-Although alternate computational metrics that include additional components, such as memory bandwidth, could be justified from a practical standpoint, these metrics will vary significantly with real-life implementations and hardware components available during deployment. Therefore, we take a theoretical approach wherein the budget of floating point operations will form an irreducible requirement immune to the details of any particular implementation. 
+Besides the computational metric employed in this paper, a practical implementation of any of these architectures requires careful consideration of several other practical factors such as memory bandwidth, input and output data rates, power consumption and other processing costs.  
+% Although alternate computational metrics that include additional components, such as memory bandwidth, could be justified from a practical standpoint, 
+These alternate metrics will vary significantly with real-life implementations and hardware capabilities available during deployment. Therefore, in a complex space of multi-dimensional factors, we take this theoretical approach as a first step wherein the budget of floating point operations will form an irreducible requirement regardless of any particular implementation. 
 
 \section{Fast Imaging Architectures} \label{sec:img-archs}
 
@@ -1004,9 +1013,12 @@ The same reasoning can be extended for inter-station processing, where there is 
 
 \subsection{Other considerations}\label{sec:other-metrics}
 
-In transient search and cosmological applications, there will be additional processing required. For example, a de-dispersion trial process is required to discover new FRBs and pulsars with optimal signal-to-noise ratio. Computationally efficient algorithms for de-dispersion like the Fast Dispersion Measure Transform \citep[FDMT;][]{Zackay+2014} need to be performed on every independent pixel in the image formed. In intensity mapping applications for cosmology, the images need to be post-processed for deconvolution, foreground, removal, etc. As these post-processing computations are additional and common to all architectures, including them in our cost metric will not affect the results. Calibration is another aspect that we have not included in our computational cost analysis. Because calibration typically operates on a significantly slower cadence compared to $t_\textrm{acc}$, and the computational cost is not tedious \citep{Beardsley+2017,Gorthi+2021}, its contribution is negligible in the overall cost budget, and therefore will not affect the results.
+In transient search and cosmological applications, there will be additional processing required. For example, a de-dispersion trial process is required to discover new FRBs and pulsars with optimal signal-to-noise ratio. Computationally efficient algorithms for de-dispersion like the Fast Dispersion Measure Transform \citep[FDMT;][]{Zackay+2014} need to be performed either on intensities in the image plane pixels or on visibilities in the aperture plane, the cost of which will scale with the number of independent pixels in the image or the visibilities, respectively. For compact, dense, large-$N$ arrays, the number of independent pixels will be typically lesser than the number of measured visibilities, and thus it will be advantageous to perform de-dispersion in the image plane. Correspondingly, it will be computational preferable to de-disperse visibilities for sparse arrays. A full accounting of such costs for most general cases is beyond the scope of this paper.
+% on every independent pixel in the image formed. De-disperson may be performed 
 
-Besides computational costs, there are other practical considerations in the deployment of an architecture such as the hardware's processing bandwidth, internal memory bandwidth management, input and output data rates, etc. For example, the GPU-based deployment of EPIC on the LWA is severely limited by the memory bandwidth constraints on chip\footnote{See \url{https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md} for a detailed analysis.}. The architecture of current generation of GPUs is found to be inefficient at handling the transpose operation required in an $N$-point two-dimensional FFT, whereas they may be more efficient at handling correlations. On the contrary, the current generation of FPGAs seem more suited for low bit width two-dimensional FFT from computational and on-chip memory bandwidth perspectives. It is extremely difficult to forecast the continually evolving landscape of hardware capabilities accessible to instruments at the instant of deployment. Thus, we restrict our analysis to the metric of computational cost density, which is independent of evolving hardware capabilities. For example, even if the computations are parallelised over a large number of GPU cores as noted in \citet{Sokolowski+2024}, the total computational cost remains unaffected. 
+In intensity mapping applications for cosmology, the images need to be post-processed for deconvolution, foreground, removal, etc. As these post-processing computations are additional and common to all architectures, including them in our cost metric will not affect the results. Calibration is another aspect that we have not included in our computational cost analysis. Because calibration typically operates on a significantly slower cadence compared to $t_\textrm{acc}$, and the computational cost is not tedious \citep{Beardsley+2017,Gorthi+2021}, its contribution is negligible to the overall cost budget, and therefore will not affect the results.
+
+Besides computational costs, there are other practical considerations in the deployment of an architecture such as the hardware's processing bandwidth, internal memory bandwidth management, input and output data rates, etc. For example, the GPU-based deployment of EPIC on the LWA is severely limited by the memory bandwidth constraints on chip\footnote{See \url{https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md} for a detailed analysis.}. The architecture of current generation of GPUs is found to be inefficient at handling the transpose operation required in an $N$-point two-dimensional FFT, whereas they may be more efficient at handling correlations. On the contrary, the current generation of FPGAs seem more suited for low bit width two-dimensional FFT from computational and on-chip memory bandwidth perspectives. It is extremely difficult to forecast the continually evolving landscape of hardware capabilities accessible to instruments at the instant of deployment. Thus, we restrict our analysis to the metric of computational cost density, which is independent of evolving hardware capabilities. For example, even if the computations are parallelised over a large number of GPU cores as noted in \citet{Sokolowski+2024}, the total computational cost remains unaffected. So, it is intended to be viewed as a first step among many towards an actual implementation. 
 
 % \subsection{SKA-low}
 
@@ -1062,7 +1074,7 @@ We have considered only computational cost density over the discovery parameter 
 
 
 \begin{acknowledgement}
-Insert the Acknowledgment text here.
+The discussions and inputs from Ron Ekers, David Humphrey, Nivedita Mahesh, and Rajaram Nityananda are acknowledged. 
 \end{acknowledgement}
 
 % \paragraph{Funding Statement}
