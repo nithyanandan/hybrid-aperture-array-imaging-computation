@@ -25,16 +25,8 @@
 {Chandra}, P., {Anupama}, G.~C., {Arun}, K.~G., {et~al.} 2016, Journal of
   Astrophysics and Astronomy, 37, 30
 
-\bibitem[{{CHIME Collaboration} {et~al.}(2022){CHIME Collaboration}, {Amiri},
-  {Bandura}, {Boskovic}, {Chen}, {Cliche}, {Deng}, {Denman}, {Dobbs},
-  {Fandino}, {Foreman}, {Halpern}, {Hanna}, {Hill}, {Hinshaw}, {H{\"o}fer},
-  {Kania}, {Klages}, {Landecker}, {MacEachern}, {Masui}, {Mena-Parra},
-  {Milutinovic}, {Mirhosseini}, {Newburgh}, {Nitsche}, {Ordog}, {Pen},
-  {Pinsonneault-Marotte}, {Polzin}, {Reda}, {Renard}, {Shaw}, {Siegel},
-  {Singh}, {Smegal}, {Tretyakov}, {van Gassen}, {Vanderlinde}, {Wang}, {Wiebe},
-  {Willis}, \& {Wulf}}]{CHIME+2022}
-{CHIME Collaboration}, {Amiri}, M., {Bandura}, K., {et~al.} 2022, \apjs, 261,
-  29
+\bibitem[{Cooley \& Tukey(1965)}]{Cooley+Tukey1965}
+Cooley, J.~W., \& Tukey, J.~W. 1965, Mathematics of Computation, 19, 297
 
 \bibitem[{{Cordes}(2007)}]{Cordes2007}
 {Cordes}, J. 2007, in From Planets to Dark Energy: the Modern Radio Universe,
@@ -98,6 +90,14 @@
 {Dowell}, J., \& {Taylor}, G.~B. 2018, Journal of Astronomical Instrumentation,
   7, 1850006
 
+\bibitem[{{Du} {et~al.}(2009){Du}, {Xu}, {Qiao}, \& {Han}}]{Du+2009}
+{Du}, Y.~J., {Xu}, R.~X., {Qiao}, G.~J., \& {Han}, J.~L. 2009, \mnras, 399,
+  1587
+
+\bibitem[{{Eilek} \& {Hankins}(2016)}]{Eilek+2016}
+{Eilek}, J.~A., \& {Hankins}, T.~H. 2016, Journal of Plasma Physics, 82,
+  635820302
+
 \bibitem[{{Foster} {et~al.}(2014){Foster}, {Hickish}, {Magro}, {Price}, \&
   {Zarb Adami}}]{Foster+2014}
 {Foster}, G., {Hickish}, J., {Magro}, A., {Price}, D., \& {Zarb Adami}, K.
@@ -106,6 +106,18 @@
 \bibitem[{{Gorthi} {et~al.}(2021){Gorthi}, {Parsons}, \&
   {Dillon}}]{Gorthi+2021}
 {Gorthi}, D.~B., {Parsons}, A.~R., \& {Dillon}, J.~S. 2021, \mnras, 500, 66
+
+\bibitem[{{Hankins} \& {Eilek}(2007)}]{Hankins+2007}
+{Hankins}, T.~H., \& {Eilek}, J.~A. 2007, \apj, 670, 693
+
+\bibitem[{{Hankins} {et~al.}(2003){Hankins}, {Kern}, {Weatherall}, \&
+  {Eilek}}]{Hankins+2003}
+{Hankins}, T.~H., {Kern}, J.~S., {Weatherall}, J.~C., \& {Eilek}, J.~A. 2003,
+  \nat, 422, 141
+
+\bibitem[{{Haskell} {et~al.}(2018){Haskell}, {Zdunik}, {Fortin}, {Bejger},
+  {Wijnands}, \& {Patruno}}]{Haskell+2018}
+{Haskell}, B., {Zdunik}, J.~L., {Fortin}, M., {et~al.} 2018, \aap, 620, A69
 
 \bibitem[{{Keane}(2013)}]{Keane2013}
 {Keane}, E.~F. 2013, in Neutron Stars and Pulsars: Challenges and Opportunities
@@ -148,10 +160,27 @@
 \bibitem[{{Morales} \& {Wyithe}(2010)}]{Morales+2010}
 {Morales}, M.~F., \& {Wyithe}, J. S.~B. 2010, \araa, 48, 127
 
+\bibitem[{{Nimmo} {et~al.}(2022){Nimmo}, {Hessels}, {Kirsten}, {Keimpema},
+  {Cordes}, {Snelders}, {Hewitt}, {Karuppusamy}, {Archibald}, {Bezrukovs},
+  {Bhardwaj}, {Blaauw}, {Buttaccio}, {Cassanelli}, {Conway}, {Corongiu},
+  {Feiler}, {Fonseca}, {Forss{\'e}n}, {Gawro{\'n}ski}, {Giroletti}, {Kharinov},
+  {Leung}, {Lindqvist}, {Maccaferri}, {Marcote}, {Masui}, {Mckinven},
+  {Melnikov}, {Michilli}, {Mikhailov}, {Ng}, {Orbidans}, {Ould-Boukattine},
+  {Paragi}, {Pearlman}, {Petroff}, {Rahman}, {Scholz}, {Shin}, {Smith},
+  {Stairs}, {Surcis}, {Tendulkar}, {Vlemmings}, {Wang}, {Yang}, \&
+  {Yuan}}]{Nimmo+2022}
+{Nimmo}, K., {Hessels}, J.~W.~T., {Kirsten}, F., {et~al.} 2022, Nature
+  Astronomy, 6, 393
+
 \bibitem[{{Otobe} {et~al.}(1994){Otobe}, {Nakajima}, {Nishibori}, {Saito},
   {Kobayashi}, {Tanaka}, {Watanabe}, {Aramaki}, {Hoshikawa}, {Asuma}, \&
   {Daishido}}]{Otobe+1994}
 {Otobe}, E., {Nakajima}, J., {Nishibori}, K., {et~al.} 1994, \pasj, 46, 503
+
+\bibitem[{{Philippov} {et~al.}(2019){Philippov}, {Uzdensky}, {Spitkovsky}, \&
+  {Cerutti}}]{Philippov+2019}
+{Philippov}, A., {Uzdensky}, D.~A., {Spitkovsky}, A., \& {Cerutti}, B. 2019,
+  \apjl, 876, L6
 
 \bibitem[{{Pietka} {et~al.}(2015){Pietka}, {Fender}, \& {Keane}}]{Pietka+2015}
 {Pietka}, M., {Fender}, R.~P., \& {Keane}, E.~F. 2015, \mnras, 446, 3687
@@ -265,5 +294,9 @@
 
 \bibitem[{{Zackay} \& {Ofek}(2017)}]{Zackay+2014}
 {Zackay}, B., \& {Ofek}, E.~O. 2017, \apj, 835, 11
+
+\bibitem[{{Zhang} {et~al.}(2023){Zhang}, {Tian}, {Zarka}, {Louis}, {Lu}, {Gao},
+  {Sun}, {Yu}, {Chen}, {Cheng}, \& {Wang}}]{Zhang+2023}
+{Zhang}, J., {Tian}, H., {Zarka}, P., {et~al.} 2023, \apj, 953, 65
 
 \end{thebibliography}
