@@ -904,7 +904,7 @@ Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational 
 
 \begin{figure}
 \centering
-\subfloat[][Station imaging compute cost densities for \texttt{LAMBDA-I}, \texttt{SKA1-low-core}, and \texttt{SKA1-low}. \label{fig:1D-incoherent-compcost-LAMBDA-I}]
+\subfloat[][Station imaging compute cost densities for \texttt{LAMBDA-I}, \texttt{SKA1-low}, and \texttt{SKA1-low-core}. \label{fig:1D-incoherent-compcost-LAMBDA-I}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_per_pixel_compcost_analysis_LAMBDA-I.pdf}
 {fig_10a.pdf}
@@ -973,7 +973,7 @@ The inter-station processing, however, varies significantly due to the diversity
 
 \subsection{Effect of Imaging Cadence}\label{sec:cadence}
 
-The timescales of radio transients span many orders of magnitudes \citep{Pietka+2015,Chandra+2016,Nimmo+2022}. Pulsars, stellar bursts \citep{Zhang+2023}, and gamma ray burst afterglows, for example, are active on timescales from milliseconds to seconds, and millisecond pulsars and FRBs on millisecond timescales typically. The exact origin of these energetic phenomena are yet to be fully understood. Extremely energetic and ultra-fast phenomena on timescales of sub-milliseconds such as magnetars and sub-millisecond pulsars \citep{Du+2009,Haskell+2018}, and on nanoseconds such as giant pulses from the Crab pulsar \citep{Hankins+2003,Hankins+2007,Eilek+2016,Philippov+2019}, for example, can reveal the fundamental nature of matter and exotic physics. 
+The timescales of radio transients span many orders of magnitudes \citep{Pietka+2015,Chandra+2016,Nimmo+2022}. Pulsars, stellar bursts \citep{Zhang+2023}, and gamma ray burst afterglows, for example, are active on timescales from milliseconds to seconds, millisecond pulsars on milliseconds to tens of milliseconds, and FRBs on sub-milliseconds to tens of milliseconds \citep{Crawford+2022,Gupta+2022,Snelders+2023}. The exact origin of these energetic phenomena are yet to be fully understood. Extremely energetic and ultra-fast phenomena on timescales of sub-milliseconds such as magnetars and sub-millisecond pulsars \citep{Du+2009,Haskell+2018}, and on nanoseconds such as giant pulses from the Crab pulsar \citep{Hankins+2003,Hankins+2007,Eilek+2016,Philippov+2019}, for example, can reveal the fundamental nature of matter and exotic physics. 
 
 The scientific goals enabled by access to these timescales are key determinants of whether the architecture deployed can support the processing, as they are intricately tied to different timescales evidently from Table~\ref{tab:intra-inter-station-coherent-imaging}. Here, the impact of the cadence interval on the choice of imaging architecture for multi-scale arrays for intra- and inter-station processing is examined. Table~\ref{tab:cadence} summarises the findings from Figures~\ref{fig:1D-incoherent-compcost} and \ref{fig:1D-coherent-compcost-b} based on the dependence of the computational cost densities of the different architectures and arrays on $t_\textrm{acc}$.
 
