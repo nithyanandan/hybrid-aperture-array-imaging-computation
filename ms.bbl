@@ -42,6 +42,10 @@ Cooley, J.~W., \& Tukey, J.~W. 1965, Mathematics of Computation, 19, 297
 {Cosmic Visions 21 cm Collaboration}, {Ansari}, R., {Arena}, E.~J., {et~al.}
   2018, arXiv e-prints, arXiv:1810.09572
 
+\bibitem[{{Crawford} {et~al.}(2022){Crawford}, {Hisano}, {Golden}, {Kikunaga},
+  {Laity}, \& {Zoeller}}]{Crawford+2022}
+{Crawford}, F., {Hisano}, S., {Golden}, M., {et~al.} 2022, \mnras, 515, 3698
+
 \bibitem[{{Crichton} {et~al.}(2022){Crichton}, {Aich}, {Amara}, {Bandura},
   {Bassett}, {Bengaly}, {Berner}, {Bhatporia}, {Bucher}, {Chang}, {Chiang},
   {Cliche}, {Crichton}, {Dave}, {De Villiers}, {Dobbs}, {Ewall-Wice}, {Eyono},
@@ -106,6 +110,10 @@ Cooley, J.~W., \& Tukey, J.~W. 1965, Mathematics of Computation, 19, 297
 \bibitem[{{Gorthi} {et~al.}(2021){Gorthi}, {Parsons}, \&
   {Dillon}}]{Gorthi+2021}
 {Gorthi}, D.~B., {Parsons}, A.~R., \& {Dillon}, J.~S. 2021, \mnras, 500, 66
+
+\bibitem[{{Gupta} {et~al.}(2022){Gupta}, {Flynn}, {Farah}, {Bailes}, {Deller},
+  {Day}, \& {Lower}}]{Gupta+2022}
+{Gupta}, V., {Flynn}, C., {Farah}, W., {et~al.} 2022, \mnras, 514, 5866
 
 \bibitem[{{Hankins} \& {Eilek}(2007)}]{Hankins+2007}
 {Hankins}, T.~H., \& {Eilek}, J.~A. 2007, \apj, 670, 693
@@ -196,6 +204,12 @@ Cooley, J.~W., \& Tukey, J.~W. 1965, Mathematics of Computation, 19, 297
 \bibitem[{{Pritchard} \& {Loeb}(2012)}]{Pritchard+2012}
 {Pritchard}, J.~R., \& {Loeb}, A. 2012, Reports on Progress in Physics, 75,
   086901
+
+\bibitem[{{Snelders} {et~al.}(2023){Snelders}, {Nimmo}, {Hessels}, {Bensellam},
+  {Zwaan}, {Chawla}, {Ould-Boukattine}, {Kirsten}, {Faber}, \&
+  {Gajjar}}]{Snelders+2023}
+{Snelders}, M.~P., {Nimmo}, K., {Hessels}, J.~W.~T., {et~al.} 2023, Nature
+  Astronomy, 7, 1486
 
 \bibitem[{{Sokolowski} {et~al.}(2024){Sokolowski}, {Aniruddha}, {Di
   Pietrantonio}, {Harris}, {Price}, {McSweeney}, {Wayth}, \&
