@@ -26,7 +26,12 @@ Title
 
 Abstract
 - I think the readability of the abstract could be improved. For example, the term "large-N" is a bit of jargon and I think the phrasing around this could be changed to more natural language.
+
+--> Modified the abstract as suggested. 
+
 - The use of "spatial scale" is similarly a bit jarring when first reading the paper. I think it's because the wording would more clearly be, for example, "...multiple spatial scales spanning the dimensions of individual elements, the size of stations (...), and the spacing between stations." (or similar)
+
+--> Modified as suggested. 
 
 Section 1
 - First sentence, I think "polarizations" should be changed to "polarization states"
@@ -58,6 +63,9 @@ Figure 1
 
 Section 5
 - In the first paragraph after equation (3), I think there’s an asterisk missing in the inline equation embedded in the sentence starting “For example, choosing…”
+
+--> Good catch. Corrected now. 
+
 - In the next paragraph, I think “can hold any N_{a/s}” should be “can hold as many N_{a/s}”
 
 --> Changed as suggested.
