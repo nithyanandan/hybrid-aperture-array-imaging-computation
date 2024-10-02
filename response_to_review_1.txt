@@ -43,6 +43,9 @@ Section 1
 
 Section 2
 - I'm a bit confused by the choice of notation here. If you're attempting to be more general than "antenna", hence using the phrase "collecting element", why not use N_e for number of them? And the N_{a/s_m} construction seems quite awkward, is there a convenient alternative?
+
+--> Changed notation of variables, $D_a$ to $D_e$, $N_{a/s}$ to $N_{eps}$, and $\Omega_a$ to $\Omega_e$, where 'e' stands for element, and 'eps' stands for elements per station. 
+
 - At the end of that paragraph, it's good to note that usually all stations have the same number of antennas, but maybe you could note that e.g. LOFAR would not be so easily simplified.
 - Is there a webpage or paper to refer to for LAMBDA-I ?
 - Real-time imaging is assumed (last paragraph of this section) but I'm not aware that this is required for cosmological applications, e.g. EoR use cases typically make use of post-observation analysis and imaging. Does this undermine any of the arguments? Alternatively, if I've missed something, could information be included to justify why this is needed?
