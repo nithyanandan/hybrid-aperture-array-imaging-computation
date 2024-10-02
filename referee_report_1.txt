@@ -1,0 +1,64 @@
+Comments to the Author
+This paper addresses the important question of how to choose a computational architecture for a given aperture-array radio telescope depending on how its collecting area is deployed, and specifically in the context of some current/upcoming arrays that use hierarchical distribution of antennas. The analysis is new and useful to the community. I found much of the paper to be quite dense in its presentation which unfortunately detracts from its readability. I address one aspect of this in the major comments below.
+
+Major comments
+=============
+- The paper gets dense (in terms of readability) at the start of Section 5 and I would suggest more care to ensure that the key equations are well described. For example, equation (1) is presented with essentially no context, and the notation is not well explained. Many of the indices are undefined (what is p? what is alpha? what is the asterisk?). This really holds throughout all of Sections 5 and 6. Even though it will lengthen the paper somewhat, I think it’s crucial that you review these approaches and their associated equations carefully, ensuring that they are framed usefully for the reader and that the notation is clarified.
+- I found myself wondering if there are any links to real-world performance metrics that you can make. In Section 5.2 you mentioned that LWA has implemented EPIC. Certainly other techniques have been used before. Are there any measured performance figures that can be used to validate the model used in this paper?
+
+
+Minor comments
+==============
+
+General:
+- The name of SKA and SKA-Low should be written differently throughout. (a) the "SKA" acronym is not meant to be expanded anymore - it's just SKA, and (b) "SKA" should be used in place of "SKA1" - the SKA1 vs SKA2 distinction isn't used anymore either. See for example: https://www.skao.int/en/skao-brand
+
+Per section:
+
+Title
+- There's a misspelled word! (Hybrid)
+
+Abstract
+- I think the readability of the abstract could be improved. For example, the term "large-N" is a bit of jargon and I think the phrasing around this could be changed to more natural language.
+- The use of "spatial scale" is similarly a bit jarring when first reading the paper. I think it's because the wording would more clearly be, for example, "...multiple spatial scales spanning the dimensions of individual elements, the size of stations (...), and the spacing between stations." (or similar)
+
+Section 1
+- First sentence, I think "polarizations" should be changed to "polarization states"
+- Later in the first paragraph, when mentioning the various classes of transient/variable sources, I think it would be good to include a representative range of timescales (duration and/or periodicity and/or duty cycle). Perhaps not very lengthy, but to give a sense of relevant timescales to be considered later in the paper. (This is included much later in Section 7.3 but should I think be included at some level here in the Introduction too.)
+- Similarly at the end of the second paragraph I think you should give some indicative values for "large-scale structures" and "high sensitivity".
+
+Section 2
+- I'm a bit confused by the choice of notation here. If you're attempting to be more general than "antenna", hence using the phrase "collecting element", why not use N_e for number of them? And the N_{a/s_m} construction seems quite awkward, is there a convenient alternative?
+- At the end of that paragraph, it's good to note that usually all stations have the same number of antennas, but maybe you could note that e.g. LOFAR would not be so easily simplified.
+- Is there a webpage or paper to refer to for LAMBDA-I ?
+- Real-time imaging is assumed (last paragraph of this section) but I'm not aware that this is required for cosmological applications, e.g. EoR use cases typically make use of post-observation analysis and imaging. Does this undermine any of the arguments? Alternatively, if I've missed something, could information be included to justify why this is needed?
+
+Section 3
+- Detailed point, should "per pixel" (first paragraph) really be "per resolution element" or similar?
+- In the third paragraph, it seems like a major 'other cost' is calibration. Later in the paper you make the argument that calibration is low-cost and also carried out on significantly slower time scales (at least relevant to fast imaging for transients). Possibly add this sort of consideration here as well. And possibly note here too that it's assumed in Section 5 that calibration has already occurred (for example this seems clearly an assumption at the start of Section 5.1).
+
+Section 4
+- First paragraph, the sentence starting "The second stage..." doesn't make sense, can this be reworded?
+
+Figure 1
+- "Accumulation" is misspelled in 6(?) places
+
+Section 5
+- In the first paragraph after equation (3), I think there’s an asterisk missing in the inline equation embedded in the sentence starting “For example, choosing…”
+- In the next paragraph, I think “can hold any N_{a/s}” should be “can hold as many N_{a/s}”
+- In the next sentence, can you provide more about the constant padding factor (what is its role)?
+
+Section 6
+- In 6.2.4, it struck me that there is no consideration about the impact of the w-term. I think the highly formalised way that equation (13) is presented may be elegant but it obfuscates the practical aspects that radio astronomers are familiar with, like dealing with the w-term. More generally there are many ways that this procedure can be implemented in practice. For example the gridding can be managed various ways (including image plane gridding). What is the assumption used here as described in the context of those practical implementations?
+
+Figures 2-5
+- These refer to LAMBDA-I stations, but from Figure 6 onward you rightly start referring to SKA-Low as well since the stations for these designs are nominally the same. I suggest to make this consistent throughout the paper.
+
+Figure 5a
+- I’m not getting much from this diagram since the colorscale limits don’t allow whatever variation there is in the plotted values to come through.
+
+Figures 2,4,6,8,10,11
+- I’m not sure what is driving the range of the parameters that you’re plotting here, but it’s confusing and may hide information to have the axis limits significantly larger than the range of values for which there are data to plot. Why not either extend the range of values computed and plotted (if/where it makes sense) and/or reduce the axis limits to avoid orders of magnitude of blank space?
+
+Figure 9
+- The caption is incomplete (end of first sentence)
