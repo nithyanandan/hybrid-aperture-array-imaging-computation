@@ -67,7 +67,7 @@ Figure 1
 Section 5
 - In the first paragraph after equation (3), I think there’s an asterisk missing in the inline equation embedded in the sentence starting “For example, choosing…”
 
---> Good catch. Corrected now. 
+--> That's a good catch. Corrected now. 
 
 - In the next paragraph, I think “can hold any N_{a/s}” should be “can hold as many N_{a/s}”
 
@@ -81,8 +81,12 @@ Section 6
 Figures 2-5
 - These refer to LAMBDA-I stations, but from Figure 6 onward you rightly start referring to SKA-Low as well since the stations for these designs are nominally the same. I suggest to make this consistent throughout the paper.
 
+--> Changed as suggested.
+
 Figure 5a
 - I’m not getting much from this diagram since the colorscale limits don’t allow whatever variation there is in the plotted values to come through.
+
+--> The computational cost, which is dominated by the FFT, is not very sensitive to the variables along the axes. The variation across parameter space is within an order of magnitude (only varies by a factor of few). Hence, the colour scale is practically uniform, as confirmed by the black solid lines in figure 4. I've adjusted the colour scale to show some more variation. 
 
 Figures 2,4,6,8,10,11
 - I’m not sure what is driving the range of the parameters that you’re plotting here, but it’s confusing and may hide information to have the axis limits significantly larger than the range of values for which there are data to plot. Why not either extend the range of values computed and plotted (if/where it makes sense) and/or reduce the axis limits to avoid orders of magnitude of blank space?

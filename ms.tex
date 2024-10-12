@@ -157,7 +157,7 @@ Figure~\ref{fig:1D-incoherent-compcost-BF-LAMBDA-I} shows a breakdown of the com
 \includegraphics[width=\linewidth]
 % {figures/1D_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 {fig_02.pdf}
-\caption{A breakdown of the computational cost density function over the station parameters for the voltage beamforming architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I} station (cyan lines). The beamforming cost in Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}). 
+\caption{A breakdown of the computational cost density function over the station parameters for the voltage beamforming architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations} (cyan lines). The beamforming cost in Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}). 
 \label{fig:1D-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
 
@@ -167,7 +167,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I} shows a covariant view
 \includegraphics[width=\linewidth]
 % {figures/multidim_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
 {fig_03.pdf}
-\caption{A multi-dimensional covariant view of the net computational cost density function over the station parameters for the voltage beamforming architecture at the station level by varying two parameters at a time while fixing the rest at the nominal values of a \texttt{LAMBDA-I} station shown in grey dashed lines. The empty portions in the panels denote parts of parameter space physically impossible to sample given the constraints of the station parameters. Contours corresponding to the colour scale are shown in cyan. 
+\caption{A multi-dimensional covariant view of the net computational cost density function over the station parameters for the voltage beamforming architecture at the station level by varying two parameters at a time while fixing the rest at the nominal values of the \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations} shown in grey dashed lines. The empty portions in the panels denote parts of parameter space physically impossible to sample given the constraints of the station parameters. Contours corresponding to the colour scale are shown in cyan. 
 \label{fig:multidim-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
 
@@ -206,7 +206,7 @@ is a per-element operation and depends only on $N_\textrm{eps}$, it scales linea
 \includegraphics[width=0.99\linewidth]
 % {figures/1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
 {fig_04.pdf}
-\caption{A breakdown of the computational cost density function over the station parameters for the EPIC architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I} station (cyan lines). The spatial FFT cost in Equation~(\ref{eqn:intra-station-pol-hol-img-epic})
+\caption{A breakdown of the computational cost density function over the station parameters for the EPIC architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations} (cyan lines). The spatial FFT cost in Equation~(\ref{eqn:intra-station-pol-hol-img-epic})
   % {eqn:intra-station-pol-hol-img-epic-LA}
   denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}).
   % {eqn:intra-station-opt-polarimetric-direct-img-LA}
@@ -228,7 +228,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I} shows a covariant vi
 % {figures/multidim_epic_relative_cost_analysis_LAMBDA-I.pdf}
 {fig_05b.pdf}
 } 
-\caption{(Left): Two-dimensional slices of the computational cost per station per voxel for coherent-incoherent imaging using station-level EPIC. Because the spatial FFT dominates the overall cost budget, the computational cost density is relatively insensitive to $N_\textrm{eps}$, $D_\textrm{s}$, and $D_\textrm{e}$. (Right): Ratio of computational cost of EPIC to voltage beamforming. For $N_\textrm{eps}\gtrsim 100$, EPIC has a significant advantage over voltage beamforming. Gray dashed lines indicate nominal values for a \texttt{LAMBDA-I} station. Logarithmic contour levels corresponding to the colour scale are shown in cyan. \label{fig:incoherent-compcost-EPIC-LAMBDA-I}}
+\caption{(Left): Two-dimensional slices of the computational cost per station per voxel for coherent-incoherent imaging using station-level EPIC. Because the spatial FFT dominates the overall cost budget, the computational cost density is relatively insensitive to $N_\textrm{eps}$, $D_\textrm{s}$, and $D_\textrm{e}$ \textbf{as seen in Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}, thereby not showing much variation in the colour scale.} (Right): Ratio of computational cost of EPIC to voltage beamforming. For $N_\textrm{eps}\gtrsim 100$, EPIC has a significant advantage over voltage beamforming. Gray dashed lines indicate nominal values for \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations}. Logarithmic contour levels corresponding to the colour scale are shown in cyan. \label{fig:incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure*}
 
 The EPIC architecture has been implemented on the Long Wavelength Array station in Sevilleta (NM, USA) \cite{Kent+2019,Kent+2020,Krishnan+2023} using a GPU framework and operates on a commensal mode.  
