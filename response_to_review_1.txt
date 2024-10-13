@@ -44,7 +44,7 @@ Section 1
 Section 2
 - I'm a bit confused by the choice of notation here. If you're attempting to be more general than "antenna", hence using the phrase "collecting element", why not use N_e for number of them? And the N_{a/s_m} construction seems quite awkward, is there a convenient alternative?
 
---> Changed notation of variables, $D_a$ to $D_e$, $N_{a/s}$ to $N_{eps}$, and $\Omega_a$ to $\Omega_e$, where 'e' stands for element, and 'eps' stands for elements per station. 
+--> Changed notation of variables, $D_a$ to $D_e$, $N_{a/s}$ to $N_{eps}$, and $\Omega_a$ to $\Omega_e$, $N_{ka}$ to $N_{ke}$, where 'e' stands for element, and 'eps' stands for elements per station. Applied this change to text and figures.
 
 - At the end of that paragraph, it's good to note that usually all stations have the same number of antennas, but maybe you could note that e.g. LOFAR would not be so easily simplified.
 - Is there a webpage or paper to refer to for LAMBDA-I ?
@@ -78,6 +78,8 @@ Section 5
 Section 6
 - In 6.2.4, it struck me that there is no consideration about the impact of the w-term. I think the highly formalised way that equation (13) is presented may be elegant but it obfuscates the practical aspects that radio astronomers are familiar with, like dealing with the w-term. More generally there are many ways that this procedure can be implemented in practice. For example the gridding can be managed various ways (including image plane gridding). What is the assumption used here as described in the context of those practical implementations?
 
+--> In the paragraph following equation 3, I have added a reference to the fact that the gridding kernel can be used to incorporate the w-projection term in Cornwell et al. (2008). Equations 6, 10, and 13 are counterparts to equation 3, and can incorporate the w-term as well. The larger the w-term, the larger will be the size of the diffraction kernel, and the cost of gridding will become larger. However, it will stay linear in the number of elements or stations where w-term is applicable. A note about increasing kernel size when accounting for w-terms is mentioned in these places.
+
 Figures 2-5
 - These refer to LAMBDA-I stations, but from Figure 6 onward you rightly start referring to SKA-Low as well since the stations for these designs are nominally the same. I suggest to make this consistent throughout the paper.
 
@@ -90,6 +92,8 @@ Figure 5a
 
 Figures 2,4,6,8,10,11
 - I’m not sure what is driving the range of the parameters that you’re plotting here, but it’s confusing and may hide information to have the axis limits significantly larger than the range of values for which there are data to plot. Why not either extend the range of values computed and plotted (if/where it makes sense) and/or reduce the axis limits to avoid orders of magnitude of blank space?
+
+--> The analysis was performed for a wider range of parameters, but for the chosen arrays the physical geometrical constraints restricted it to narrower ranges of possibilities. The figures have been re-made with readjusted ranges. 
 
 Figure 9
 - The caption is incomplete (end of first sentence)
