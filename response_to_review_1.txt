@@ -39,7 +39,12 @@ Section 1
 --> Changed as suggested.
 
 - Later in the first paragraph, when mentioning the various classes of transient/variable sources, I think it would be good to include a representative range of timescales (duration and/or periodicity and/or duty cycle). Perhaps not very lengthy, but to give a sense of relevant timescales to be considered later in the paper. (This is included much later in Section 7.3 but should I think be included at some level here in the Introduction too.)
+
+--> Included information on timescales as suggested in the introduction.
+
 - Similarly at the end of the second paragraph I think you should give some indicative values for "large-scale structures" and "high sensitivity".
+
+--> Provided information as suggested. 
 
 Section 2
 - I'm a bit confused by the choice of notation here. If you're attempting to be more general than "antenna", hence using the phrase "collecting element", why not use N_e for number of them? And the N_{a/s_m} construction seems quite awkward, is there a convenient alternative?
@@ -47,12 +52,25 @@ Section 2
 --> Changed notation of variables, $D_a$ to $D_e$, $N_{a/s}$ to $N_{eps}$, and $\Omega_a$ to $\Omega_e$, $N_{ka}$ to $N_{ke}$, where 'e' stands for element, and 'eps' stands for elements per station. Applied this change to text and figures.
 
 - At the end of that paragraph, it's good to note that usually all stations have the same number of antennas, but maybe you could note that e.g. LOFAR would not be so easily simplified.
+
+--> Made a note in that paragraph that while the idea can be extended to arrays with heterogeneous layouts and densities such as LOFAR, one will have to incorporate specific details about the array.
+
 - Is there a webpage or paper to refer to for LAMBDA-I ?
+
+--> Unfortunately, there isn't one. It is a project being internally (with some initial pilot funding) at CSIRO to essentially extend long baseline capabilities of the SKA-low. I've updated its description to read like its a concept and not fully sanctioned. 
+
 - Real-time imaging is assumed (last paragraph of this section) but I'm not aware that this is required for cosmological applications, e.g. EoR use cases typically make use of post-observation analysis and imaging. Does this undermine any of the arguments? Alternatively, if I've missed something, could information be included to justify why this is needed?
+
+--> The referee raises a valid question. Although real-time imaging is assumed, it is true that cosmological applications don't need real-time imaging. However, they do need real-time processing to produce correlations from the incoming antenna voltages from a large number of elements. In such cases, the cost of gridding and DFT/FFT will not apply in real-time. However, the computational cost of the X-engine which is a dominant cost will still apply. Notably, new and planned arrays like PUMA for studying Dark Energy using BAO are considering FFT correlators (a specific adaptation of EPIC for redundant arrays) rather than XF correlators. So, this study will be relevant for cosmological arrays too once the appropriate cost components in the budget are properly accounted for. This point has been noted in section 2 and also in sections 5.2, 5.4, 6.2.2, and 6.2.4. 
 
 Section 3
 - Detailed point, should "per pixel" (first paragraph) really be "per resolution element" or similar?
+
+--> Clarified as suggested.
+
 - In the third paragraph, it seems like a major 'other cost' is calibration. Later in the paper you make the argument that calibration is low-cost and also carried out on significantly slower time scales (at least relevant to fast imaging for transients). Possibly add this sort of consideration here as well. And possibly note here too that it's assumed in Section 5 that calibration has already occurred (for example this seems clearly an assumption at the start of Section 5.1).
+
+--> I have made it clear at the end of section 4 where it seemed natural. 
 
 Section 4
 - First paragraph, the sentence starting "The second stage..." doesn't make sense, can this be reworded?
@@ -74,6 +92,8 @@ Section 5
 --> Changed as suggested.
 
 - In the next sentence, can you provide more about the constant padding factor (what is its role)?
+
+--> The padding factor is used to control the image pixel scale. Choosing a value of 2 will produce a pixel scale and image size identical to that created from gridded visibilities. 
 
 Section 6
 - In 6.2.4, it struck me that there is no consideration about the impact of the w-term. I think the highly formalised way that equation (13) is presented may be elegant but it obfuscates the practical aspects that radio astronomers are familiar with, like dealing with the w-term. More generally there are many ways that this procedure can be implemented in practice. For example the gridding can be managed various ways (including image plane gridding). What is the assumption used here as described in the context of those practical implementations?
