@@ -210,6 +210,12 @@ Cooley, J.~W., \& Tukey, J.~W. 1965, Mathematics of Computation, 19, 297
 {Pritchard}, J.~R., \& {Loeb}, A. 2012, Reports on Progress in Physics, 75,
   086901
 
+\bibitem[{Reddy {et~al.}(2024)Reddy, Bowman, Dowell, Taylor, Beardsley, \&
+  Taylor}]{Reddy+2024}
+Reddy, K., Bowman, J.~D., Dowell, J., {et~al.} 2024, in Software and
+  Cyberinfrastructure for Astronomy VIII, ed. J.~Ibsen \& G.~Chiozzi, Vol.
+  13101, International Society for Optics and Photonics (SPIE), 131011C
+
 \bibitem[{Slosar {et~al.}(2019)Slosar, Ahmed, Alonso, Amin, Arena, Bandura,
   Battaglia, Blazek, Bull, Castorina, Chang, Connor, Dav{\' e}, Dvorkin,
   Engelen, Ferraro, Flauger, Foreman, Frisch, Green, Holder, Jacobs, Johnson,
@@ -239,6 +245,14 @@ Slosar, A., Ahmed, Z., Alonso, D., {et~al.} 2019, Bulletin of the AAS, 51,
   Society of the Pacific Conference Series, Vol. 180, {Synthesis Imaging in
   Radio Astronomy II} (San Francisco, Calif. : Astronomical Society of the
   Pacific)
+
+\bibitem[{Taylor {et~al.}(2012)Taylor, Ellingson, Kassim, Craig, Dowell, Wolfe,
+  Hartman, Bernardi, Clarke, Cohen, Dalal, Erickson, Hicks, Greenhill, Jacoby,
+  Lane, Lazio, Mitchell, Navarro, Ord, Pihlstr\"{o}m, Polisensky, Ray, Rickard,
+  Schinzel, Schmitt, Sigman, Soriano, Stewart, Stovall, Tremblay, Wang, Weiler,
+  White, \& Wood}]{Taylor+2012}
+Taylor, G.~B., Ellingson, S.~W., Kassim, N.~E., {et~al.} 2012, Journal of
+  Astronomical Instrumentation, 01, 1250004
 
 \bibitem[{{Tegmark}(1997)}]{Tegmark1997a}
 {Tegmark}, M. 1997, \apjl, 480, L87

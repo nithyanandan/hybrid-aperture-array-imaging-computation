@@ -14,6 +14,7 @@
 \usepackage[caption=false]{subfig}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage{hyperref}
 % \usepackage[euler-digits,euler-hat-accent]{eulervm}
 
 \newcommand{\vdag}{(v)^\dagger}
@@ -235,7 +236,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I} shows a covariant vi
 \caption{(Left): Two-dimensional slices of the computational cost per station per voxel for coherent-incoherent imaging using station-level EPIC. Because the spatial FFT dominates the overall cost budget, the computational cost density is relatively insensitive to $N_\textrm{eps}$, $D_\textrm{s}$, and $D_\textrm{e}$ \textbf{as seen in Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}, thereby not showing much variation in the colour scale.} (Right): Ratio of computational cost of EPIC to voltage beamforming. For $N_\textrm{eps}\gtrsim 100$, EPIC has a significant advantage over voltage beamforming. Gray dashed lines indicate nominal values for \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations}. Logarithmic contour levels corresponding to the colour scale are shown in cyan. \label{fig:incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure*}
 
-The EPIC architecture has been implemented on the Long Wavelength Array station in Sevilleta (NM, USA) \cite{Kent+2019,Kent+2020,Krishnan+2023} using a GPU framework and operates on a commensal mode.
+\textbf{The EPIC architecture has been implemented on the Long Wavelength Array (LWA) station in Sevilleta (NM, USA) \cite{Kent+2019,Kent+2020,Krishnan+2023} using a GPU framework and operates on a commensal mode. With recent optimisations, the EPIC pipeline on LWA-Sevilleta computes $128\times 128$ all-sky images at 25,000 frames per second and outputs at a cadence of 40--80~ms accumulations \citep{Reddy+2024}. For reference, the software correlator and visibility-based imager can produce images at 5~s cadence \citep{Taylor+2012}.}
 
 \textbf{The EPIC architecture will be relevant for large cosmological arrays like PUMA that are considering a FFT-based correlator architecture. Obtaining visibilities from an EPIC architecture will involve an additional step of an inverse-FFT or an inverse-DFT back to the aperture plane from the accumulated images (not included in Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}). However, the inverse-FFT or DFT operation needs to be performed only once every accumulation interval, and is thus not expected to add significantly to the total cost budget.} 
 

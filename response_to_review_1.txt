@@ -6,8 +6,12 @@ This paper addresses the important question of how to choose a computational arc
 Major comments
 =============
 - The paper gets dense (in terms of readability) at the start of Section 5 and I would suggest more care to ensure that the key equations are well described. For example, equation (1) is presented with essentially no context, and the notation is not well explained. Many of the indices are undefined (what is p? what is alpha? what is the asterisk?). This really holds throughout all of Sections 5 and 6. Even though it will lengthen the paper somewhat, I think it’s crucial that you review these approaches and their associated equations carefully, ensuring that they are framed usefully for the reader and that the notation is clarified.
+
+
+
 - I found myself wondering if there are any links to real-world performance metrics that you can make. In Section 5.2 you mentioned that LWA has implemented EPIC. Certainly other techniques have been used before. Are there any measured performance figures that can be used to validate the model used in this paper?
 
+--> The current optimised performance of EPIC on LWA can be found in Reddy et al. (2024) at https://doi.org/10.1117/12.3012524. EPIC on LWA Sevilleta using GPU can form 128x128 all-sky images at 25000 FPS per channel and accumulated images are output at 40-80 ms cadence. Prior to this, the software correlator and imager was able to produce images at 5s cadence using visibility-based imaging architecture. EPIC's performance and future prospects using GPUs are captured in the memo at https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md
 
 Minor comments
 ==============
