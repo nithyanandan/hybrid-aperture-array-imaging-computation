@@ -136,7 +136,7 @@ The intra-station architectures comprising the first stage form the basis for bo
 % The calibrated electric fields, $\widetilde{E}_{a_m}^p$, recorded by individual elements, $a_m$, within a station, $m$, and polarisation state, $p$,
 can be phase-coherently superposed \textbf{to obtain the electric field in polarisation state, $\alpha$,} towards any desired direction as
 \begin{align}
-    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{{\alpha p}^*}(\hat{\boldsymbol{s}}_k) \, \widetilde{E}_{a_m}^p \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:intra-station-pol-hol-img-expl}
+    \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) &= \sum_{a_m} \sum_p  \widetilde{\mathcal{W}}_{a_m}^{\alpha p *}(\hat{\boldsymbol{s}}_k) \, \widetilde{E}_{a_m}^p \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{s}}_k\cdot\boldsymbol{r}_{a_m}} \, , \label{eqn:intra-station-pol-hol-img-expl}
 \end{align}
 where, $\hat{\boldsymbol{s}}_k$ denotes the direction of the superposed beam, $k$,
 % $\widetilde{E}_{a_m}^{p}$ represents the calibrated and potentially noise-weighted electric field measured by the station element, $a_m$,
@@ -144,7 +144,7 @@ and $\widetilde{\mathcal{W}}_{a_m}^{{\alpha p}^*}(\hat{\boldsymbol{s}}_k)$ denot
 
 The polarised intensity in the \textbf{beamformed} pixel is then obtained by
 \begin{align}
-    \widetilde{\mathcal{I}}^{\alpha\beta}_m(\hat{\boldsymbol{s}}_k) &= \left\langle \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) \,  \widetilde{\mathcal{E}}_m^{\beta^*}(\hat{\boldsymbol{s}}_k) \right\rangle \, , \label{eqn:intra-station-opt-pol-img-outprod}
+    \widetilde{\mathcal{I}}^{\alpha\beta}_m(\hat{\boldsymbol{s}}_k) &= \left\langle \widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k) \,  \widetilde{\mathcal{E}}_m^{\beta *}(\hat{\boldsymbol{s}}_k) \right\rangle \, , \label{eqn:intra-station-opt-pol-img-outprod}
 \end{align}
 where, angular brackets denote a temporal averaging across an interval of $t_\textrm{acc}$. \textbf{Superscripts $\alpha \beta$ in $\widetilde{\mathcal{I}}^{\alpha\beta}_m(\hat{\boldsymbol{s}}_k)$ result from the outer product of indices $\alpha$ and $\beta$, and thus index the four pairwise combinations of polarisation states of the intensity.} Even though it is an outer product over the polarisation axis, it will be referred to as a ``squaring'' operation, hereafter, for convenience because of what it reduces to if only a single polarisation is measured.
 
@@ -443,7 +443,7 @@ Using these electric fields as \textbf{the input} measurements from virtual tele
 % under intra-station imaging by combining the electric fields from synthesised telescopes from different stations virtually pointed in the same direction.
 Since the computational costs \textbf{of the inter-station processing now} depend on the array layout \textbf{and that of intra-station processing on the station layout}, it necessitates hybrid architectures appropriate for multi-scale aperture arrays. Table~\ref{tab:intra-inter-station-coherent-imaging} summarises these costs. 
 
-\textbf{For inter-station processing, all element- and station-related quantities in intra-station processing will be replaced with station- and array-related quantities, respectively. Similarly, the element-based measurements, $\widetilde{E}_{a_m}^p$, will be replaced with the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, measured by the virtual station-sized telescopes synthesised either through BF (equation~\ref{eqn:intra-station-pol-hol-img-expl}) or EPIC (equation~\ref{eqn:intra-station-pol-hol-img-epic}).}
+\textbf{For inter-station processing, all element- and station-related quantities in intra-station processing will be replaced with station- and array-related quantities, respectively. Similarly, the element-based measurements of electric fields, $\widetilde{E}_{a_m}^p$, will be replaced with the synthesised electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, measured by the virtual station-sized telescopes obtained either through BF (equation~\ref{eqn:intra-station-pol-hol-img-expl}) or EPIC (equation~\ref{eqn:intra-station-pol-hol-img-epic}).}
 % Below, $\widetilde{E}_{a_m}^p$ is replaced with the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$
 % (equivalently,  $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]}$)
 % coherently produced by the intra-station processing either through voltage beamforming or EPIC with corresponding changes in replacing intra-station with inter-station terms.
@@ -451,15 +451,18 @@ $\boldsymbol{\sigma}_l$ will denote pixel locations within a selected station's 
 
 \subsubsection{Beamforming}
 
-The inter-station beamforming 
+\textbf{Using the electric fields, $\widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k)$, synthesised from each intra-station processing as input,} the inter-station DFT beamforming 
 % takes the same form as Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) except $\widetilde{E}_{a_m}^p$ is replaced with beamformed $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ and corresponding changes in other terms too. Thus,
-can be written as
+can be written \textbf{very similar to equation~\ref{eqn:intra-station-pol-hol-img-expl}}, as
 \begin{align}
-    \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\boldsymbol{\sigma}_l) &= \sum_{m} \sum_p  \widetilde{\mathcal{W}}_{m}^{{\alpha p}^*}(\boldsymbol{\sigma}_l,\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \boldsymbol{\sigma}_l\cdot\boldsymbol{r}_{m}} \, , \label{eqn:inter-station-pol-hol-img-expl}   
+    \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\boldsymbol{\sigma}_l) &= \sum_{m} \sum_p  \widetilde{\mathcal{W}}_{m}^{\alpha p *}(\boldsymbol{\sigma}_l,\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \, e^{i\frac{2\pi}{\lambda} \boldsymbol{\sigma}_l\cdot\boldsymbol{r}_{m}} \, . \label{eqn:inter-station-pol-hol-img-expl}   
 \end{align}
-where, $\widetilde{\mathcal{W}}_{m}^{{\alpha p}^*}(\boldsymbol{\sigma}_l,\hat{\boldsymbol{s}}_k)$ denotes the directional weighting applied to the electric fields towards the station beam $\hat{\boldsymbol{s}}_k$, around which the corresponding polarised intensity 
+\textbf{$\boldsymbol{\sigma}_l$ denotes directions within the beam solid angle synthesised by the virtual station-sized telescopes towards $\hat{\boldsymbol{s}}_k$ through intra-station processing.} $\widetilde{\mathcal{W}}_{m}^{{\alpha p}^*}(\boldsymbol{\sigma}_l,\hat{\boldsymbol{s}}_k)$ denotes the directional weighting applied to the synthesised electric fields \textbf{from station $m$ towards directions, $\boldsymbol{\sigma}_l$, centred on the beam directed towards} $\hat{\boldsymbol{s}}_k$. \textbf{Superscripts $\alpha$ and $p$ denote the contribution of polarisation state $p$ from the measured input field to polarisation state $\alpha$ in the synthesised field.}
+% around which the corresponding
+
+The polarised intensity \textbf{distribution within the beam solid angle}
 % at $\boldsymbol{\sigma}_l$ within this station beam, $\hat{\boldsymbol{s}}_k$, 
-is given by the ``squaring'' and averaging, similar to Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}),
+is given by the \textbf{outer product over polarisation states} (``squaring'') and averaging, similar to Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}),
 \begin{align}
     \widetilde{\mathcal{I}}^{\alpha\beta}_{\hat{\boldsymbol{s}}_k}(\boldsymbol{\sigma}_l) &= \left\langle \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\boldsymbol{\sigma}_l) \,  \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^{\beta^*}(\boldsymbol{\sigma}_l) \right\rangle \, , \label{eqn:inter-station-opt-pol-img-outprod}
 \end{align}
