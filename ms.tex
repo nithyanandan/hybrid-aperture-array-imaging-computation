@@ -419,7 +419,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-XFFT-LAMBDA-I} shows a covariant vi
 
 \section{Inter-station Imaging Architectures} \label{sec:inter-station-arch}
 
-The products from the intra-station architectures form the inputs for inter-station imaging. The intra-station coherent combinations producing $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ in Equations~(\ref{eqn:intra-station-pol-hol-img-expl}) and (\ref{eqn:intra-station-pol-hol-img-epic}) effectively act as virtual telescopes measuring the electric fields but simultaneously pointed towards multiple locations, $\hat{\boldsymbol{s}}_k$. Here, the processing is assumed to occur in real time. 
+The products from the intra-station architectures form the inputs for inter-station imaging. Here, the inter-station processing is also assumed to occur in real time. 
 
 \subsection{Incoherent Architectures} \label{sec:incoherent}
 
@@ -435,11 +435,19 @@ A coherent combination of data between stations requires electric field data pro
 % {eqn:intra-station-pol-hol-img-epic-LA},
 respectively. 
 
-The pointing direction of the virtual synthesised telescope from the elements of station, $m$ is denoted by $\hat{\boldsymbol{s}}_k$. The field of view and angular resolution of the intra-station $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ are determined by the individual element and the station dimensions, respectively. Using these electric fields as measurements from virtual synthesised telescopes, the inter-station imaging architecture can take any of the architectures that were already discussed under intra-station imaging by combining the electric fields from synthesised telescopes from different stations virtually pointed in the same direction. Since the computational costs depend on the station and array layouts, this necessitates hybrid architectures appropriate for multi-scale aperture arrays. Table~\ref{tab:intra-inter-station-coherent-imaging} summarises these costs. 
+The intra-station coherent combinations $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ \textbf{produced through BF and EPIC, respectively} in Equations~(\ref{eqn:intra-station-pol-hol-img-expl}) and (\ref{eqn:intra-station-pol-hol-img-epic}), effectively \textbf{convert the station, $m$, to act as multiple virtual station-sized} telescopes measuring the electric fields but simultaneously pointed towards multiple locations, denoted by $\hat{\boldsymbol{s}}_k$.
+% The pointing direction of the virtual synthesised telescope from the elements of station, $m$ is denoted by $\hat{\boldsymbol{s}}_k$.
+\textbf{Each of these virtual station-sized telescopes has a field of view determined by inverse of the station size. Together, with all the different virtual pointings, they can cover a field of view given by the inverse of the element size.}
+% The field of view and angular resolution of the intra-station $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ are determined by the individual element and the station dimensions, respectively.
+Using these electric fields as \textbf{the input} measurements from virtual telescopes \textbf{pointed towards any given direction, $\hat{\boldsymbol{s}}_k$, synthesised from the stations}, the inter-station imaging architecture can employ any of the architectures that were \textbf{previously discussed for intra-station processing. The same can be performed for all possible directions filling the entire field of view.}
+% under intra-station imaging by combining the electric fields from synthesised telescopes from different stations virtually pointed in the same direction.
+Since the computational costs \textbf{of the inter-station processing now} depend on the array layout \textbf{and that of intra-station processing on the station layout}, it necessitates hybrid architectures appropriate for multi-scale aperture arrays. Table~\ref{tab:intra-inter-station-coherent-imaging} summarises these costs. 
 
-Below, $\widetilde{E}_{a_m}^p$ is replaced with the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$
+\textbf{For inter-station processing, all element- and station-related quantities in intra-station processing will be replaced with station- and array-related quantities, respectively. Similarly, the element-based measurements, $\widetilde{E}_{a_m}^p$, will be replaced with the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, measured by the virtual station-sized telescopes synthesised either through BF (equation~\ref{eqn:intra-station-pol-hol-img-expl}) or EPIC (equation~\ref{eqn:intra-station-pol-hol-img-epic}).}
+% Below, $\widetilde{E}_{a_m}^p$ is replaced with the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$
 % (equivalently,  $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]}$)
-coherently produced by the intra-station processing either through voltage beamforming or EPIC with corresponding changes in replacing intra-station with inter-station terms. $\boldsymbol{\sigma}_l$ and $\boldsymbol{r}_{m}$ are used to denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and location of station $m$, respectively. 
+% coherently produced by the intra-station processing either through voltage beamforming or EPIC with corresponding changes in replacing intra-station with inter-station terms.
+$\boldsymbol{\sigma}_l$ will denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and $\boldsymbol{r}_{m}$ denotes the centroid location of station $m$. 
 
 \subsubsection{Beamforming}
 
