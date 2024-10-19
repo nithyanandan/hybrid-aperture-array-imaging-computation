@@ -441,13 +441,13 @@ The intra-station coherent combinations $\widetilde{\mathcal{E}}_m^\alpha(\hat{\
 % The field of view and angular resolution of the intra-station $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$ are determined by the individual element and the station dimensions, respectively.
 Using these electric fields as \textbf{the input} measurements from virtual telescopes \textbf{pointed towards any given direction, $\hat{\boldsymbol{s}}_k$, synthesised from the stations}, the inter-station imaging architecture can employ any of the architectures that were \textbf{previously discussed for intra-station processing. The same can be performed for all possible directions filling the entire field of view.}
 % under intra-station imaging by combining the electric fields from synthesised telescopes from different stations virtually pointed in the same direction.
-Since the computational costs \textbf{of the inter-station processing now} depend on the array layout \textbf{and that of intra-station processing on the station layout}, it necessitates hybrid architectures appropriate for multi-scale aperture arrays. Table~\ref{tab:intra-inter-station-coherent-imaging} summarises these costs. 
+Since the computational costs \textbf{of the inter-station processing now} depend on the array layout \textbf{and that of intra-station processing on the station layout}, it necessitates hybrid architectures appropriate for multi-scale aperture arrays. 
 
 \textbf{For inter-station processing, all element- and station-related quantities in intra-station processing will be replaced with station- and array-related quantities, respectively. Similarly, the element-based measurements of electric fields, $\widetilde{E}_{a_m}^p$, will be replaced with the synthesised electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$, measured by the virtual station-sized telescopes obtained either through BF (equation~\ref{eqn:intra-station-pol-hol-img-expl}) or EPIC (equation~\ref{eqn:intra-station-pol-hol-img-epic}).}
 % Below, $\widetilde{E}_{a_m}^p$ is replaced with the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$
 % (equivalently,  $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]}$)
 % coherently produced by the intra-station processing either through voltage beamforming or EPIC with corresponding changes in replacing intra-station with inter-station terms.
-$\boldsymbol{\sigma}_l$ will denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and $\boldsymbol{r}_{m}$ denotes the centroid location of station $m$. 
+$\boldsymbol{\sigma}_l$ will denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and $\boldsymbol{r}_{m}$ denotes the centroid location of station $m$. \textbf{Table~\ref{tab:intra-inter-station-coherent-imaging} summarises the computational costs of intra- and inter-station processing.} 
 
 \subsubsection{Beamforming}
 
@@ -484,7 +484,7 @@ where, the angular brackets denote a temporal averaging across an interval of $t
 
 \textbf{Instead of DFT beamforming with synthesised electric fields from intra-station processing,} inter-station EPIC \textbf{can be used to simultaneously form beams in all directions filling the available field of view using FFT.} It takes the form
 \begin{align}
-  \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\hat{\boldsymbol{\sigma}}_l) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\boldsymbol{r}_j} \nonumber\\
+  \widetilde{\mathcal{E}}_{\hat{\boldsymbol{s}}_k}^\alpha(\boldsymbol{\sigma}_l) &= \sum_j \delta^2 \boldsymbol{r}_j \, e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\boldsymbol{r}_j} \nonumber\\
   &\quad \left(\sum_{m} \sum_p \widetilde{W}_{m}^{\alpha p*}(\boldsymbol{r}_j-\boldsymbol{r}_{m},\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \right) \, . \label{eqn:inter-station-pol-hol-img-epic-expl}
 \end{align}
 % \begin{align}
@@ -506,18 +506,18 @@ where, the angular brackets denote a temporal averaging across an interval of $t
 
 \subsubsection{Correlator Beamforming}
 
-The intra-station electric fields,
+\textbf{In this correlator-based approach,} the synthesised intra-station electric fields,
 % $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,p,\hat{\boldsymbol{s}}]}$ or
-$\widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k)$, phase-centred towards $\hat{\boldsymbol{s}}_k$, are correlated to produce the inter-station visibilities, 
+$\widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k)$, phase-centred towards $\hat{\boldsymbol{s}}_k$, are cross-correlated \textbf{and temporally averaged} to produce the inter-station visibilities, 
 \begin{align}
-    \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) &= \bigl\langle \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_n^{q*}(\hat{\boldsymbol{s}}_k)\bigr\rangle \label{eqn:inter-station-pol-visibilities}
+    \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) &= \bigl\langle \widetilde{\mathcal{E}}_m^p(\hat{\boldsymbol{s}}_k) \, \widetilde{\mathcal{E}}_n^{q*}(\hat{\boldsymbol{s}}_k)\bigr\rangle \, . \label{eqn:inter-station-pol-visibilities}
 \end{align}
-which are then beamformed similar to Equation~(\ref{eqn:intra-station-pol-xbf-img-expl}) to produce the intensities at a higher angular resolution around $\hat{\boldsymbol{s}}_k$ filling the station-scale angular resolution element (equivalently, the array's field of view),
+\textbf{The visibilities phase-centred on $\hat{\boldsymbol{s}}_k$ are then beamformed using DFT similar to Equation~(\ref{eqn:intra-station-pol-xbf-img-expl}) to produce polarised intensities at locations, $\boldsymbol{\sigma}_l$, within the solid angle of the beam centred on $\hat{\boldsymbol{s}}_k$} as 
 \begin{align}
-    \widetilde{\mathcal{I}}^{\alpha\beta}_{\hat{\boldsymbol{s}}_k}(\hat{\boldsymbol{\sigma}}_l)
-    &= \sum_{m,n} \sum_{p,q} \widetilde{\mathcal{B}}_{mn}^{\alpha\beta;pq*}(\hat{\boldsymbol{\sigma}}_l, \hat{\boldsymbol{s}}_k) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_{m n}} \, , \label{eqn:inter-station-pol-xbf-img-expl} 
+    \widetilde{\mathcal{I}}^{\alpha\beta}_{\hat{\boldsymbol{s}}_k}(\boldsymbol{\sigma}_l)
+    &= \sum_{m,n} \sum_{p,q} \widetilde{\mathcal{B}}_{mn}^{\alpha\beta;pq*}(\hat{\boldsymbol{\sigma}}_l, \hat{\boldsymbol{s}}_k) \, \widetilde{V}_{mn}^{pq}(\hat{\boldsymbol{s}}_k) \,  e^{i\frac{2\pi}{\lambda} \hat{\boldsymbol{\sigma}}_l\cdot\Delta\boldsymbol{r}_{m n}} \, . \label{eqn:inter-station-pol-xbf-img-expl} 
 \end{align}
-where, $\widetilde{\mathcal{B}}_{mn}^{\alpha\beta;pq*}(\hat{\boldsymbol{\sigma}}_l,\hat{\boldsymbol{s}}_k)$ is applied to the visibility phase-centred on $\hat{\boldsymbol{s}}_k$ as a directional weighting (direction denoted by $\hat{\boldsymbol{\sigma}}_l$).  
+$\widetilde{\mathcal{B}}_{mn}^{\alpha\beta;pq*}(\boldsymbol{\sigma}_l,\hat{\boldsymbol{s}}_k)$ is \textbf{a polarimetric directional weighting towards directions, $\boldsymbol{\sigma}_l$, within the solid angle of the intra-station beam synthesised centred on $\hat{\boldsymbol{s}}_k$,} and is applied to the corresponding visibility phase-centred towards $\hat{\boldsymbol{s}}_k$. Each of the images within the beam solid angle centred on $\hat{\boldsymbol{s}}_k$ will have an angular resolution that scales as the inverse of the array size. 
 
 \subsubsection{Correlation FFT}
 
