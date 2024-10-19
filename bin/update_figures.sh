@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rsync -havux --progress figures/flops_calc_abridged.pdf                                       flops_calc_abridged.pdf                                 
+rsync -havux --progress figures/flops_calc_abridged_v2.pdf                                    flops_calc_abridged_v2.pdf                                 
 rsync -havux --progress figures/1D_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf        1D_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf    
 rsync -havux --progress figures/multidim_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf  multidim_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf  
 rsync -havux --progress figures/1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf                  1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf        
@@ -21,7 +21,7 @@ rsync -havux --progress figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low
 rsync -havux --progress figures/1D_coherent_per_pixel_compcost_analysis_CASPA.pdf             1D_coherent_per_pixel_compcost_analysis_CASPA.pdf                                 
 rsync -havux --progress figures/1D_coherent_per_pixel_compcost_analysis_FarView.pdf           1D_coherent_per_pixel_compcost_analysis_FarView.pdf                               
 
-mv flops_calc_abridged.pdf                                                 fig_01.pdf
+mv flops_calc_abridged_v2.pdf                                              fig_01.pdf
 mv 1D_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf                  fig_02.pdf
 mv multidim_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf            fig_03.pdf
 mv 1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf                            fig_04.pdf
