@@ -447,7 +447,7 @@ Since the computational costs \textbf{of the inter-station processing now} depen
 % Below, $\widetilde{E}_{a_m}^p$ is replaced with the electric fields, $\widetilde{\mathcal{E}}_m^\alpha(\hat{\boldsymbol{s}}_k)$
 % (equivalently,  $\widetilde{\boldsymbol{\mathcal{E}}}_{[m,\alpha,\hat{\boldsymbol{s}}]}$)
 % coherently produced by the intra-station processing either through voltage beamforming or EPIC with corresponding changes in replacing intra-station with inter-station terms.
-$\boldsymbol{\sigma}_l$ will denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and $\boldsymbol{r}_{m}$ denotes the centroid location of station $m$. \textbf{Table~\ref{tab:intra-inter-station-coherent-imaging} summarises the computational costs of intra- and inter-station processing.} 
+$\boldsymbol{\sigma}_l$ will denote pixel locations within a selected station's resolution solid angle element centred on $\hat{\boldsymbol{s}}_k$, and $\boldsymbol{r}_{m}$ denotes the centroid location of station $m$. \textbf{Table~\ref{tab:intra-inter-station-coherent-imaging} summarises the computational costs of inter-station processing.} 
 
 \subsubsection{Beamforming}
 
@@ -730,29 +730,65 @@ The inter-station processing, however, varies significantly due to the diversity
 
 The scientific goals enabled by access to \textbf{the wide range of timescales exhibited by transient phenomena (microseconds to days)} are key determinants of whether the architecture deployed can support the processing, as they are intricately tied to different timescales evident from Table~\ref{tab:intra-inter-station-coherent-imaging}. Here, the impact of the cadence interval on the choice of imaging architecture for multi-scale arrays for intra- and inter-station processing is examined. Table~\ref{tab:cadence} summarises the findings from Figures~\ref{fig:1D-incoherent-compcost} and \ref{fig:1D-coherent-compcost-b} based on the dependence of the computational cost densities of the different architectures and arrays on $t_\textrm{acc}$.
 
+% \begin{table*}[htb!]
+% \normalsize
+% \begin{threeparttable}
+% \caption{Impact of imaging cadence on choice of efficient imaging architecture.}
+% \label{tab:cadence}
+% % \begin{tabularx}{\textwidth}{ccccc}
+% \begin{tabular}{c|ccc|ccc}
+% \toprule
+% \headrow 
+% % Array & & Intra-station & & & Inter-station & \\
+% Array & \multicolumn{3}{c|}{Intra-station architecture} & \multicolumn{3}{c}{Inter-station architecture} \\ 
+%  & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms \\ 
+% \midrule\midrule
+
+% \texttt{LAMBDA-I} & EPIC & EPIC & EPIC & BF/XBF & XBF & XBF \\
+% \midrule
+% \texttt{SKA-low-core} & EPIC & EPIC & EPIC & EPIC & EPIC & XFFT/EPIC/XBF \\
+% \midrule
+% \texttt{SKA-low} & EPIC & EPIC & EPIC & XFFT/EPIC & XFFT & XFFT \\
+% \midrule
+% \texttt{CASPA} & EPIC & EPIC & XFFT & XBF & XBF & XBF \\
+% \midrule
+% \texttt{FarView-core} & EPIC & EPIC & EPIC & EPIC & XFFT & XBF/XFFT \\
+% % \midrule
+% % Three & Four&three three\tnote{b} &four & & \\
+% \bottomrule
+% % \end{tabularx}
+% \end{tabular}
+% % \begin{tablenotes}[hang]
+% % % \item[]Table note
+% % \item[a]Array filling factor, $\,f_\textrm{A}=N_\textrm{s}\,(D_\textrm{s}/D_\textrm{A})^2$
+% % % \item[b]Station filling factor, $\,f_\textrm{s}=N_\textrm{eps}\,(D_\textrm{e}/D_\textrm{s})^2$
+% % \end{tablenotes}
+% \end{threeparttable}
+% \end{table*}
+
 \begin{table*}[htb!]
 \normalsize
 \begin{threeparttable}
 \caption{Impact of imaging cadence on choice of efficient imaging architecture.}
 \label{tab:cadence}
 % \begin{tabularx}{\textwidth}{ccccc}
-\begin{tabular}{c|ccc|ccc}
+\begin{tabular}{c|cccc|cccc}
 \toprule
 \headrow 
 % Array & & Intra-station & & & Inter-station & \\
-Array & \multicolumn{3}{c|}{Intra-station architecture} & \multicolumn{3}{c}{Inter-station architecture} \\ 
- & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms \\ 
+Array & \multicolumn{4}{c|}{Intra-station architecture} & \multicolumn{4}{c}{Inter-station architecture} \\ 
+ & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms & $\gtrsim 10$~s & $\lesssim 0.1$~ms & $\simeq 1$~ms & $\gtrsim 100$~ms & $\gtrsim 10$~s \\ 
 \midrule\midrule
 
-\texttt{LAMBDA-I} & EPIC & EPIC & EPIC & BF/XBF & XBF & XBF \\
+\texttt{LAMBDA-I} & EPIC & EPIC & EPIC & EPIC & BF/XBF & XBF & XBF & XBF \\
 \midrule
-\texttt{SKA-low-core} & EPIC & EPIC & EPIC & EPIC & EPIC & XFFT/EPIC/XBF \\
+\texttt{SKA-low-core} & EPIC & EPIC & EPIC & EPIC & EPIC & EPIC & XFFT/EPIC/XBF & XBF/XFFT \\
 \midrule
-\texttt{SKA-low} & EPIC & EPIC & EPIC & XFFT/EPIC & XFFT & XFFT \\
+\texttt{SKA-low} & EPIC & EPIC & EPIC & EPIC & XFFT/EPIC & XFFT & XFFT & XFFT \\
 \midrule
-\texttt{CASPA} & EPIC & EPIC & XFFT & XBF & XBF & XBF \\
+\texttt{CASPA} & EPIC & EPIC & XFFT & XFFT & XBF & XBF & XBF & XBF \\
 \midrule
-\texttt{FarView-core} & EPIC & EPIC & EPIC & EPIC & XFFT & XBF/XFFT \\
+\texttt{FarView-core} & EPIC & EPIC & EPIC & EPIC & EPIC & XFFT & XBF/XFFT & XBF/XFFT \\
 % \midrule
 % Three & Four&three three\tnote{b} &four & & \\
 \bottomrule
@@ -766,13 +802,13 @@ Array & \multicolumn{3}{c|}{Intra-station architecture} & \multicolumn{3}{c}{Int
 \end{threeparttable}
 \end{table*}
 
-For intra-station processing, EPIC emerges as the most efficient among various architectures for all arrays considered on all timescales by a factor of $\lesssim 10$, except for \texttt{CASPA} when $t_\textrm{acc}\gtrsim 100$~ms where the XFFT architecture emerges to be more efficient than EPIC by a factor of few. This is because the stations having a sufficiently large number of elements packed densely is a notable aspect of all these arrays (see Table~\ref{tab:array_params}). For arrays like \texttt{CASPA} that have lesser number of elements and/or are not as densely packed, the cadence interval becomes an important factor. For cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, the XFFT architecture becomes advantageous.
+For intra-station processing, EPIC emerges as the most efficient among various architectures for all arrays considered on all timescales by a factor of $\lesssim 10$, except for \texttt{CASPA} when $t_\textrm{acc}\gtrsim 100$~ms where the XFFT architecture emerges to be more efficient than EPIC by a factor of few. This is because the stations having a sufficiently large number of elements packed densely is a notable aspect of all these arrays (see Table~\ref{tab:array_params}). For arrays like \texttt{CASPA} that have lesser number of elements and/or are not as densely packed, the cadence interval becomes an important factor. For cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, the XFFT architecture becomes advantageous. \textbf{Even for cosmological applications that only require intra-station visibilities at cadence slower than 10~s, an FFT-correlator architecture implemented via EPIC will have the computational advantage over a traditional correlator architecture. However, for CASPA, the latter will have an advantage over the former.}
 
-The same reasoning can be extended for inter-station processing, where there is significant diversity. There is a large range in the number of stations and in the array filling factor. As a result, both the layout and cadence interval play significant roles in determining the efficiency of architectures. For arrays with small numbers of stations such as \texttt{LAMBDA-I} and \texttt{CASPA}, the XBF architecture holds an advantage by a factor of $\simeq 10$ on $t_\textrm{acc}\gtrsim 1$~ms and BF for $t_\textrm{acc}\lesssim 0.1$~ms. For arrays with large numbers of stations such as \texttt{SKA-low-core} with a reasonably high packing density, EPIC holds the advantage on all timescales by a factor of few, but with slower cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, XBF and XFFT also have comparable efficiency. Although the \texttt{SKA-low} has a large number of stations, they are not as densely packed as in the core, and therefore, the role of $t_\textrm{acc}$ is more significant. XFFT and EPIC are comparable (within a factor of few) at $t_\textrm{acc}\lesssim 1$~ms, but for $t_\textrm{acc}\gtrsim 1$~ms, XFFT is clearly efficient by a factor $\gtrsim 10$. Similarly, \texttt{FarView-core} has a comparable array filling factor as \texttt{SKA-low-core}, but has far fewer stations. Hence, EPIC is only marginally efficient for $t_\textrm{acc}\lesssim 0.1$~ms, whereas XFFT becomes more efficient by a factor of few for $t_\textrm{acc}\gtrsim 1$~ms. 
+The same reasoning can be extended for inter-station processing, where there is significant diversity. There is a large range in the number of stations and in the array filling factor. As a result, both the layout and cadence interval play significant roles in determining the efficiency of architectures. For arrays with small numbers of stations such as \texttt{LAMBDA-I} and \texttt{CASPA}, the XBF architecture holds an advantage by a factor of $\simeq 10$ on $t_\textrm{acc}\gtrsim 1$~ms and BF for $t_\textrm{acc}\lesssim 0.1$~ms. For arrays with large numbers of stations such as \texttt{SKA-low-core} with a reasonably high packing density, EPIC holds the advantage on all timescales by a factor of few, but with slower cadence intervals, $t_\textrm{acc}\gtrsim 100$~ms, XBF and XFFT also have comparable efficiency. Although the \texttt{SKA-low} has a large number of stations, they are not as densely packed as in the core, and therefore, the role of $t_\textrm{acc}$ is more significant. XFFT and EPIC are comparable (within a factor of few) at $t_\textrm{acc}\lesssim 1$~ms, but for $t_\textrm{acc}\gtrsim 1$~ms, XFFT is clearly efficient by a factor $\gtrsim 10$. Similarly, \texttt{FarView-core} has a comparable array filling factor as \texttt{SKA-low-core}, but has far fewer stations. Hence, EPIC is only marginally efficient for $t_\textrm{acc}\lesssim 0.1$~ms, whereas XFFT becomes more efficient by a factor of few for $t_\textrm{acc}\gtrsim 1$~ms. \textbf{If cosmological applications require inter-station visibilities at a cadence slower than $\gtrsim 100$~ms, a correlator-based architecture holds the computational edge for all the arrays considered here.}
 
 \subsection{Other considerations}\label{sec:other-metrics}
 
-In transient search and cosmological applications, there will be additional processing required. For example, a de-dispersion trial process is required to discover new FRBs and pulsars with optimum signal-to-noise ratio. Computationally efficient algorithms for de-dispersion like the Fast Dispersion Measure Transform \citep[FDMT;][]{Zackay+2014} need to be performed either on intensities in the image plane pixels or on visibilities in the aperture plane, the cost of which will scale with the number of independent pixels in the image or the visibilities, respectively. For compact, dense, large-$N$ arrays, the number of independent pixels will be typically lesser than the number of measured visibilities, and thus it will be advantageous to perform de-dispersion in the image plane. Correspondingly, it will be computationally preferable to de-disperse visibilities for sparse arrays. A full accounting of such costs for most general cases is beyond the scope of this paper.
+In transient search and cosmological applications, there will be additional processing required. For example, a de-dispersion trial process is required to discover new FRBs and pulsars with optimum signal-to-noise ratio. Computationally efficient algorithms for de-dispersion like the Fast Dispersion Measure Transform \citep[FDMT;][]{Zackay+2014} need to be performed either on intensities in the image plane pixels or on visibilities in the aperture plane, the cost of which will scale with the number of independent pixels in the image or the visibilities, respectively. For compact, dense, large-$N$ arrays, the number of independent pixels will be typically lesser than the number of measured visibilities, and thus it will be advantageous to perform de-dispersion in the image plane. Conversely, it will be computationally preferable to de-disperse visibilities for sparse arrays. A full accounting of such costs for most general cases is beyond the scope of this paper.
 % on every independent pixel in the image formed. De-disperson may be performed 
 
 In intensity mapping applications for cosmology, the images need to be post-processed for deconvolution, foreground, removal, etc. As these post-processing computations are additional and common to all architectures, including them in adopted cost metric will not affect the results. Calibration is another aspect that is not included in this computational cost analysis. Because calibration typically operates on a significantly slower cadence compared to $t_\textrm{acc}$, and the computational cost is not tedious \citep{Beardsley+2017,Gorthi+2021}, its contribution is negligible to the overall cost budget, and therefore will not affect the results.
@@ -795,12 +831,12 @@ Besides computational costs, there are other practical considerations in the dep
 
 Explosive transient phenomena and observations of cosmological structures are two high impact science drivers in radio astronomy. The paradigm of aperture arrays used in radio astronomy is undergoing a transformation towards large numbers of low-cost elements grouped together in a hierarchy of spatial scales to achieve the desired science outcomes. Such a paradigm faces enormous challenges in computing and throughput because of the large numbers of elements spanning a multiplicity of spatial scales, a range of cadence intervals, real-time processing, and a continuous operation model. Different processing architectures are optimal for specific layouts and processing cadences. However, a single architectural may not be optimal for a hierarchical spatial layout.
 
-This paper explores hybrid architecture solutions for existing and planned multi-scale aperture arrays (\texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{LAMBDA-I}, \texttt{CASPA}, and \texttt{FarView-core}) on a wide range of cadence intervals, 0.1~ms$\le t_\textrm{acc} \le 10$~s, over the full field of view, using the metric of computational cost density evaluated over the discovery parameter space. The interferometric data processing architectures considered here are pre-correlation voltage beamformer (BF), a generic FFT-based direct imager (EPIC), beamforming from correlations (XBF), and FFT-based imaging of correlations (XFFT). The compute budget for various architecture combinations for these different arrays are broken down into their detailed components. 
+This paper explores hybrid architecture solutions for existing and planned multi-scale aperture arrays (\texttt{SKA-low-core}, \texttt{SKA-low}, \texttt{LAMBDA-I}, \texttt{CASPA}, and \texttt{FarView-core}) on a wide range of cadence intervals, 0.1~ms$\le t_\textrm{acc} \lesssim 10$~s, over the full field of view, using the metric of computational cost density evaluated over the discovery parameter space. The interferometric data processing architectures considered here are pre-correlation voltage beamformer (BF), a generic FFT-based direct imager (EPIC), beamforming from correlations (XBF), and FFT-based imaging of correlations (XFFT). The compute budget for various architecture combinations for these different arrays are broken down into their detailed components. 
 
-For densely packed layouts with large numbers of elements, EPIC is computationally quite efficient regardless of processing cadence. This was the case for the station layouts of all the arrays considered, and hence EPIC emerges as the computationally most efficient architecture for full field of view, station level data processing on all cadence intervals except for \texttt{CASPA} on $t_\textrm{acc}\gtrsim 100$~ms, when XFFT becomes more efficient, although marginally. 
+For densely packed layouts with large numbers of elements, EPIC is computationally quite efficient regardless of processing cadence. This was the case for the station layouts of all the arrays considered, and hence EPIC emerges as the computationally most efficient architecture for full field of view, station level data processing on all cadence intervals except for \texttt{CASPA} on $t_\textrm{acc}\gtrsim 100$~ms, when XFFT becomes more efficient, although marginally. \textbf{For cosmological applications with large stations where only intra-station visibilities are required at a slower cadence of $\gtrsim 10$~s with the arrays studied here, an EPIC-based FFT correlator holds the advantage over a traditional correlator architecture, except in the case of CASPA where the latter will be preferred.}
 % Thus, in almost cases of station layouts considered here, EPIC appears to hold a clear advantage for full field of view, intra-station processing. 
 
-The inter-station array layout has a wider range in the number of stations and density of their distribution. In such cases, the cadence interval plays a significant role in determining the computationally most efficient architecture. For inter-station data processing in \texttt{LAMBDA-I} and \texttt{CASPA}, XBF is found to be the most suitable option for all cadence intervals, while for \texttt{SKA-low-core} it is EPIC that holds the advantage on all cadence intervals. For \texttt{SKA-low}, XFFT appears most efficient for $t_\textrm{acc}\gtrsim 1$~ms, while EPIC and XFFT become comparable for $t_\textrm{acc}\lesssim 0.1$~ms. Thus, a multi-scale aperture array requires an optimal hybrid architecture strategy depending on the processing cadence, which in turn depends on the scientific objectives. This study provides a guide for designing computationally strategic data processing architecture for multi-scale aperture arrays, and conversely, can be used to design array parameters for specified computational complexity. 
+The inter-station array layout has a wider range in the number of stations and density of their distribution. In such cases, the cadence interval plays a significant role in determining the computationally most efficient architecture. For inter-station data processing in \texttt{LAMBDA-I} and \texttt{CASPA}, XBF is found to be the most suitable option for all cadence intervals, while for \texttt{SKA-low-core} it is EPIC that holds the advantage on all cadence intervals. For \texttt{SKA-low}, XFFT appears most efficient for $t_\textrm{acc}\gtrsim 1$~ms, while EPIC and XFFT become comparable for $t_\textrm{acc}\lesssim 0.1$~ms. \textbf{If only slower cadence ($\gtrsim 10$~s) inter-station visibilities are required from these arrays such as in cosmological applications, a traditional correlator architecture holds a computational advantage.}  Thus, a multi-scale aperture array requires an optimal hybrid architecture strategy depending on the processing cadence, which in turn depends on the scientific objectives. This study provides a guide for designing computationally strategic data processing architecture for multi-scale aperture arrays, and conversely, can be used to design array parameters for specified computational complexity. 
 
 This work considers only computational cost density over the discovery parameter space as a metric for finding the most efficient combination of processing architectures for multi-scale aperture arrays. Additional computing will be required for post-processing steps such as de-dispersion, deconvolution, etc. depending on the application. Actual deployment will have to take other significant practical factors into account such as power consumption, memory bandwidth, data rate, cost and capabilities of current hardware.
 
