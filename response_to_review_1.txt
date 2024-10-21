@@ -1,4 +1,4 @@
---> I thank the reviewer for a thorough review of the manuscript. I have addressed the concerns as detailed below. My responses are preceded with "-->". Changes in the manuscript have been highlighted with bold font. I hope this adequately addresses all the concerns and the manuscript is considered for publication. 
+--> I thank the reviewer for a thorough review of the manuscript. I have addressed the concerns as detailed below including significantly rewriting section 5 onwards and clarifying notation and interpretations of equations. Clarifications have been provided in a number of other places. My responses to the reviewer's specific questions are preceded with "-->". Changes in the manuscript have been highlighted with bold font. I hope this adequately addresses all the concerns and the manuscript is considered for publication. 
 
 Comments to the Author
 This paper addresses the important question of how to choose a computational architecture for a given aperture-array radio telescope depending on how its collecting area is deployed, and specifically in the context of some current/upcoming arrays that use hierarchical distribution of antennas. The analysis is new and useful to the community. I found much of the paper to be quite dense in its presentation which unfortunately detracts from its readability. I address one aspect of this in the major comments below.
@@ -11,7 +11,7 @@ Major comments
 
 - I found myself wondering if there are any links to real-world performance metrics that you can make. In Section 5.2 you mentioned that LWA has implemented EPIC. Certainly other techniques have been used before. Are there any measured performance figures that can be used to validate the model used in this paper?
 
---> The current optimised performance of EPIC on LWA can be found in Reddy et al. (2024) at https://doi.org/10.1117/12.3012524. EPIC on LWA Sevilleta using GPU can form 128x128 all-sky images at 25000 FPS per channel and accumulated images are output at 40-80 ms cadence. Prior to this, the software correlator and imager was able to produce images at 5s cadence using visibility-based imaging architecture. EPIC's performance and future prospects using GPUs are captured in the memo at https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md
+--> The current optimised performance of EPIC on LWA can be found in Reddy et al. (2024) at https://doi.org/10.1117/12.3012524. EPIC on LWA Sevilleta using GPU can form 128x128 all-sky images at 25000 FPS per channel and accumulated images are output at 40-80 ms cadence. Prior to this, the software correlator and imager was able to produce images at 5s cadence using visibility-based imaging architecture. EPIC's performance and future prospects using GPUs are captured in the memo at https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md. This information is now provided in section 5.2 for reference. 
 
 Minor comments
 ==============
@@ -53,7 +53,7 @@ Section 1
 Section 2
 - I'm a bit confused by the choice of notation here. If you're attempting to be more general than "antenna", hence using the phrase "collecting element", why not use N_e for number of them? And the N_{a/s_m} construction seems quite awkward, is there a convenient alternative?
 
---> Changed notation of variables, $D_a$ to $D_e$, $N_{a/s}$ to $N_{eps}$, and $\Omega_a$ to $\Omega_e$, $N_{ka}$ to $N_{ke}$, where 'e' stands for element, and 'eps' stands for elements per station. Applied this change to text and figures.
+--> Changed notation of variables, $D_a$ to $D_e$, $N_{a/s}$ to $N_{eps}$, $\Omega_a$ to $\Omega_e$, and $N_{ka}$ to $N_{ke}$, where 'e' stands for element, and 'eps' stands for elements per station. Applied this change to text and figures.
 
 - At the end of that paragraph, it's good to note that usually all stations have the same number of antennas, but maybe you could note that e.g. LOFAR would not be so easily simplified.
 
@@ -61,11 +61,11 @@ Section 2
 
 - Is there a webpage or paper to refer to for LAMBDA-I ?
 
---> Unfortunately, there isn't one. It is a project being internally (with some initial pilot funding) at CSIRO to essentially extend long baseline capabilities of the SKA-low. I've updated its description to read like its a concept and not fully sanctioned. 
+--> Unfortunately, there isn't one. It is a project being considered internally (with some initial pilot funding) at CSIRO to essentially extend long baseline capabilities of the SKA-low. I've updated its description to read like its a concept and not fully sanctioned. 
 
 - Real-time imaging is assumed (last paragraph of this section) but I'm not aware that this is required for cosmological applications, e.g. EoR use cases typically make use of post-observation analysis and imaging. Does this undermine any of the arguments? Alternatively, if I've missed something, could information be included to justify why this is needed?
 
---> The referee raises a valid question. Although real-time imaging is assumed, it is true that cosmological applications don't need real-time imaging. However, they do need real-time processing to produce correlations from the incoming antenna voltages from a large number of elements. In such cases, the cost of gridding and DFT/FFT will not apply in real-time. However, the computational cost of the X-engine which is a dominant cost will still apply. Notably, new and planned arrays like PUMA for studying Dark Energy using BAO are considering FFT correlators (a specific adaptation of EPIC for redundant arrays) rather than XF correlators. So, this study will be relevant for cosmological arrays too once the appropriate cost components in the budget are properly accounted for. This point has been noted in section 2 and also in sections 5.2, 5.4, 6.2.2, and 6.2.4. 
+--> The referee raises a valid question. Although real-time imaging is assumed, it is true that cosmological applications don't need real-time imaging. However, they do need real-time processing to produce correlations (X-engine) from the incoming antenna voltages from a large number of elements. In such cases, the cost of gridding and DFT/FFT will not apply in real-time. However, the computational cost of the X-engine which is a dominant cost will still apply. At the same time, however, new and planned large-sized arrays like PUMA for studying Dark Energy using BAO are considering FFT correlators (a specific adaptation of EPIC for redundant arrays) rather than XF/FX correlators. So, this study will be relevant for cosmological arrays too once the appropriate cost components in the budget are properly accounted for. This point has been noted in section 2 and also in sections 5.2, 5.4, 6.2.2, and 6.2.4. 
 
 Section 3
 - Detailed point, should "per pixel" (first paragraph) really be "per resolution element" or similar?
@@ -84,7 +84,7 @@ Section 4
 Figure 1
 - "Accumulation" is misspelled in 6(?) places
 
---> Fixed the typos in the figure
+--> Fixed the typos in the figure, and modified it to illustrate how multiple stages can be hierarchically added.
 
 Section 5
 - In the first paragraph after equation (3), I think there’s an asterisk missing in the inline equation embedded in the sentence starting “For example, choosing…”
@@ -97,7 +97,7 @@ Section 5
 
 - In the next sentence, can you provide more about the constant padding factor (what is its role)?
 
---> The padding factor is used to control the image pixel scale. Choosing a value of 2 will produce a pixel scale and image size identical to that created from gridded visibilities. 
+--> The padding factor is used to control the image pixel scale. Choosing a value of 2 will produce a pixel scale and image size identical to that created from gridded visibilities. This is now mentioned in the text. 
 
 Section 6
 - In 6.2.4, it struck me that there is no consideration about the impact of the w-term. I think the highly formalised way that equation (13) is presented may be elegant but it obfuscates the practical aspects that radio astronomers are familiar with, like dealing with the w-term. More generally there are many ways that this procedure can be implemented in practice. For example the gridding can be managed various ways (including image plane gridding). What is the assumption used here as described in the context of those practical implementations?
