@@ -75,7 +75,7 @@ The hierarchical, multi-scale aperture array scenario considered involves spatia
 \begin{figure}
 \includegraphics[width=\linewidth]
   % {figures/aperture_image_dimensions.pdf}
-{fig_00.pdf}
+{fig_01.pdf}
 \caption{\textbf{Geometric view of a hierarchical multi-scale aperture array, which consists of $N_\textrm{s}$ stations each of which is a collection of $N_\textrm{eps}$ elements. Stations, $m$ and $n$, at locations, $\boldsymbol{r}_m$ and $\boldsymbol{r}_n$ respectively relative to the origin, $\mathcal{O}$, are separated by $\Delta\boldsymbol{r}_{mn}$. Elements, $a$ and $b$, in stations, $m$ and $n$, are denoted by $a_m$ and $b_n$, located at $\boldsymbol{r}_{a_m}$ and $\boldsymbol{r}_{b_n}$, respectively. $\Delta\boldsymbol{r}_{a_m b_n}$ is the separation between these elements. The spatial sizes of the element, station, and the array in the aperture plane are denoted by $D_\textrm{e}$, $D_\textrm{s}$, and $D_\textrm{A}$, respectively. The solid angle, $\Omega_\textrm{e}\sim (\lambda/D_\textrm{e})^2$, corresponding to the element size determines the overall field of view in the sky plane accessible by the aperture array. Intra-station imaging produces station-sized virtual telescopes that simultaneously produce beams of solid angle, $\Omega_\textrm{s}\sim (\lambda/D_\textrm{s})^2$, in multiple directions, $\hat{\boldsymbol{s}}_k$, that can fill $\Omega_\textrm{e}$. Inter-station processing towards any of these beams produces virtual telescopes of size $D_\textrm{A}$ that simultaneously produce beams of solid angle, $\Omega_\textrm{A}\sim (\lambda/D_\textrm{A})^2$, in multiple directions, $\boldsymbol{\sigma}_\ell$, relative to $\hat{\boldsymbol{s}}_k$, that can fill the solid angle of that beam.} 
 \label{fig:geometry-notation}}
 \end{figure}
@@ -131,7 +131,7 @@ Fast imaging involves processing data on multiple time scales. The channelisatio
 \begin{figure}
 \includegraphics[width=0.95\linewidth]
   % {figures/flops_calc_abridged_v2.pdf}
-{fig_01.pdf}
+{fig_02.pdf}
 \caption{A hybrid, two-stage architecture for hierarchical aperture arrays \textbf{showing the methodology for extension to multiple stages.} Black arrows indicate pathways where the signal consists of electric fields with phase coherence. Gray arrows indicate pathways of a ``squared'' or a correlated signal with no absolute but only relative phase information. At the top are intra-station architectures, namely, BF, correlator, and EPIC. The top box denotes intra-station imaging options. The bottom box denotes inter-station imaging architectures that process coherent outputs from multiple stations deploying intra-station BF and/or EPIC architectures. \textbf{The electric fields phase coherently synthesised by BF or EPIC at any stage can form the input for the next stage, thereby allowing the extension of the hierarchy.}
 \label{fig:hybrid-architectures-cost-schematic}}
 \end{figure}
@@ -180,7 +180,7 @@ Figure~\ref{fig:1D-incoherent-compcost-BF-LAMBDA-I} shows a breakdown of the com
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/1D_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_02.pdf}
+{fig_03.pdf}
 \caption{A breakdown of the computational cost density function over the station parameters for the voltage beamforming (BF) architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations} (cyan lines). The beamforming cost in Equation~(\ref{eqn:intra-station-pol-hol-img-expl}) denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}). \textbf{Orange dot-dashes denote the incoherent spatial average of the intensities across stations, and has negligible contribution to the total cost.}
 \label{fig:1D-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
@@ -190,7 +190,7 @@ Figure~\ref{fig:multidim-incoherent-compcost-BF-LAMBDA-I} shows a covariant view
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/multidim_beamformer_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_03.pdf}
+{fig_04.pdf}
 \caption{A multi-dimensional covariant view of the net computational cost density function over the station parameters for the voltage beamforming (BF) architecture at the station level by varying two parameters at a time while fixing the rest at the nominal values of the \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations} shown in grey dashed lines. The empty portions in the panels denote parts of parameter space physically impossible to sample given the constraints of the station parameters. Contours corresponding to the colour scale are shown in cyan. 
 \label{fig:multidim-incoherent-compcost-BF-LAMBDA-I}}
 \end{figure}
@@ -229,7 +229,7 @@ is a per-element operation and depends only on $N_\textrm{eps}$ \textbf{and the 
 \begin{figure}
 \includegraphics[width=0.99\linewidth]
 % {figures/1D_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_04.pdf}
+{fig_05.pdf}
 \caption{A breakdown of the computational cost density function over the station parameters for the EPIC architecture at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations} (cyan lines). The spatial FFT cost in Equation~(\ref{eqn:intra-station-pol-hol-img-epic})
   % {eqn:intra-station-pol-hol-img-epic-LA}
   denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-pol-img-outprod}).
@@ -246,11 +246,11 @@ Figure~\ref{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I} shows a covariant vi
 \centering
 \subfloat[][Covariant cost density of EPIC architecture \label{fig:multidim-incoherent-compcost-EPIC-LAMBDA-I}]{\includegraphics[width=0.48\textwidth]
 % {figures/multidim_epic_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_05a.pdf}  
+{fig_06a.pdf}  
 }
 \subfloat[][Covariant cost of EPIC architecture relative to BF architecture \label{fig:multidim-incoherent-relative-compcost-EPIC-LAMBDA-I}]{\includegraphics[width=0.48\textwidth]
 % {figures/multidim_epic_relative_cost_analysis_LAMBDA-I.pdf}
-{fig_05b.pdf}
+{fig_06b.pdf}
 } 
 \caption{(Left): Two-dimensional slices of the computational cost per station per voxel for coherent-incoherent imaging using station-level EPIC. Because the spatial FFT dominates the overall cost budget, the computational cost density is relatively insensitive to $N_\textrm{eps}$, $D_\textrm{s}$, and $D_\textrm{e}$ \textbf{as seen in Figure~\ref{fig:1D-incoherent-compcost-EPIC-LAMBDA-I}, thereby not showing much variation in the colour scale.} (Right): Ratio of computational cost of EPIC to voltage beamforming. For $N_\textrm{eps}\gtrsim 100$, EPIC has a significant advantage over voltage beamforming (BF). Gray dashed lines indicate nominal values for \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations}. Logarithmic contour levels corresponding to the colour scale are shown in cyan. \label{fig:incoherent-compcost-EPIC-LAMBDA-I}}
 \end{figure*}
@@ -283,7 +283,7 @@ Figure~\ref{fig:1D-incoherent-compcost-XBF-LAMBDA-I} shows the computational cos
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/1D_xcor_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_06.pdf}
+{fig_07.pdf}
 \caption{A breakdown of the computational cost density function over the station parameters for the correlator beamforming architecture (XBF) at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations (cyan lines). The two-dimensional DFT (dashed lines) dominates the cost for the chosen \texttt{LAMBDA-I} parameters at an imaging cadence of $t_\textrm{acc}=1$~ms over correlation / X-engine (double dot-dashed) and temporal averaging of the correlations (dot-dashed).
 % The spatial FFT cost in Equation~(\ref{eqn:intra-station-pol-hol-img-epic-LA}) denoted by black dashed lines dominates the squaring (pink dot-dashes) and temporal averaging (blue dot-dashes) costs in Equation~(\ref{eqn:intra-station-opt-polarimetric-direct-img-LA}). The gridding operation (black dotted lines) in Equation~(\ref{eqn:intra-station-pol-hol-img-epic-LA}) contributes even lesser to the cost budget. 
 \label{fig:1D-incoherent-compcost-XBF-LAMBDA-I}}
@@ -296,12 +296,12 @@ Figure~\ref{fig:multidim-incoherent-compcost-XBF-LAMBDA-I} is a covariant view o
 \subfloat[][Covariant cost density of XBF architecture \label{fig:multidim-incoherent-compcost-XBF-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_dft_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_07a.pdf}
+{fig_08a.pdf}
 }
 \subfloat[][Covariant cost of XBF architecture relative to BF architecture \label{fig:multidim-incoherent-relative-compcost-XBF-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_dft_relative_cost_analysis_LAMBDA-I.pdf}
-{fig_07b.pdf}
+{fig_08b.pdf}
 }
 \caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using a DFT beamforming of station-level cross-correlations (XBF) for \texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} station parameters (dashed gray lines). Cyan lines denote contours of the colour scale in logarithmic increments. (Right): Same as the left but relative to a voltage beamformer architecture. The computational cost density is dominated by the two-dimensional DFT cost for $t_\textrm{acc}=1$~ms, and is lower than that of voltage beamforming (BF) for $N_\textrm{eps}\lesssim 100$ while getting more expensive with increasing $N_\textrm{eps}$. \label{fig:incoherent-compcost-XBF-LAMBDA-I}}
 \end{figure*}
@@ -406,7 +406,7 @@ Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I} shows the computational co
 \begin{figure}
 \includegraphics[width=\linewidth]
 % {figures/1D_xcor_fft_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_08.pdf}
+{fig_09.pdf}
 \caption{A breakdown of the computational cost density function over the station parameters for the correlator FFT architecture (XFFT) at the station level. Each panel shows the variation with the respective parameter keeping the rest fixed at the characteristic values of the \texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} stations (cyan lines). The correlator / X-engine (double dot- dashed lines) and gridding (dotted lines) costs are comparable and dominate over the temporal averaging (dot dashed lines) and two-dimensional FFT (dashed lines) costs for the chosen \texttt{LAMBDA-I} parameters at an imaging cadence of $t_\textrm{acc}=1$~ms.
 \label{fig:1D-incoherent-compcost-XFFT-LAMBDA-I}}
 \end{figure} 
@@ -416,12 +416,12 @@ Figure~\ref{fig:1D-incoherent-compcost-XFFT-LAMBDA-I} shows the computational co
 \subfloat[][Covariant cost density of XFFT architecture \label{fig:multidim-incoherent-compcost-XFFT-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_fft_per_pixel_cost_analysis_LAMBDA-I.pdf}
-{fig_09a.pdf}
+{fig_10a.pdf}
 }
 \subfloat[][Covariant cost of XFFT architecture relative to BF architecture \label{fig:multidim-incoherent-relative-compcost-XFFT-LAMBDA-I}]
 {\includegraphics[width=0.48\textwidth]
 % {figures/multidim_xcor_fft_relative_cost_analysis_LAMBDA-I.pdf}
-{fig_09b.pdf}
+{fig_10b.pdf}
 }
 \caption{(Left): Two-dimensional slices of the computational cost for coherent-incoherent imaging using an FFT of station-level cross-correlations (XFFT) for \textbf{\texttt{LAMBDA-I}, \texttt{SKA-low-core}, and \texttt{SKA-low} station parameters (dashed gray lines)}. Cyan contours denote logarithmic levels in the colour scale. \label{fig:incoherent-compcost-XFFT-LAMBDA-I}}
 \end{figure*}
@@ -673,17 +673,17 @@ Figure~\ref{fig:1D-incoherent-compcost} shows a comparison of the computational 
 \subfloat[][Station imaging compute cost densities for \texttt{LAMBDA-I}, \texttt{SKA-low}, and \texttt{SKA-low-core} stations. \label{fig:1D-incoherent-compcost-LAMBDA-I}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_per_pixel_compcost_analysis_LAMBDA-I.pdf}
-{fig_10a.pdf}
+{fig_11a.pdf}
 } \\
 \subfloat[][Station imaging compute cost densities for a \texttt{CASPA} station.\label{fig:1D-incoherent-compcost-CASPA}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_per_pixel_compcost_analysis_CASPA.pdf}
-{fig_10b.pdf}
+{fig_11b.pdf}
 } \\
 \subfloat[][Station imaging compute cost densities for a \texttt{FarView-core} station. \label{fig:1D-incoherent-compcost-FarView}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_per_pixel_compcost_analysis_FarView.pdf}
-{fig_10c.pdf}
+{fig_11c.pdf}
 }
 \caption{Computational cost densities of different station-level imaging architectures for (a) \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, (b) \texttt{CASPA}, and (c) \texttt{FarView-core} stations. In each subpanel, all parameters are fixed at the array's nominal value (cyan line) except the parameter shown on the $x$-axis. For \texttt{SKA-low-core}, \texttt{SKA-low}, and \texttt{LAMBDA-I}, the EPIC architecture is found to be most efficient computationally. For \texttt{CASPA}, EPIC is more efficient than other architectures when imaging cadence is $t_\textrm{acc}\lesssim 1-5$~ms, while XFFT is more efficient for $t_\textrm{acc}\gtrsim 5-10$~ms. For \texttt{FarView-core}, EPIC and XFFT are equally efficient when the cadence is $t_\textrm{acc}\approx 1$~ms, while EPIC and XFFT are advantageous for cadences faster and slower, respectively, than 1~ms.  \label{fig:1D-incoherent-compcost}}
 \end{figure}
@@ -697,17 +697,17 @@ Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost d
 \subfloat[][\texttt{LAMBDA-I} \label{fig:1D-coherent-compcost-LAMBDA-I}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_coherent_per_pixel_compcost_analysis_LAMBDA-I.pdf}
-{fig_11a.pdf}
+{fig_12a.pdf}
 } \\
 \subfloat[][\texttt{SKA-Low-core} \label{fig:1D-coherent-compcost-SKA-low-core}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low-core.pdf}
-{fig_11b.pdf}
+{fig_12b.pdf}
 } \\
 \subfloat[][\texttt{SKA-Low} \label{fig:1D-coherent-compcost-SKA-low}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_coherent_per_pixel_compcost_analysis_SKA1-low.pdf}
-{fig_11c.pdf}
+{fig_12c.pdf}
 } 
 \caption{One-dimensional slices of the computational cost density for (a) \texttt{LAMBDA-I}, (b) \texttt{SKA-low-core}, and (c) \texttt{SKA-low} using two-stage coherent imaging at intra- and inter-station levels. \textbf{Station-synthesised electric fields are obtained through BF (gray) and EPIC (black) in intra-station processing. Inter-station processing of data is obtained by BF (dotted), EPIC (solid), XBF (dashed), and XFFT (dot-dashed). The text in the legend lists the first (intra-station) and second (inter-station) stage architectures delimited by `+'.} \label{fig:1D-coherent-compcost-a}}
 \end{figure*}
@@ -716,12 +716,12 @@ Figure~\ref{fig:1D-coherent-compcost-a} shows a comparison of the compute cost d
 \subfloat[][\texttt{CASPA} \label{fig:1D-coherent-compcost-CASPA}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_coherent_per_pixel_compcost_analysis_CASPA.pdf}
-{fig_11d.pdf}
+{fig_12d.pdf}
 } \\
 \subfloat[][\texttt{FarView-core} \label{fig:1D-coherent-compcost-FarView}]
 {\includegraphics[width=\textwidth]
 % {figures/1D_coherent_per_pixel_compcost_analysis_FarView.pdf}
-{fig_11e.pdf}
+{fig_12e.pdf}
 }
 \caption{Contd. Same as above but for (d) \texttt{CASPA}, and (e) \texttt{FarView-core}. \label{fig:1D-coherent-compcost-b}}
 \end{figure*}
