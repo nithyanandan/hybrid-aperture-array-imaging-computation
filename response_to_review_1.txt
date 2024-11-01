@@ -1,4 +1,6 @@
---> I thank the reviewer for a thorough review of the manuscript. I have addressed the concerns as detailed below. My responses are preceded with "-->". Changes in the manuscript have been highlighted with bold font. 
+--> I thank the reviewer for a thorough review of the manuscript. I have addressed the concerns as detailed below including significantly rewriting section 5 onwards and clarifying notation and interpretations of equations. Clarifications have been provided in a number of other places including a new figure to explain the geometry and notation employed. My responses to the reviewer's specific questions are preceded with "-->". Changes in the manuscript have been highlighted with bold font.
+
+I hope this adequately addresses all the concerns and the manuscript is considered for publication. 
 
 Comments to the Author
 This paper addresses the important question of how to choose a computational architecture for a given aperture-array radio telescope depending on how its collecting area is deployed, and specifically in the context of some current/upcoming arrays that use hierarchical distribution of antennas. The analysis is new and useful to the community. I found much of the paper to be quite dense in its presentation which unfortunately detracts from its readability. I address one aspect of this in the major comments below.
@@ -6,6 +8,9 @@ This paper addresses the important question of how to choose a computational arc
 Major comments
 =============
 - The paper gets dense (in terms of readability) at the start of Section 5 and I would suggest more care to ensure that the key equations are well described. For example, equation (1) is presented with essentially no context, and the notation is not well explained. Many of the indices are undefined (what is p? what is alpha? what is the asterisk?). This really holds throughout all of Sections 5 and 6. Even though it will lengthen the paper somewhat, I think it’s crucial that you review these approaches and their associated equations carefully, ensuring that they are framed usefully for the reader and that the notation is clarified.
+
+--> Taking this issue of readability very seriously, I have made significant additions to virtually every section and subsection of the paper, particularly from section 5 onwards. I have added a new figure in section 2 illustrating the geometry and the notation, that sets the reader up for all the equations and descriptions that follow. All equations are now described with clearer notation along with the meaning and interpretation between the terms in the equations and the equations themselves. It has increased the manuscript length slightly, but I believe it has significantly enhanced the readability of the manuscript. 
+
 - I found myself wondering if there are any links to real-world performance metrics that you can make. In Section 5.2 you mentioned that LWA has implemented EPIC. Certainly other techniques have been used before. Are there any measured performance figures that can be used to validate the model used in this paper?
 
 
@@ -20,38 +25,80 @@ Per section:
 Title
 - There's a misspelled word! (Hybrid)
 
+--> Fixed. 
+
 Abstract
 - I think the readability of the abstract could be improved. For example, the term "large-N" is a bit of jargon and I think the phrasing around this could be changed to more natural language.
+
+--> Modified the abstract as suggested. 
+
 - The use of "spatial scale" is similarly a bit jarring when first reading the paper. I think it's because the wording would more clearly be, for example, "...multiple spatial scales spanning the dimensions of individual elements, the size of stations (...), and the spacing between stations." (or similar)
+
+--> Modified as suggested. 
 
 Section 1
 - First sentence, I think "polarizations" should be changed to "polarization states"
+
+--> Changed as suggested.
+
 - Later in the first paragraph, when mentioning the various classes of transient/variable sources, I think it would be good to include a representative range of timescales (duration and/or periodicity and/or duty cycle). Perhaps not very lengthy, but to give a sense of relevant timescales to be considered later in the paper. (This is included much later in Section 7.3 but should I think be included at some level here in the Introduction too.)
+
+--> Included information on timescales as suggested in the introduction.
+
 - Similarly at the end of the second paragraph I think you should give some indicative values for "large-scale structures" and "high sensitivity".
+
+--> Provided information as suggested. 
 
 Section 2
 - I'm a bit confused by the choice of notation here. If you're attempting to be more general than "antenna", hence using the phrase "collecting element", why not use N_e for number of them? And the N_{a/s_m} construction seems quite awkward, is there a convenient alternative?
+
+--> Changed notation of variables, $D_a$ to $D_e$, $N_{a/s}$ to $N_{eps}$, $\Omega_a$ to $\Omega_e$, and $N_{ka}$ to $N_{ke}$, where 'e' stands for element, and 'eps' stands for elements per station. Applied this change to text and figures.
+
 - At the end of that paragraph, it's good to note that usually all stations have the same number of antennas, but maybe you could note that e.g. LOFAR would not be so easily simplified.
+
+--> Made a note in that paragraph that while the idea can be extended to arrays with heterogeneous layouts and densities such as LOFAR, one will have to incorporate specific details about the array.
+
 - Is there a webpage or paper to refer to for LAMBDA-I ?
+
+--> Unfortunately, there isn't one. It is a project being considered internally (with some initial pilot funding) at CSIRO to essentially extend long baseline capabilities of the SKA-low. I've updated its description to read like its a concept and not fully sanctioned. 
+
 - Real-time imaging is assumed (last paragraph of this section) but I'm not aware that this is required for cosmological applications, e.g. EoR use cases typically make use of post-observation analysis and imaging. Does this undermine any of the arguments? Alternatively, if I've missed something, could information be included to justify why this is needed?
+
+--> The referee raises a valid question. Although real-time imaging is assumed, it is true that cosmological applications don't need real-time imaging. However, they do need real-time processing to produce correlations (X-engine) from the incoming antenna voltages from a large number of elements. In such cases, the cost of gridding and DFT/FFT will not apply in real-time. However, the computational cost of the X-engine which is a dominant cost will still apply. At the same time, however, new and planned large-sized arrays like PUMA for studying Dark Energy using BAO are considering FFT correlators (a specific adaptation of EPIC for redundant arrays) rather than XF/FX correlators. So, this study will be relevant for cosmological arrays too once the appropriate cost components in the budget are properly accounted for. This point has been noted in section 2 and also in sections 5.2, 5.4, 6.2.2, and 6.2.4. 
 
 Section 3
 - Detailed point, should "per pixel" (first paragraph) really be "per resolution element" or similar?
 - In the third paragraph, it seems like a major 'other cost' is calibration. Later in the paper you make the argument that calibration is low-cost and also carried out on significantly slower time scales (at least relevant to fast imaging for transients). Possibly add this sort of consideration here as well. And possibly note here too that it's assumed in Section 5 that calibration has already occurred (for example this seems clearly an assumption at the start of Section 5.1).
 
+--> I have made it clear at the end of section 4 where it seemed natural. 
+
 Section 4
 - First paragraph, the sentence starting "The second stage..." doesn't make sense, can this be reworded?
+
+--> Reworded as suggested.
 
 Figure 1
 - "Accumulation" is misspelled in 6(?) places
 
+--> Fixed the typos in the figure, and modified it to illustrate how multiple stages can be hierarchically added.
+
 Section 5
 - In the first paragraph after equation (3), I think there’s an asterisk missing in the inline equation embedded in the sentence starting “For example, choosing…”
+
+--> That's a good catch. Corrected now. 
+
 - In the next paragraph, I think “can hold any N_{a/s}” should be “can hold as many N_{a/s}”
+
+--> Changed as suggested.
+
 - In the next sentence, can you provide more about the constant padding factor (what is its role)?
+
+--> The padding factor is used to control the image pixel scale. Choosing a value of 2 will produce a pixel scale and image size identical to that created from gridded visibilities. This is now mentioned in the text. 
 
 Section 6
 - In 6.2.4, it struck me that there is no consideration about the impact of the w-term. I think the highly formalised way that equation (13) is presented may be elegant but it obfuscates the practical aspects that radio astronomers are familiar with, like dealing with the w-term. More generally there are many ways that this procedure can be implemented in practice. For example the gridding can be managed various ways (including image plane gridding). What is the assumption used here as described in the context of those practical implementations?
+
+--> In the paragraph following equation 3, I have added a reference to the fact that the gridding kernel can be used to incorporate the w-projection term in Cornwell et al. (2008). Equations 6, 10, and 13 are counterparts to equation 3, and can incorporate the w-term as well. The larger the w-term, the larger will be the size of the diffraction kernel, and the cost of gridding will become larger. However, it will stay linear in the number of elements or stations where w-term is applicable. A note about increasing kernel size when accounting for w-terms is mentioned in these places.
 
 Figures 2-5
 - These refer to LAMBDA-I stations, but from Figure 6 onward you rightly start referring to SKA-Low as well since the stations for these designs are nominally the same. I suggest to make this consistent throughout the paper.
@@ -59,8 +106,14 @@ Figures 2-5
 Figure 5a
 - I’m not getting much from this diagram since the colorscale limits don’t allow whatever variation there is in the plotted values to come through.
 
+--> The computational cost, which is dominated by the FFT, is not very sensitive to the variables along the axes. The variation across parameter space is within an order of magnitude (only varies by a factor of few). Hence, the colour scale is practically uniform, as confirmed by the black solid lines in figure 4. I've adjusted the colour scale to show some more variation. 
+
 Figures 2,4,6,8,10,11
 - I’m not sure what is driving the range of the parameters that you’re plotting here, but it’s confusing and may hide information to have the axis limits significantly larger than the range of values for which there are data to plot. Why not either extend the range of values computed and plotted (if/where it makes sense) and/or reduce the axis limits to avoid orders of magnitude of blank space?
 
+--> The analysis was performed for a wider range of parameters, but for the chosen arrays the physical geometrical constraints restricted it to narrower ranges of possibilities. The figures have been re-made with readjusted ranges. 
+
 Figure 9
 - The caption is incomplete (end of first sentence)
+
+--> Completed the hanging sentence. 
