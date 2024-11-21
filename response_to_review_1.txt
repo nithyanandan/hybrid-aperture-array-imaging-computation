@@ -13,12 +13,15 @@ Major comments
 
 - I found myself wondering if there are any links to real-world performance metrics that you can make. In Section 5.2 you mentioned that LWA has implemented EPIC. Certainly other techniques have been used before. Are there any measured performance figures that can be used to validate the model used in this paper?
 
+--> The current optimised performance of EPIC on LWA can be found in Reddy et al. (2024) at https://doi.org/10.1117/12.3012524. EPIC on LWA Sevilleta using GPU can form 128x128 all-sky images at 25000 FPS per channel and accumulated images are output at 40-80 ms cadence. Prior to this, the software correlator and imager was able to produce images at 5s cadence using visibility-based imaging architecture. EPIC's performance and future prospects using GPUs are captured in the memo at https://github.com/epic-astronomy/Memos/blob/master/PDFs/009_EPIC_Code_Optimizations.md. This information is now provided in section 5.2 for reference. 
 
 Minor comments
 ==============
 
 General:
 - The name of SKA and SKA-Low should be written differently throughout. (a) the "SKA" acronym is not meant to be expanded anymore - it's just SKA, and (b) "SKA" should be used in place of "SKA1" - the SKA1 vs SKA2 distinction isn't used anymore either. See for example: https://www.skao.int/en/skao-brand
+
+--> Made these fixes as per the SKA branding
 
 Per section:
 
@@ -68,6 +71,9 @@ Section 2
 
 Section 3
 - Detailed point, should "per pixel" (first paragraph) really be "per resolution element" or similar?
+
+--> Clarified as suggested.
+
 - In the third paragraph, it seems like a major 'other cost' is calibration. Later in the paper you make the argument that calibration is low-cost and also carried out on significantly slower time scales (at least relevant to fast imaging for transients). Possibly add this sort of consideration here as well. And possibly note here too that it's assumed in Section 5 that calibration has already occurred (for example this seems clearly an assumption at the start of Section 5.1).
 
 --> I have made it clear at the end of section 4 where it seemed natural. 
@@ -102,6 +108,8 @@ Section 6
 
 Figures 2-5
 - These refer to LAMBDA-I stations, but from Figure 6 onward you rightly start referring to SKA-Low as well since the stations for these designs are nominally the same. I suggest to make this consistent throughout the paper.
+
+--> Changed as suggested.
 
 Figure 5a
 - I’m not getting much from this diagram since the colorscale limits don’t allow whatever variation there is in the plotted values to come through.
