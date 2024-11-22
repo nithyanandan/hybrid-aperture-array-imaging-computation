@@ -1,0 +1,16 @@
+Comments to the Author
+I appreciate the care and attention that the author has taken in addressing the previous remarks. In my view, the paper is now dramatically more readable and accessible. I think the addition of Figure 1 is very helpful, and the clarifications of the notation and equations are also a large improvement. The revised graphics are also improved.
+
+The paper as it stands now is going to be an important reference point for groups considering the construction of new aperture array radio telescopes, as well as new applications of existing infrastructure. I have only a few small remarks and suggestions and am very happy to recommend the paper for acceptance once those are addressed.
+
+Introduction, second sentence: the way the references are provided is inconsistent (inline or bunched at the end). I think it's best to either couple each class of object (when new/novel, i.e. not pulsars) with its corresponding reference as you have done with stellar bursts and the Zhang reference; or to put all references at the end of the sentence in a big clump. I prefer the former even if it makes a bit more awkward to read. A reader interested in following up specific threads will thank you.
+
+Intro, second paragraph, first sentence: "...early Universe using ^the^ redshifted 21 cm..."
+
+When LAMBDA-I is first mentioned you could put the website in a footnote, it seems to have sprung up online since your reply came through!
+https://www.atnf.csiro.au/projects/LAMBDA.html
+I didn't notice a CASPA website though.
+
+Section 3, last paragraph: at the end of the first sentence you might add "such as calibration" (?) and/or point ahead to Section 7.4.
+
+Section 4, second paragraph: you can delete "respectively" from the end of the second sentence because of how you have (clearly) structured that sentence.
