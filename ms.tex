@@ -17,13 +17,31 @@
 \usepackage{hyperref}
 % \usepackage[euler-digits,euler-hat-accent]{eulervm}
 
+% For ORCID
+\usepackage{tikz,xcolor,hyperref}
+
 \newcommand{\vdag}{(v)^\dagger}
 \DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
 \DeclareMathOperator{\vect}{vec}
 
+% Make Orcid icon
+\definecolor{lime}{HTML}{A6CE39}
+\DeclareRobustCommand{\orcidicon}{%
+    \begin{tikzpicture}
+    \draw[lime, fill=lime] (0,0) 
+    circle [radius=0.16] 
+    node[white] {{\fontfamily{qag}\selectfont \tiny ID}};
+    \draw[white, fill=white] (-0.0625,0.095) 
+    circle [radius=0.007];
+    \end{tikzpicture}
+    \hspace{-2mm}
+}
+
+\newcommand{\orcidNT}{\href{https://orcid.org/0000-0003-1602-7868}{\orcidicon}}
+
 \title{Comparison of Fast, Hybrid Imaging Architectures for Multi-scale, Hierarchical Aperture Arrays}
 
-\author{Nithyanandan Thyagarajan}
+\author{Nithyanandan Thyagarajan\orcidNT}
 \affiliation{CSIRO, Space \& Astronomy, P. O. Box 1130, Bentley, WA 6102, Australia}
 \email[Nithyanandan Thyagarajan]{Nithyanandan.Thyagarajan@csiro.au}
 
