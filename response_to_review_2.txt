@@ -3,7 +3,7 @@ I appreciate the care and attention that the author has taken in addressing the 
 
 The paper as it stands now is going to be an important reference point for groups considering the construction of new aperture array radio telescopes, as well as new applications of existing infrastructure. I have only a few small remarks and suggestions and am very happy to recommend the paper for acceptance once those are addressed.
 
---> Once again, I thank the reviewer for their time in providing a careful review of the manuscript, and for their positive views on the manuscript's potential impact. Below, I have address each of the specific comments. 
+--> Once again, I thank the reviewer for their time in providing a careful review of the manuscript, and for their positive views on the manuscript's potential impact. Below, I address each of the specific comments. 
 
 Introduction, second sentence: the way the references are provided is inconsistent (inline or bunched at the end). I think it's best to either couple each class of object (when new/novel, i.e. not pulsars) with its corresponding reference as you have done with stellar bursts and the Zhang reference; or to put all references at the end of the sentence in a big clump. I prefer the former even if it makes a bit more awkward to read. A reader interested in following up specific threads will thank you.
 
